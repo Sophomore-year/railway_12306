@@ -1,6 +1,6 @@
 package org.zys.railway_12306.framework.starter.convention.exception;
 
-import com.google.common.base.Strings;
+import org.springframework.util.StringUtils;
 import org.zys.railway_12306.framework.starter.convention.errorcode.IErrorCode;
 
 import java.util.Optional;
@@ -16,6 +16,6 @@ public abstract class AbstractException extends RuntimeException {
     public AbstractException(String message, Throwable throwable, IErrorCode errorCode) {
         super(message, throwable);
         this.errorCode = errorCode.code();
-        this.errorMessage = Optional.ofNullable(Strings.emptyToNull(message)).orElse(errorCode.message());
+        this.errorMessage = Optional.ofNullable(StringUtils.hasLength(message) ? message : null).orElse(errorCode.message());
     }
 }

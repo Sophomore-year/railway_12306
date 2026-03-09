@@ -10,8 +10,4 @@
     </parent>
 
     <artifactId>convention-spring-boot-starter</artifactId>
-
-    <dependencies>
-
-    </dependencies>
 </project>

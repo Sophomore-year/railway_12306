@@ -12,7 +12,22 @@
     <artifactId>common-spring-boot-starter</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>org.zys.railway_12306</groupId>
+            <artifactId>base-spring-boot-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.zys.railway_12306</groupId>
+            <artifactId>designpattern-spring-boot-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

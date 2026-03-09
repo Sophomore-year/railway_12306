@@ -14,7 +14,7 @@
     <modules>
         <module>base-spring-boot-starter</module>
         <module>bizs-spring-boot-starter</module>
-        <module>bizs-spring-boot-starter/user-spring-boot-starter</module>
+        <module>bizs-spring-boot-starter</module>
         <module>cache-spring-boot-starter</module>
         <module>common-spring-boot-starter</module>
         <module>convention-spring-boot-starter</module>

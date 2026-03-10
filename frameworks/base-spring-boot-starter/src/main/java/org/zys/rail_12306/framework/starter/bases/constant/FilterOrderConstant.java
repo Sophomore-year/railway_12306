@@ -1,4 +1,4 @@
-package org.zys.rail_12306.framework.starter.bases.content;
+package org.zys.rail_12306.framework.starter.bases.constant;
 
 /*
 * 全局过滤器顺序执行常量类

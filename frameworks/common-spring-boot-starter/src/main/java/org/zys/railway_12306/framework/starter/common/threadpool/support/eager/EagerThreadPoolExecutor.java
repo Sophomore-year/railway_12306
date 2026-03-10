@@ -45,7 +45,7 @@ public class EagerThreadPoolExecutor extends ThreadPoolExecutor {
             try {
                 if (!taskQueue.retryOffer(command, 0, TimeUnit.MILLISECONDS)) {
                     submittedTaskCount.decrementAndGet();
-                    throw new RejectedExecutionException("Queue capacity is full.", ex);
+                    throw new RejectedExecutionException("队列容量已达上限.", ex);
                 }
             } catch (InterruptedException iex) {
                 submittedTaskCount.decrementAndGet();

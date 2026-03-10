@@ -2,6 +2,8 @@ package org.zys.rail_12306.framework.starter.idempotent.core;
 
 import org.zys.rail_12306.framework.starter.bases.ApplicationContextHolder;
 import org.zys.rail_12306.framework.starter.idempotent.core.param.IdempotentParamService;
+import org.zys.rail_12306.framework.starter.idempotent.core.spel.IdempotentSpELByMQExecuteHandler;
+import org.zys.rail_12306.framework.starter.idempotent.core.spel.IdempotentSpELByRestAPIExecuteHandler;
 import org.zys.rail_12306.framework.starter.idempotent.core.token.IdempotentTokenService;
 import org.zys.rail_12306.framework.starter.idempotent.enums.IdempotentSceneEnum;
 import org.zys.rail_12306.framework.starter.idempotent.enums.IdempotentTypeEnum;

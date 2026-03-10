@@ -1,7 +1,6 @@
 package org.zys.rail_12306.framework.starter.distributedid.core.snowflake;
 
 import cn.hutool.core.date.SystemClock;
-import cn.hutool.core.lang.Snowflake;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.zys.rail_12306.framework.starter.distributedid.toolkit.SnowflakeIdUtil;

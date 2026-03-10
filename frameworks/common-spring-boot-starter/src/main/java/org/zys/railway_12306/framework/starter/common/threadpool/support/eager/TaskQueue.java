@@ -37,7 +37,7 @@ public class TaskQueue<R extends Runnable> extends LinkedBlockingQueue<Runnable>
 
     public boolean retryOffer(Runnable o, long timeout, TimeUnit unit) throws InterruptedException {
         if (executor.isShutdown()) {
-            throw new RejectedExecutionException("Executor is shutdown!");
+            throw new RejectedExecutionException("执行器已关闭!");
         }
         return super.offer(o, timeout, unit);
     }

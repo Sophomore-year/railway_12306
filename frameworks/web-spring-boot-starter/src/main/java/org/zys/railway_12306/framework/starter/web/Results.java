@@ -6,17 +6,23 @@ import org.zys.railway_12306.framework.starter.convention.result.Result;
 
 import java.util.Optional;
 
-/*
+/**
  * 全局返回对象构造器
+ *
+ * @author SUM
+ * @date 2026/03/10
  */
 public class Results {
 
+    /**
+     * 构造成功响应
+     */
     public static Result<Void> success() {
         return new Result<Void>()
                 .setCode(Result.SUCCESS_CODE);
     }
 
-    /*
+    /**
      * 构造带返回数据的成功响应
      */
     public static <T> Result<T> success(T data) {
@@ -25,7 +31,7 @@ public class Results {
                 .setData(data);
     }
 
-    /*
+    /**
      * 构建服务端失败响应
      */
     protected static Result<Void> failure() {
@@ -34,7 +40,7 @@ public class Results {
                 .setMessage(BaseErrorCode.SERVICE_ERROR.message());
     }
 
-    /*
+    /**
      * 通过 {@link AbstractException} 构建失败响应
      */
     protected static Result<Void> failure(AbstractException abstractException) {
@@ -47,7 +53,7 @@ public class Results {
                 .setMessage(errorMessage);
     }
 
-    /*
+    /**
      * 通过 errorCode、errorMessage 构建失败响应
      */
     protected static Result<Void> failure(String errorCode, String errorMessage) {

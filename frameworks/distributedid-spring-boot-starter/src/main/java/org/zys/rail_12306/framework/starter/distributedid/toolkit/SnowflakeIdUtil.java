@@ -7,7 +7,7 @@ import org.zys.rail_12306.framework.starter.distributedid.handler.IdGeneratorMan
 
 /**
  *雪花算法组成部分，通常用来反解析使用
- *
+ * 对象属性 SNOWFLAKE 是在 AbstractWorkIdChooseTemplate 获取到机器 ID 标识位后初始化的。
  * @author SUM
  * @date 2026/03/10
  */

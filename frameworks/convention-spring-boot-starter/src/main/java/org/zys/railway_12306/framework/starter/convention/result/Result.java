@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-/*
+/**
  * 统一响应结果
  */
 @Data

@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ *分页工具类
+ *
+ * @author SUM
+ * @date 2026/03/10
+ */
 public class PageUtil {
     public static Page convert(PageRequest pageRequest) {
         return convert(pageRequest.getCurrent(), pageRequest.getSize());

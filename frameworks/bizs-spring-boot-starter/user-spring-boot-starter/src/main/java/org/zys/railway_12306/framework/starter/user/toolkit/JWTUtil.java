@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
+import org.zys.railway_12306.framework.starter.user.core.UserInfoDTO;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import static org.zys.rail_12306.framework.starter.bases.constant.UserConstant.R
 import static org.zys.rail_12306.framework.starter.bases.constant.UserConstant.USER_ID_KEY;
 import static org.zys.rail_12306.framework.starter.bases.constant.UserConstant.USER_NAME_KEY;
 
-/*
+/**
 * JWT工具类
 * */
 @Slf4j

@@ -1,4 +1,4 @@
-package org.zys.railway_12306.userservice.pojo.entity;
+package org.zys.railway_12306.service.user.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;

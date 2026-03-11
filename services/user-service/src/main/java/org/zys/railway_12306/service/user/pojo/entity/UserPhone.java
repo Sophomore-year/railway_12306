@@ -1,4 +1,4 @@
-package org.zys.railway_12306.userservice.pojo.entity;
+package org.zys.railway_12306.service.user.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -9,31 +9,35 @@ import lombok.NoArgsConstructor;
 import org.zys.rail_12306.framework.starter.database.base.BaseDO;
 
 /**
- *用户注销表实体
+ *用户手机表实体对象
  *
  * @author SUM
  * @date 2026/03/11
  */
-
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("user_deletion")
-public class UserDeletion extends BaseDO {
+@Builder
+@TableName("t_user_phone")
+public class UserPhone extends BaseDO {
     /**
      * id
      */
     private Long id;
 
     /**
-     * 证件类型
+     * 用户名
      */
-    private Integer idType;
+    private String username;
 
     /**
-     * 证件号
+     * 手机号
      */
-    private String idCard;
+    private String phone;
+
+    /**
+     * 注销时间戳
+     */
+    private Long deletionTime;
 }

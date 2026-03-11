@@ -21,4 +21,8 @@ import org.zys.rail_12306.framework.starter.database.base.BaseDO;
 @Builder
 @TableName("t_user_reuse")
 public class UserReuse extends BaseDO {
+    /**
+     * 用户名
+     */
+    private String username;
 }

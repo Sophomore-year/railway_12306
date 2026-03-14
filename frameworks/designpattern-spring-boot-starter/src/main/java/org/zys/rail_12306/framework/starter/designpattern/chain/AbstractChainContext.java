@@ -28,10 +28,13 @@ public class AbstractChainContext<T> implements CommandLineRunner {
      * @param requestParam 请求参数
      */
     public void handler(String mark, T requestParam) {
+        //根据标记获取对应的责任链处理器列表
         List<AbstractChainHandler> abstractChainHandlers = abstractChainHandlerContainer.get(mark);
+        //如果责任链不存在，抛出异常
         if (CollectionUtils.isEmpty(abstractChainHandlers)) {
             throw new RuntimeException(String.format("[%s] Chain of Responsibility ID is undefined.", mark));
         }
+        //依次调用责任链中每个处理器的 handler 方法
         abstractChainHandlers.forEach(each -> each.handler(requestParam));
     }
 

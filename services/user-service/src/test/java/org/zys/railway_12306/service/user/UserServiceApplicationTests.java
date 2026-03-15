@@ -1,4 +1,4 @@
-package org.zys.railway_12306.userservice;
+package org.zys.railway_12306.service.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

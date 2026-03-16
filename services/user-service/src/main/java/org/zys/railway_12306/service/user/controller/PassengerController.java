@@ -27,7 +27,7 @@ import java.util.List;
  * @author SUM
  * @date 2026/03/16
  */
-@RestController("/api/user-service")
+@RestController
 @RequiredArgsConstructor
 public class PassengerController {
 
@@ -36,7 +36,7 @@ public class PassengerController {
     /**
      * 根据用户名查询乘车人列表
      */
-    @GetMapping("/passenger/query")
+    @GetMapping("/api/user-service/passenger/query")
     public Result<List<PassengerRespDTO>> listPassengerQueryByUsername() {
         return Results.success(passengerService.listPassengerQueryByUsername(UserContext.getUsername()));
     }
@@ -44,7 +44,7 @@ public class PassengerController {
     /**
      * 根据乘车人 ID 集合查询乘车人列表
      */
-    @GetMapping("/inner/passenger/actual/query/ids")
+    @GetMapping("/api/user-service/inner/passenger/actual/query/ids")
     public Result<List<PassengerActualRespDTO>> listPassengerQueryByIds(@RequestParam("username") String username, @RequestParam("ids") List<Long> ids) {
         return Results.success(passengerService.listPassengerQueryByIds(username, ids));
     }
@@ -59,7 +59,7 @@ public class PassengerController {
             scene = IdempotentSceneEnum.RESTAPI,
             message = "正在新增乘车人，请稍后再试..."
     )
-    @PostMapping("/passenger/save")
+    @PostMapping("/api/user-service/passenger/save")
     public Result<Void> savePassenger(@RequestBody PassengerReqDTO requestParam) {
         passengerService.savePassenger(requestParam);
         return Results.success();
@@ -76,7 +76,7 @@ public class PassengerController {
             scene = IdempotentSceneEnum.RESTAPI,
             message = "正在修改乘车人，请稍后再试..."
     )
-    @PostMapping("/passenger/update")
+    @PostMapping("/api/user-service/passenger/update")
     public Result<Void> updatePassenger(@RequestBody PassengerReqDTO requestParam) {
         passengerService.updatePassenger(requestParam);
         return Results.success();
@@ -86,7 +86,7 @@ public class PassengerController {
     /**
      * 移除乘车人
      */
-    @PostMapping("/passenger/remove")
+    @PostMapping("/api/user-service/passenger/remove")
     public Result<Void> removePassenger(@RequestBody PassengerRemoveReqDTO requestParam) {
         passengerService.removePassenger(requestParam);
         return Results.success();

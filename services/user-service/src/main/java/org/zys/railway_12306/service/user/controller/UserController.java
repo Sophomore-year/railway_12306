@@ -21,7 +21,7 @@ import org.zys.railway_12306.service.user.service.UserService;
  * @author SUM
  * @date 2026/03/16
  */
-@RestController("/api/user-service")
+@RestController
 @RequiredArgsConstructor
 public class UserController {
 
@@ -31,7 +31,7 @@ public class UserController {
     /**
      * 根据用户名查询用户信息
      */
-    @GetMapping("/query")
+    @GetMapping("/api/user-service/query")
     public Result<UserQueryRespDTO> queryUserByUsername(@RequestParam("username") @NotEmpty String username) {
         return Results.success(userService.queryUserByUsername(username));
     }
@@ -39,7 +39,7 @@ public class UserController {
     /**
      * 根据用户名查询用户无脱敏信息
      */
-    @GetMapping("/query")
+    @GetMapping("/api/user-service/query")
     public Result<UserQueryActualRespDTO> queryActualUserByUsername(@RequestParam("username") @NotEmpty String username) {
         return Results.success(userService.queryActualUserByUsername(username));
     }
@@ -47,7 +47,7 @@ public class UserController {
     /**
      * 检查用户名是否已存在
      */
-    @GetMapping("/has-username")
+    @GetMapping("/api/user-service/has-username")
     public Result<Boolean> hasUsername(@RequestParam("username") @NotEmpty String username) {
         return Results.success(userService.hasUsername(username));
     }
@@ -55,7 +55,7 @@ public class UserController {
     /**
      * 修改用户
      */
-    @PostMapping("/update")
+    @PostMapping("/api/user-service/update")
     public Result<Void> update(@RequestBody @Valid UserUpdateReqDTO requestParam) {
         userService.update(requestParam);
         return Results.success();

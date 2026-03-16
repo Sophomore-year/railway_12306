@@ -39,7 +39,7 @@ import org.zys.railway_12306.service.user.service.UserLoginService;
  * @author SUM
  * @date 2026/03/11
  */
-@RestController("/api/user-service")
+@RestController
 @RequiredArgsConstructor
 public class UserLoginController {
     private final UserLoginService userLoginService;
@@ -47,7 +47,7 @@ public class UserLoginController {
     /**
      * 用户登录
      */
-    @PostMapping("/v1/login")
+    @PostMapping("/api/user-service/v1/login")
     public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO requestParam) {
         return Results.success(userLoginService.login(requestParam));
     }
@@ -55,7 +55,7 @@ public class UserLoginController {
     /**
      * 通过 Token 检查用户是否登录
      */
-    @GetMapping("/check-login")
+    @GetMapping("/api/user-service/check-login")
     public Result<UserLoginRespDTO> checkLogin(@RequestParam("accessToken") String accessToken) {
         UserLoginRespDTO result = userLoginService.checkLogin(accessToken);
         return Results.success(result);
@@ -64,7 +64,7 @@ public class UserLoginController {
     /**
      * 用户退出登录
      */
-    @GetMapping("/logout")
+    @GetMapping("/api/user-service/logout")
     public Result<Void> logout(@RequestParam(required = false) String accessToken) {
         userLoginService.logout(accessToken);
         return Results.success();
@@ -74,7 +74,7 @@ public class UserLoginController {
     /**
      * 注册用户
      */
-    @PostMapping("/register")
+    @PostMapping("/api/user-service/register")
     public Result<UserRegisterRespDTO> register(@RequestBody @Valid UserRegisterReqDTO requestParam) {
         return Results.success(userLoginService.register(requestParam));
     }
@@ -83,7 +83,7 @@ public class UserLoginController {
      * 注销用户
      * @param requestParam 注销用户请求参数
      */
-    @PostMapping("/deletion")
+    @PostMapping("/api/user-service/deletion")
     public Result<Void> deletion(@RequestBody @Valid UserDeletionReqDTO requestParam) {
         userLoginService.deletion(requestParam);
         return Results.success();

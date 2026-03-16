@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.zys.railway_12306.service.user.serialize.IdCardDesensitizationSerializer;
+import org.zys.railway_12306.service.user.serialize.PhoneDesensitizationSerializer;
 
 import java.util.Date;
 

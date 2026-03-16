@@ -78,28 +78,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer queryUserDeletionNum(Integer idType, String idCard) {
-        LambdaQueryWrapper<UserDeletion> queryWrapper = Wrappers.lambdaQuery(UserDeletion.class)
-                .eq(UserDeletion::getIdType, idType)
-                .eq(UserDeletion::getIdCard, idCard);
-
         // 生成缓存键，使用idType和idCard的组合确保唯一性
         String cacheKey = USER_DELETION_COUNT_SHARDING + hashShardingIdx(idCard + idType);
 
-        // 1. 先从缓存中获取用户删除次数
-        Integer deletionCountFromCache = distributedCache.get(cacheKey, Integer.class);
-        if (deletionCountFromCache != null) {
-            // 2. 缓存中存在数据，直接返回
-            return deletionCountFromCache;
-        }
-
-        // 3. 缓存中不存在，从数据库查询
-        Long deletionCountFromDB = userDeletionMapper.selectCount(queryWrapper);
-        Integer deletionCount = Optional.ofNullable(deletionCountFromDB).map(Long::intValue).orElse(0);
-
-        // 4. 将查询结果存入缓存，设置合理的过期时间
-        distributedCache.put(cacheKey, deletionCount, 3600L); // 缓存1小时
-
-        return deletionCount;
+        // 使用 safeGet 方法实现缓存查询，缓存不存在时自动从数据库查询并更新缓存
+        return distributedCache.safeGet(
+                cacheKey,
+                Integer.class,
+                () -> {
+                    // 缓存不存在时，构建查询条件并从数据库查询
+                    LambdaQueryWrapper<UserDeletion> queryWrapper = Wrappers.lambdaQuery(UserDeletion.class)
+                            .eq(UserDeletion::getIdType, idType)
+                            .eq(UserDeletion::getIdCard, idCard);
+                    Long deletionCountFromDB = userDeletionMapper.selectCount(queryWrapper);
+                    return Optional.ofNullable(deletionCountFromDB).map(Long::intValue).orElse(0);
+                },
+                3600L, // 缓存1小时
+                java.util.concurrent.TimeUnit.SECONDS
+        );
     }
 
     @Override

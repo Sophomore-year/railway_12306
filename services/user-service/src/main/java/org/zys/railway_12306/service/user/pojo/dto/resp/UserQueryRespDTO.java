@@ -2,9 +2,11 @@ package org.zys.railway_12306.service.user.pojo.dto.resp;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
+import org.zys.railway_12306.service.user.serialize.IdCardDesensitizationSerializer;
+import org.zys.railway_12306.service.user.serialize.PhoneDesensitizationSerializer;
 
 /**
- *用户查询返回参数
+ * 用户查询返回参数
  *
  * @author SUM
  * @date 2026/03/11

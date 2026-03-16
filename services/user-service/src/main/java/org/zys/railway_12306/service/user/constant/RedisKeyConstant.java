@@ -26,4 +26,9 @@ public final class RedisKeyConstant {
      * 用户乘车人列表，Key Prefix + 用户名
      */
     public static final String USER_PASSENGER_LIST = "railway_12306-user-service:user-passenger-list:";
+    
+    /**
+     * 用户删除次数分片，Key Prefix + Idx
+     */
+    public static final String USER_DELETION_COUNT_SHARDING = "railway_12306-user-service:user-deletion-count:";
 }

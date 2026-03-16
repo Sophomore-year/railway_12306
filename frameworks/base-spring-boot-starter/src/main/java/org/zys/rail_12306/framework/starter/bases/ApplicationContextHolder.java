@@ -7,9 +7,12 @@ import org.springframework.context.ApplicationContextAware;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
-/*
-* Application context holder
-* */
+/**
+ * Application context holder
+ *
+ * @author SUM
+ * @date 2026/03/16
+ */
 public class ApplicationContextHolder implements ApplicationContextAware {
 
     private static ApplicationContext CONTEXT;

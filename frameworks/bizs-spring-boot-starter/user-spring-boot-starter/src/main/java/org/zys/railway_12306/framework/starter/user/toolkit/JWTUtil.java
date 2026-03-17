@@ -25,7 +25,7 @@ public class JWTUtil {
     private static final long EXPIRATION = 86400L;
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String ISS = "railway_12306";
-    public static final String SECRET = "SecretKey039245678901232039487623456783092349288901402967890140939827";
+    public static final String SECRET = "SecretKeyZYS541";
 
     /**
      * 生成用户 Token

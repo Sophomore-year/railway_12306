@@ -39,7 +39,7 @@ public class UserController {
     /**
      * 根据用户名查询用户无脱敏信息
      */
-    @GetMapping("/api/user-service/query")
+    @GetMapping("/api/user-service/actual/query")
     public Result<UserQueryActualRespDTO> queryActualUserByUsername(@RequestParam("username") @NotEmpty String username) {
         return Results.success(userService.queryActualUserByUsername(username));
     }

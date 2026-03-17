@@ -1,0 +1,20 @@
+package org.zys.railway_12306.service.gateway.config;
+
+import lombok.Data;
+
+import java.util.List;
+
+/**
+ *过滤器配置
+ *
+ * @author SUM
+ * @date 2026/03/17
+ */
+@Data
+public class Config {
+
+    /**
+     * 黑名单前置路径
+     */
+    private List<String> blackPathPre;
+}

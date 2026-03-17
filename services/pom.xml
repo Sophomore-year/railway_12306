@@ -21,7 +21,20 @@
         <module>user-service</module>
     </modules>
 
-    <dependencies>
-    </dependencies>
+    <dependencyManagement>
 
+        <dependencies>
+            <!--它为的应用提供了一套完整的管理和监控端点。-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 </project>

@@ -1,5 +1,10 @@
 package org.zys.railway_12306.serivce.ticket.pojo.dto.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 /**
@@ -8,6 +13,10 @@ import java.math.BigDecimal;
  * @author SUM
  * @date 2026/03/18
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SeatClassDTO {
 
     /**

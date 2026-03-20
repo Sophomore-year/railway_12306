@@ -1,6 +1,7 @@
 package org.zys.railway_12306.serivce.ticket.pojo.dto.req;
 
 import lombok.Data;
+import org.zys.railway_12306.serivce.ticket.pojo.dto.domain.PurchaseTicketPassengerDetailDTO;
 
 import java.util.List;
 

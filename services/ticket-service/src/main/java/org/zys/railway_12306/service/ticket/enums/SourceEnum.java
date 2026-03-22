@@ -1,30 +1,26 @@
-package org.zys.railway_12306.serivce.ticket.enums;
+package org.zys.railway_12306.service.ticket.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+
 /**
- *座位状态枚举
+ *购票来源
  *
  * @author SUM
  * @date 2026/03/18
  */
 @RequiredArgsConstructor
-public enum SeatStatusEnum {
+public enum SourceEnum {
     /**
-     * 可售
+     * 互联网购票
      */
-    AVAILABLE(0),
+    INTERNET(0),
 
     /**
-     * 锁定
+     * 线下窗口购票
      */
-    LOCKED(1),
-
-    /**
-     * 已售
-     */
-    SOLD(2);
+    OFFLINE(1);
 
     @Getter
     private final Integer code;

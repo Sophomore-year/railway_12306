@@ -1,4 +1,4 @@
-package org.zys.railway_12306.serivce.ticket.enums;
+package org.zys.railway_12306.service.ticket.enums;
 
 import cn.hutool.core.collection.ListUtil;
 import lombok.Getter;
@@ -8,16 +8,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.BUSINESS_CLASS;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.FIRST_CLASS;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.FIRST_SLEEPER;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.HARD_SEAT;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.HARD_SLEEPER;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.NO_SEAT_SLEEPER;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.SECOND_CLASS;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.SECOND_CLASS_CABIN_SEAT;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.SECOND_SLEEPER;
-import static org.zys.railway_12306.serivce.ticket.enums.VehicleSeatTypeEnum.SOFT_SLEEPER;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.BUSINESS_CLASS;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.FIRST_CLASS;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.FIRST_SLEEPER;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.HARD_SEAT;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.HARD_SLEEPER;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.NO_SEAT_SLEEPER;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.SECOND_CLASS;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.SECOND_CLASS_CABIN_SEAT;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.SECOND_SLEEPER;
+import static org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum.SOFT_SLEEPER;
 
 /**
  *交通工具类型

@@ -1,4 +1,4 @@
-package org.zys.railway_12306.serivce.ticket.enums;
+package org.zys.railway_12306.service.ticket.enums;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Getter;

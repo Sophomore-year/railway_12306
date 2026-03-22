@@ -1,4 +1,4 @@
-package org.zys.railway_12306.serivce.ticket.enums;
+package org.zys.railway_12306.service.ticket.enums;
 
 /**
  *购票相关责任链枚举

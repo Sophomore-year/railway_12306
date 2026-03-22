@@ -1,8 +1,8 @@
-package org.zys.railway_12306.serivce.ticket.service;
+package org.zys.railway_12306.service.ticket.service;
 
-import org.zys.railway_12306.serivce.ticket.pojo.dto.req.RegionStationQueryReqDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.resp.RegionStationQueryRespDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.resp.StationQueryRespDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.req.RegionStationQueryReqDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.resp.RegionStationQueryRespDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.resp.StationQueryRespDTO;
 
 import java.util.List;
 

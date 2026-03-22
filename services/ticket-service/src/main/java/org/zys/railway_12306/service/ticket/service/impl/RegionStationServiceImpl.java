@@ -1,4 +1,4 @@
-package org.zys.railway_12306.serivce.ticket.service.impl;
+package org.zys.railway_12306.service.ticket.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -15,24 +15,24 @@ import org.zys.rail_12306.framework.starter.cache.toolkit.CacheUtil;
 import org.zys.railway_12306.framework.starter.common.enums.FlagEnum;
 import org.zys.railway_12306.framework.starter.common.toolkit.BeanUtil;
 import org.zys.railway_12306.framework.starter.convention.exception.ClientException;
-import org.zys.railway_12306.serivce.ticket.enums.RegionStationQueryTypeEnum;
-import org.zys.railway_12306.serivce.ticket.mapper.RegionMapper;
-import org.zys.railway_12306.serivce.ticket.mapper.StationMapper;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.req.RegionStationQueryReqDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.resp.RegionStationQueryRespDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.resp.StationQueryRespDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.entity.Region;
-import org.zys.railway_12306.serivce.ticket.pojo.entity.Station;
-import org.zys.railway_12306.serivce.ticket.service.RegionStationService;
+import org.zys.railway_12306.service.ticket.enums.RegionStationQueryTypeEnum;
+import org.zys.railway_12306.service.ticket.mapper.RegionMapper;
+import org.zys.railway_12306.service.ticket.mapper.StationMapper;
+import org.zys.railway_12306.service.ticket.pojo.dto.req.RegionStationQueryReqDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.resp.RegionStationQueryRespDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.resp.StationQueryRespDTO;
+import org.zys.railway_12306.service.ticket.pojo.entity.Region;
+import org.zys.railway_12306.service.ticket.pojo.entity.Station;
+import org.zys.railway_12306.service.ticket.service.RegionStationService;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.zys.railway_12306.serivce.ticket.constant.Railway12306Constant.ADVANCE_TICKET_DAY;
-import static org.zys.railway_12306.serivce.ticket.constant.RedisKeyConstant.LOCK_QUERY_REGION_STATION_LIST;
-import static org.zys.railway_12306.serivce.ticket.constant.RedisKeyConstant.REGION_STATION;
-import static org.zys.railway_12306.serivce.ticket.constant.RedisKeyConstant.STATION_ALL;
+import static org.zys.railway_12306.service.ticket.constant.Railway12306Constant.ADVANCE_TICKET_DAY;
+import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_QUERY_REGION_STATION_LIST;
+import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.REGION_STATION;
+import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.STATION_ALL;
 
 /**
  *地区以及车站接口实现层
@@ -49,12 +49,17 @@ public class RegionStationServiceImpl implements RegionStationService {
     private final DistributedCache distributedCache;
     private final RedissonClient redissonClient;
 
+    /**
+     * 查询区域和车站信息
+     * @param requestParam 查询请求参数
+     * @return 区域车站列表
+     */
     @Override
     public List<RegionStationQueryRespDTO> listRegionStation(RegionStationQueryReqDTO requestParam) {
         String key;
         // 1. 如果请求参数中包含名称，则按名称查询车站
         if (StrUtil.isNotBlank(requestParam.getName())) {
-            // 2. 构建缓存键
+            // 2. 构建缓存键：region:station:{name}
             key  = REGION_STATION  + requestParam.getName();
             // 3. 调用安全获取区域车站的方法
             return safeGetRegionStation(
@@ -103,13 +108,18 @@ public class RegionStationServiceImpl implements RegionStationService {
         );
     }
 
+    /**
+     * 查询所有车站信息
+     * @return 车站列表
+     */
     @Override
     public List<StationQueryRespDTO> listAllStation() {
+        // 从缓存或数据库获取所有车站信息
         return distributedCache.safeGet(
-                STATION_ALL,
+                STATION_ALL,  // 缓存键：station:all
                 List.class,
-                () -> BeanUtil.convert(stationMapper.selectList(Wrappers.emptyWrapper()), StationQueryRespDTO.class),
-                ADVANCE_TICKET_DAY,
+                () -> BeanUtil.convert(stationMapper.selectList(Wrappers.emptyWrapper()), StationQueryRespDTO.class),  // 缓存未命中时从数据库查询
+                ADVANCE_TICKET_DAY,  // 缓存过期时间：预售天数
                 TimeUnit.DAYS
         );
     }

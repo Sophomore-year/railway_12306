@@ -1,14 +1,14 @@
-package org.zys.railway_12306.serivce.ticket.controller;
+package org.zys.railway_12306.service.ticket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.web.Results;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.req.RegionStationQueryReqDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.resp.RegionStationQueryRespDTO;
-import org.zys.railway_12306.serivce.ticket.pojo.dto.resp.StationQueryRespDTO;
-import org.zys.railway_12306.serivce.ticket.service.RegionStationService;
+import org.zys.railway_12306.service.ticket.pojo.dto.req.RegionStationQueryReqDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.resp.RegionStationQueryRespDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.resp.StationQueryRespDTO;
+import org.zys.railway_12306.service.ticket.service.RegionStationService;
 
 import java.util.List;
 

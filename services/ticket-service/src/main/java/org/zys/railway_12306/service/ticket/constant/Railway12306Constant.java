@@ -1,4 +1,4 @@
-package org.zys.railway_12306.serivce.ticket.constant;
+package org.zys.railway_12306.service.ticket.constant;
 
 /**
  *系统级公共常量

@@ -1,4 +1,4 @@
-package org.zys.railway_12306.framework.starter.user.core;
+package org.zys.railway_12306.frameworks.starter.user.core;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 

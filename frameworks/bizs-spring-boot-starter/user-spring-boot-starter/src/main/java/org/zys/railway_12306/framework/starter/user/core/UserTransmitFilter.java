@@ -1,7 +1,8 @@
-package org.zys.railway_12306.frameworks.starter.user.core;
+package org.zys.railway_12306.framework.starter.user.core;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;

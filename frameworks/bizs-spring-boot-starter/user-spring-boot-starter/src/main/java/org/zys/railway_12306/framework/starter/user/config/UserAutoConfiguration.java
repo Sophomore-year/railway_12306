@@ -1,9 +1,9 @@
-package org.zys.railway_12306.frameworks.starter.user.config;
+package org.zys.railway_12306.framework.starter.user.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.zys.railway_12306.frameworks.starter.user.core.UserTransmitFilter;
+import org.zys.railway_12306.framework.starter.user.core.UserTransmitFilter;
 
 import static org.zys.rail_12306.framework.starter.bases.constant.FilterOrderConstant.USER_TRANSMIT_FILTER_ORDER;
 

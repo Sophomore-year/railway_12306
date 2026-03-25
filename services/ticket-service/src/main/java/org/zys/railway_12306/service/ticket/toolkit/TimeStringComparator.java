@@ -1,6 +1,6 @@
-package org.zys.railway_12306.serivce.ticket.toolkit;
+package org.zys.railway_12306.service.ticket.toolkit;
 
-import org.zys.railway_12306.serivce.ticket.pojo.dto.domain.TicketListDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.domain.TicketListDTO;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

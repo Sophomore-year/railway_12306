@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author SUM
  * @date 2026/03/10
  */
-public class Results {
+public final class Results {
 
     /**
      * 构造成功响应

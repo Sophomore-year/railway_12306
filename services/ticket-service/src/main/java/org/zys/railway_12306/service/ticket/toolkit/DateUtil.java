@@ -1,4 +1,4 @@
-package org.zys.railway_12306.serivce.ticket.toolkit;
+package org.zys.railway_12306.service.ticket.toolkit;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

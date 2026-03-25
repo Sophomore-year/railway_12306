@@ -131,75 +131,6 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
 
 
     /**
-     *
-     * @param requestParam 请求参数
-     *               requestParam:      {
-     * <p> "departureDate": "2026-02-20",         出发日期
-     * <p> "fromStation": "BJP",                  出发站代码（北京南站）
-     * <p> "toStation": "AOH",                    到达站代码（上海虹桥）
-     * <p> "trainType": ["G", "D"],               列车类型：G-高铁, D-动车（可选）
-     * <p> "trainBrand": ["复兴号"],               列车品牌（可选）
-     * <p> "departureTime": "06:00-12:00",        出发时间段（可选）
-     * <p> "arrivalTime": "12:00-18:00",          到达时间段（可选）
-     * <p> "seatType": ["一等座", "二等座"],        座位类型（可选）
-     * <p> "pageNum": 1,                          页码
-     * <p> "pageSize": 20                         每页条数
-     * <p>}
-     * @return 列表    "trainList": [
-     * <p>    {
-     * <p>      "trainId": "123456",                 列车ID (字符串)
-     * <p>      "trainNumber": "G101",               车次
-     * <p>      "departureTime": "08:00",            出发时间
-     * <p>      "arrivalTime": "12:30",              到达时间
-     * <p>      "duration": "4小时30分",              历时
-     * <p>      "daysArrived": 0,                    到达天数
-     * <p>      "departure": "北京南",                出发站点
-     * <p>      "arrival": "上海虹桥",                到达站点
-     * <p>      "departureFlag": true,               始发站标识
-     * <p>      "arrivalFlag": true,                 终点站标识
-     * <p>      "trainType": 0,                      列车类型 0-高铁
-     * <p>      "saleTime": "02-16 13:00",           可售时间
-     * <p>      "saleStatus": 0,                     销售状态 0-可售
-     * <p>      "trainTags": ["0", "1", "2"],        列车标签数组
-     * <p>      "trainBrand": "0",                   列车品牌类型
-     * <p>      "seatClassList": [                   席别实体集合
-     * <p>        {
-     * <p>          "type": 1,                       座位类型
-     * <p>          "quantity": 20,                  余票数量
-     * <p>          "price": 1748.0,                 价格
-     * <p>          "candidate": false               是否可候补
-     * <p>        },
-     * <p>        {
-     * <p>          "type": 2,
-     * <p>          "quantity": 120,
-     * <p>          "price": 933.0,
-     * <p>          "candidate": false
-     *              }
-     *            ]
-     *          }
-     *        ],
-     * <p>  "departureStationList": [                出发站筛选列表
-     * <p>       {"name": "北京南", "value": "BJP"},
-     * <p>       {"name": "北京", "value": "BJP_BJ"}
-     * <p>  ],
-     * <p>  "arrivalStationList": [                  到达站筛选列表
-     * <p>   {"name": "上海虹桥", "value": "AOH"},
-     * <p>    {"name": "上海", "value": "AOH_SH"}
-     * <p>  ],
-     * <p>  "trainBrandList": [                      列车品牌筛选
-     * <p>       {"name": "复兴号", "value": 1},
-     * <p>       {"name": "和谐号", "value": 2},
-     * <p>       {"name": "智能动车组", "value": 3}
-     * <p>  ],
-     * <p>  "seatClassTypeList": [                   座位类型筛选
-     * <p>    {"name": "商务座", "value": 1},
-     * <p>    {"name": "一等座", "value": 2},
-     * <p>    {"name": "二等座", "value": 3},
-     * <p>    {"name": "无座", "value": 4}
-     * <p>  ]
-     * <p>
-     * */
-    /**
      * 火车票查询方法 V1 版本
      * @param requestParam 查询请求参数，包含出发站、到达站、出发日期等信息
      * @return 火车票查询响应，包含列车列表、出发站列表、到达站列表等信息
@@ -220,6 +151,7 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
         // 4. 检查获取的车站信息是否有缺失，统计列表中为 null 的元素数量
         long count = stationDetails.stream().filter(Objects::isNull).count();
         if (count > 0) {
+            // 缓存里没有，需要去数据库加载
             // 5. 获取分布式锁，防止并发加载车站信息
             RLock lock = redissonClient.getLock(LOCK_REGION_TRAIN_STATION_MAPPING);
             lock.lock();

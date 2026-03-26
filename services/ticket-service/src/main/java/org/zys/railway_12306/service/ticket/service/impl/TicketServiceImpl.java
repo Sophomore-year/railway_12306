@@ -321,15 +321,7 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
                 .build();
     }
 
-    /**
-     * 火车票查询方法 V2 版本（未实现）
-     * @param requestParam 查询请求参数
-     * @return null
-     */
-    @Override
-    public TicketPageQueryRespDTO pageListTicketQueryV2(TicketPageQueryReqDTO requestParam) {
-        return null;
-    }
+
 
     /**
      * 购票方法 V1 版本

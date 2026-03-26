@@ -51,13 +51,6 @@ public class TicketController {
         return Results.success(ticketService.purchaseTicketsV1(requestParam));
     }
 
-    /**
-     * 购买车票v2
-     */
-    @PostMapping("/api/ticket-service/ticket/purchase/v2")
-    public Result<TicketPurchaseRespDTO> purchaseTicketsV2(@RequestBody PurchaseTicketReqDTO requestParam) {
-        return Results.success(ticketService.purchaseTicketsV2(requestParam));
-    }
 
     /**
      * 取消车票订单

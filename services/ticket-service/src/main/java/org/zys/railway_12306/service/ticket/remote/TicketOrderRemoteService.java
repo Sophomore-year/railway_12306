@@ -1,5 +1,6 @@
 package org.zys.railway_12306.service.ticket.remote;
 
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
@@ -11,6 +12,7 @@ import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderCreateRemoteRe
  * @author SUM
  * @date 2026/03/25
  */
+@FeignClient(value = "railway_12306-order${unique-name:}-service", url = "${aggregation.remote-url:}")
 public interface TicketOrderRemoteService {
     /**
      * 创建车票订单

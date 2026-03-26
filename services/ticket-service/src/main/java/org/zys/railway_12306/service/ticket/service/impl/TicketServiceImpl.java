@@ -364,195 +364,141 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
         }
     }
 
-    // 本地锁缓存，用于购票时的本地并发控制
-    private final Cache<String, ReentrantLock> localLockMap = Caffeine.newBuilder()
-            .expireAfterWrite(1, TimeUnit.DAYS)  // 1天后过期
-            .build();
-
-    // 令牌刷新缓存，用于记录需要刷新令牌的列车
-    private final Cache<String, Object> tokenTicketsRefreshMap = Caffeine.newBuilder()
-            .expireAfterWrite(10, TimeUnit.MINUTES)  // 10分钟后过期
-            .build();
-
-    /**
-     * 购票方法 V2 版本
-     * @param requestParam 购票请求参数
-     * @return 购票响应
-     */
-    @ILog  // 日志注解，记录方法调用
-    @Idempotent(  // 幂等性注解，防止重复提交
-            uniqueKeyPrefix = "railway_12306-ticket:lock_purchase-tickets:",
-            key = "T(org.zys.rail_12306.framework.starter.bases.ApplicationContextHolder).getBean('environment').getProperty('unique-name', '')"
-                    + "+'_'+"
-                    + "T(org.zys.rail_12306.frameworks.starter.user.core.UserContext).getUsername()",
-            message = "正在执行下单流程，请稍后...",
-            scene = IdempotentSceneEnum.RESTAPI,
-            type = IdempotentTypeEnum.SPEL
-    )
-    @Override
-    public TicketPurchaseRespDTO purchaseTicketsV2(PurchaseTicketReqDTO requestParam) {
-        // 责任链模式，验证购票参数
-        purchaseTicketAbstractChainContext.handler(TicketChainEnum.TRAIN_PURCHASE_TICKET_FILTER.name(), requestParam);
-
-        // 从令牌桶中获取购票令牌
-        TokenResultDTO tokenResult = ticketAvailabilityTokenBucket.takeTokenFromBucket(requestParam);
-
-        // 如果令牌为空，说明没有余票
-        if (tokenResult.getTokenIsNull()) {
-            // 检查是否已经在刷新令牌
-            Object ifPresentObj = tokenTicketsRefreshMap.getIfPresent(requestParam.getTrainId());
-            if (ifPresentObj == null) {
-                // 双重检查锁定，防止并发刷新令牌
-                synchronized (TicketService.class) {
-                    if (tokenTicketsRefreshMap.getIfPresent(requestParam.getTrainId()) == null) {
-                        ifPresentObj = new Object();
-                        tokenTicketsRefreshMap.put(requestParam.getTrainId(), ifPresentObj);
-                        // 异步刷新令牌
-                        tokenIsNullRefreshToken(requestParam, tokenResult);
-                    }
-                }
-            }
-            throw new ServiceException("列车站点已无余票");
-        }
-
-        // 初始化本地锁和分布式锁列表
-        List<ReentrantLock> localLockList = new ArrayList<>();
-        List<RLock> distributedLockList = new ArrayList<>();
-
-        // 按座位类型分组乘客信息
-        Map<Integer, List<PurchaseTicketPassengerDetailDTO>> seatTypeMap = requestParam.getPassengers().stream()
-                .collect(Collectors.groupingBy(PurchaseTicketPassengerDetailDTO::getSeatType));
-
-        // 为每种座位类型获取锁
-        seatTypeMap.forEach((seatType, passengers) -> {
-            // 构建锁键：lock:purchase:tickets:v2:{trainId}:{seatType}
-            String lockKey = environment.resolvePlaceholders(String.format(LOCK_PURCHASE_TICKETS_V2, requestParam.getTrainId(), seatType));
-
-            // 获取或创建本地锁
-            ReentrantLock localLock = localLockMap.getIfPresent(lockKey);
-            if (localLock == null) {
-                synchronized (TicketService.class) {
-                    if ((localLock = localLockMap.getIfPresent(lockKey)) == null) {
-                        localLock = new ReentrantLock(true);  // 公平锁
-                        localLockMap.put(lockKey, localLock);
-                    }
-                }
-            }
-            localLockList.add(localLock);
-
-            // 获取分布式公平锁
-            RLock distributedLock = redissonClient.getFairLock(lockKey);
-            distributedLockList.add(distributedLock);
-        });
-
-        try {
-            // 加锁
-            localLockList.forEach(ReentrantLock::lock);
-            distributedLockList.forEach(RLock::lock);
-
-            // 执行购票
-            return ticketService.executePurchaseTickets(requestParam);
-        } finally {
-            // 释放锁
-            localLockList.forEach(localLock -> {
-                try {
-                    localLock.unlock();
-                } catch (Throwable ignored) {
-                }
-            });
-            distributedLockList.forEach(distributedLock -> {
-                try {
-                    distributedLock.unlock();
-                } catch (Throwable ignored) {
-                }
-            });
-        }
-    }
 
     /**
      * 执行购票操作
-     * @param requestParam 购票请求参数
-     * @return 购票响应
+     * <p>
+     * 该方法是购票流程的核心实现，主要完成以下步骤：
+     * 1. 获取列车信息（优先从缓存获取）
+     * 2. 根据列车类型选择合适的座位
+     * 3. 创建车票记录
+     * 4. 构建订单信息并调用远程订单服务
+     * 5. 返回购票结果
+     * </p>
+     * @param requestParam 购票请求参数，包含车次、出发站、到达站、乘客信息等
+     * @return 购票响应，包含订单号和订单详情
      */
     @Override
     @Transactional(rollbackFor = Throwable.class)  // 事务注解，发生任何异常都回滚
     public TicketPurchaseRespDTO executePurchaseTickets(PurchaseTicketReqDTO requestParam) {
+        // 1. 初始化订单详情结果列表，用于存储购票成功后的订单详情
         List<TicketOrderDetailRespDTO> ticketOrderDetailResults = new ArrayList<>();
+
+        // 2. 获取列车ID，从请求参数中提取
         String trainId = requestParam.getTrainId();
+
+        // 3. 从缓存或数据库获取列车信息
+        // 使用safeGet方法，实现缓存穿透防护和自动缓存更新
         Train train = distributedCache.safeGet(
-                TRAIN_INFO + trainId,
-                Train.class,
-                () -> trainMapper.selectById(trainId),
-                ADVANCE_TICKET_DAY,
-                TimeUnit.DAYS);
+                TRAIN_INFO + trainId,  // 缓存键：train:info:{trainId}
+                Train.class,           // 缓存值类型
+                () -> trainMapper.selectById(trainId),  // 缓存未命中时从数据库查询
+                ADVANCE_TICKET_DAY,    // 缓存过期时间：预售天数
+                TimeUnit.DAYS);        // 时间单位：天
+
+        // 4. 根据列车类型和请求参数选择座位
+        // 使用策略模式，根据列车类型选择不同的座位分配策略
         List<TrainPurchaseTicketRespDTO> trainPurchaseTicketResults = trainSeatTypeSelector.select(train.getTrainType(), requestParam);
+
+        // 5. 构建车票列表
+        // 将座位选择结果转换为Ticket对象列表
         List<Ticket> ticketList  = trainPurchaseTicketResults.stream()
                 .map(each -> Ticket.builder()
-                        .username(UserContext.getUsername())
-                        .trainId(Long.parseLong(requestParam.getTrainId()))
-                        .carriageNumber(each.getCarriageNumber())
-                        .seatNumber(each.getSeatNumber())
-                        .passengerId(each.getPassengerId())
-                        .ticketStatus(TicketStatusEnum.UNPAID.getCode())
+                        .username(UserContext.getUsername())  // 用户名，从上下文获取
+                        .trainId(Long.parseLong(requestParam.getTrainId()))  // 列车ID
+                        .carriageNumber(each.getCarriageNumber())  // 车厢号
+                        .seatNumber(each.getSeatNumber())  // 座位号
+                        .passengerId(each.getPassengerId())  // 乘客ID
+                        .ticketStatus(TicketStatusEnum.UNPAID.getCode())  // 车票状态：未支付
                         .build())
                 .toList();
+
+        // 6. 批量保存车票信息到数据库
         saveBatch(ticketList);
+
+        // 7. 初始化订单结果变量，用于接收远程订单服务的返回值
         Result<String> ticketOrderResult;
+
         try {
+            // 8. 初始化订单项列表，用于构建远程订单请求
             List<TicketOrderItemCreateRemoteReqDTO> orderItemCreateRemoteReqDTOList = new ArrayList<>();
+
+            // 9. 遍历购票结果，构建订单项和订单详情
             trainPurchaseTicketResults.forEach(each -> {
+                // 9.1 构建远程订单项请求DTO，用于调用订单服务
                 TicketOrderItemCreateRemoteReqDTO orderItemCreateRemoteReqDTO = TicketOrderItemCreateRemoteReqDTO.builder()
-                        .amount(each.getAmount())
-                        .carriageNumber(each.getCarriageNumber())
-                        .seatNumber(each.getSeatNumber())
-                        .idCard(each.getIdCard())
-                        .idType(each.getIdType())
-                        .phone(each.getPhone())
-                        .seatType(each.getSeatType())
-                        .ticketType(each.getUserType())
-                        .realName(each.getRealName())
+                        .amount(each.getAmount())  // 金额
+                        .carriageNumber(each.getCarriageNumber())  // 车厢号
+                        .seatNumber(each.getSeatNumber())  // 座位号
+                        .idCard(each.getIdCard())  // 身份证号
+                        .idType(each.getIdType())  // 证件类型
+                        .phone(each.getPhone())  // 手机号
+                        .seatType(each.getSeatType())  // 座位类型
+                        .ticketType(each.getUserType())  // 车票类型
+                        .realName(each.getRealName())  // 真实姓名
                         .build();
+
+                // 9.2 构建订单详情DTO，用于返回给前端
                 TicketOrderDetailRespDTO ticketOrderDetailRespDTO = TicketOrderDetailRespDTO.builder()
-                        .amount(each.getAmount())
-                        .carriageNumber(each.getCarriageNumber())
-                        .seatNumber(each.getSeatNumber())
-                        .idCard(each.getIdCard())
-                        .idType(each.getIdType())
-                        .seatType(each.getSeatType())
-                        .ticketType(each.getUserType())
-                        .realName(each.getRealName())
+                        .amount(each.getAmount())  // 金额
+                        .carriageNumber(each.getCarriageNumber())  // 车厢号
+                        .seatNumber(each.getSeatNumber())  // 座位号
+                        .idCard(each.getIdCard())  // 身份证号
+                        .idType(each.getIdType())  // 证件类型
+                        .seatType(each.getSeatType())  // 座位类型
+                        .ticketType(each.getUserType())  // 车票类型
+                        .realName(each.getRealName())  // 真实姓名
                         .build();
+
+                // 9.3 添加到对应的列表中
                 orderItemCreateRemoteReqDTOList.add(orderItemCreateRemoteReqDTO);
                 ticketOrderDetailResults.add(ticketOrderDetailRespDTO);
             });
+
+            // 10. 构建查询条件，查询列车站点关系
+            // 根据列车ID、出发站和到达站查询列车站点关系信息
             LambdaQueryWrapper<TrainStationRelation> queryWrapper = Wrappers.lambdaQuery(TrainStationRelation.class)
                     .eq(TrainStationRelation::getTrainId, trainId)
                     .eq(TrainStationRelation::getDeparture, requestParam.getDeparture())
                     .eq(TrainStationRelation::getArrival, requestParam.getArrival());
             TrainStationRelation trainStationRelation = trainStationRelationMapper.selectOne(queryWrapper);
+
+            // 11. 构建远程订单创建请求DTO
+            // 组装订单创建所需的所有信息
             TicketOrderCreateRemoteReqDTO orderCreateRemoteReqDTO = TicketOrderCreateRemoteReqDTO.builder()
-                    .departure(requestParam.getDeparture())
-                    .arrival(requestParam.getArrival())
-                    .orderTime(new Date())
-                    .source(SourceEnum.INTERNET.getCode())
-                    .trainNumber(train.getTrainNumber())
-                    .departureTime(trainStationRelation.getDepartureTime())
-                    .arrivalTime(trainStationRelation.getArrivalTime())
-                    .ridingDate(trainStationRelation.getDepartureTime())
-                    .userId(UserContext.getUserId())
-                    .username(UserContext.getUsername())
-                    .trainId(Long.parseLong(requestParam.getTrainId()))
-                    .ticketOrderItems(orderItemCreateRemoteReqDTOList)
+                    .departure(requestParam.getDeparture())  // 出发站
+                    .arrival(requestParam.getArrival())  // 到达站
+                    .orderTime(new Date())  // 订单时间
+                    .source(SourceEnum.INTERNET.getCode())  // 订单来源：互联网
+                    .trainNumber(train.getTrainNumber())  // 车次
+                    .departureTime(trainStationRelation.getDepartureTime())  // 出发时间
+                    .arrivalTime(trainStationRelation.getArrivalTime())  // 到达时间
+                    .ridingDate(trainStationRelation.getDepartureTime())  // 乘车日期
+                    .userId(UserContext.getUserId())  // 用户ID，从上下文获取
+                    .username(UserContext.getUsername())  // 用户名，从上下文获取
+                    .trainId(Long.parseLong(requestParam.getTrainId()))  // 列车ID
+                    .ticketOrderItems(orderItemCreateRemoteReqDTOList)  // 订单项列表
                     .build();
+
+            // 12. 调用远程订单服务创建订单
+            // 通过Feign客户端调用订单服务的创建订单接口
             ticketOrderResult = ticketOrderRemoteService.createTicketOrder(orderCreateRemoteReqDTO);
+
+            // 13. 检查订单创建结果
+            // 验证订单创建是否成功，若失败则抛出异常
             if (!ticketOrderResult.isSuccess() || StrUtil.isBlank(ticketOrderResult.getData())) {
                 log.error("订单服务调用失败，返回结果：{}", ticketOrderResult.getMessage());
                 throw new ServiceException("订单服务调用失败");
             }
         } catch (Throwable ex) {
+            // 14. 记录异常日志
+            // 捕获并记录所有异常，然后重新抛出
             log.error("远程调用订单服务创建错误，请求参数：{}", JSON.toJSONString(requestParam), ex);
             throw ex;
         }
+
+        // 15. 构建并返回购票响应
+        // 将订单号和订单详情组装成响应对象返回
         return new TicketPurchaseRespDTO(ticketOrderResult.getData(), ticketOrderDetailResults);
     }
 

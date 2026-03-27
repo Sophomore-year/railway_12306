@@ -29,6 +29,7 @@ import org.zys.rail_12306.framework.starter.idempotent.annotation.Idempotent;
 import org.zys.rail_12306.framework.starter.idempotent.enums.IdempotentSceneEnum;
 import org.zys.rail_12306.framework.starter.idempotent.enums.IdempotentTypeEnum;
 import org.zys.rail_12306.framework.starter.log.annotation.ILog;
+import org.zys.railway_12306.framework.starter.common.toolkit.BeanUtil;
 import org.zys.railway_12306.framework.starter.convention.exception.ServiceException;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.user.core.UserContext;
@@ -41,6 +42,7 @@ import org.zys.railway_12306.service.ticket.mapper.TrainMapper;
 import org.zys.railway_12306.service.ticket.mapper.TrainStationPriceMapper;
 import org.zys.railway_12306.service.ticket.mapper.TrainStationRelationMapper;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.PurchaseTicketPassengerDetailDTO;
+import org.zys.railway_12306.service.ticket.pojo.dto.domain.RouteDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.SeatClassDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.SeatTypeCountDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.TicketListDTO;
@@ -61,8 +63,10 @@ import org.zys.railway_12306.service.ticket.remote.TicketOrderRemoteService;
 import org.zys.railway_12306.service.ticket.remote.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderCreateRemoteReqDTO;
 import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderItemCreateRemoteReqDTO;
+import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderPassengerDetailRespDTO;
 import org.zys.railway_12306.service.ticket.service.SeatService;
 import org.zys.railway_12306.service.ticket.service.TicketService;
+import org.zys.railway_12306.service.ticket.service.TrainStationService;
 import org.zys.railway_12306.service.ticket.service.cache.SeatMarginCacheLoader;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.TokenResultDTO;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.TrainPurchaseTicketRespDTO;
@@ -128,6 +132,7 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     private final SeatService seatService;
     private final TrainSeatTypeSelector trainSeatTypeSelector;
     private final TicketOrderRemoteService ticketOrderRemoteService;
+    private final TrainStationService trainStationService;
 
 
     @Value("${ticket.availability.cache-update.type:}")
@@ -501,7 +506,47 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     @ILog  // 日志注解，记录方法调用
     @Override
     public void cancelTicketOrder(CancelTicketOrderReqDTO requestParam) {
-        // 未实现
+        //通过远程调用取消车票订单接口
+        Result<Void> cancelOrderResult = ticketOrderRemoteService.cancelTicketOrder(requestParam);
+        if (!cancelOrderResult.isSuccess() && StrUtil.equals(ticketAvailabilityCacheUpdateType,"binlog")) {
+            //远程调用失败，并且缓存更新类型为binlog。执行以下逻辑
+            //远程调用跟据订单号查询车票订单
+            Result<org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO> ticketOrderDetailResult = ticketOrderRemoteService.queryTicketOrderByOrderSn(requestParam.getOrderSn());
+            org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO ticketOrderDetail = ticketOrderDetailResult.getData();
+            String trainId = String.valueOf(ticketOrderDetail.getTrainId());
+            String departure = ticketOrderDetail.getDeparture();
+            String arrival = ticketOrderDetail.getArrival();
+            List<TicketOrderPassengerDetailRespDTO> trainPurchaseTicketResults = ticketOrderDetail.getPassengerDetails();
+            try {
+                // 解锁座位
+                seatService.unlock(trainId, departure, arrival, BeanUtil.convert(trainPurchaseTicketResults, TrainPurchaseTicketRespDTO.class));
+            } catch (Throwable ex) {
+                // 锁定座位失败，执行回滚逻辑
+                log.error("[取消订单] 订单号：{} 回滚列车DB座位状态失败", requestParam.getOrderSn(), ex);
+                throw ex;
+            }
+
+            try {
+                //获取缓存组件实例
+                StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) distributedCache.getInstance();
+                //按席别类型分组
+                Map<Integer, List<TicketOrderPassengerDetailRespDTO>> seatTypeMap = trainPurchaseTicketResults.stream()
+                        .collect(Collectors.groupingBy(TicketOrderPassengerDetailRespDTO::getSeatType));
+                List<RouteDTO> routeDTOList = trainStationService.listTakeoutTrainStationRoute(trainId, departure, arrival);
+                //循环每条路线
+                routeDTOList.forEach(each -> {
+                    String keySuffix = StrUtil.join("_", trainId, each.getStartStation(), each.getEndStation());
+                    // 对每个席别类型，恢复相应数量的票数到 Redis 缓存
+                    seatTypeMap.forEach((seatType, ticketOrderPassengerDetailRespDTOList) -> {
+                        stringRedisTemplate.opsForHash()
+                                .increment(TRAIN_STATION_REMAINING_TICKET + keySuffix, String.valueOf(seatType), ticketOrderPassengerDetailRespDTOList.size());
+                    });
+                });
+            } catch (Throwable ex) {
+                log.error("[取消关闭订单] 订单号：{} 回滚列车Cache余票失败", requestParam.getOrderSn(), ex);
+                throw ex;
+            }
+        }
     }
 
     /**

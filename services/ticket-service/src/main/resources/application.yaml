@@ -1,0 +1,45 @@
+server:
+  port: 9200
+
+spring:
+  application:
+    name: index12306-ticket${unique-name:}-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/12306_ticket?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+
+
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        import-check:
+          enabled: false
+      username: nacos
+      password: nacos
+
+
+  dynamic:
+    thread-pool:
+      nacos:
+        data-id: hippo4j-nacos.yaml
+        group: DEFAULT_GROUP
+      config-file-type: yml
+      executors:
+        - thread-pool-id: 'select-seat-thread-pool-executor' # 线程池ID
+          alarm: false # 是否开启告警
+          allow-core-thread-time-out: true  # 核心线程是否允许超时回收
+          blocking-queue: SynchronousQueue   # 阻塞队列类型
+          core-pool-size: 20  # 核心线程数
+          maximum-pool-size: 40 # 最大线程数
+          keep-alive-time: 9999 # 空闲线程存活时间(秒)
+          rejected-handler: CallerRunsPolicy # 拒绝策略

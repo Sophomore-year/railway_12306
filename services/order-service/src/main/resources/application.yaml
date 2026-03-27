@@ -1,0 +1,6 @@
+server:
+  port: 9200
+
+spring:
+  application:
+    name: railway_12306-order${unique-name:}-service

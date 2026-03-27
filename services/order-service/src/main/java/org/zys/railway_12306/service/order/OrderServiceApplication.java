@@ -1,0 +1,16 @@
+package org.zys.railway_12306.service.order;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * 订单服务应用启动器
+ *
+ * @author SUM
+ * @date 2026/03/27
+ */
+@SpringBootApplication
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        org.springframework.boot.SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}

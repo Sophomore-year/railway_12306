@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ *车票订单详情返回参数
  *
  * @author SUM
  * @date 2026/03/28

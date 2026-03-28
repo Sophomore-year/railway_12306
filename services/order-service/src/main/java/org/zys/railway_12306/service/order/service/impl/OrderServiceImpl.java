@@ -2,27 +2,35 @@ package org.zys.railway_12306.service.order.service.impl;
 
 import cn.crane4j.annotation.AutoOperate;
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.text.StrBuilder;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zys.rail_12306.framework.starter.database.toolkit.PageUtil;
 import org.zys.railway_12306.framework.starter.common.toolkit.BeanUtil;
+import org.zys.railway_12306.framework.starter.convention.exception.ClientException;
 import org.zys.railway_12306.framework.starter.convention.exception.ServiceException;
 import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.user.core.UserContext;
+import org.zys.railway_12306.service.order.enums.OrderCanalErrorCodeEnum;
+import org.zys.railway_12306.service.order.enums.OrderItemStatusEnum;
 import org.zys.railway_12306.service.order.enums.OrderStatusEnum;
 import org.zys.railway_12306.service.order.mapper.OrderItemMapper;
 import org.zys.railway_12306.service.order.mapper.OrderMapper;
 import org.zys.railway_12306.service.order.mq.event.DelayCloseOrderEvent;
 import org.zys.railway_12306.service.order.mq.produce.DelayCloseOrderSendProduce;
+import org.zys.railway_12306.service.order.pojo.dto.req.CancelTicketOrderReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderCreateReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderItemCreateReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
@@ -62,6 +70,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderPassengerRelationService orderPassengerRelationService;
     private final OrderItemService orderItemService;
     private final DelayCloseOrderSendProduce delayCloseOrderSendProduce;
+    private final RedissonClient redissonClient;
+
+
     @Override
     public TicketOrderDetailRespDTO queryTicketOrderByOrderSn(String orderSn) {
         LambdaQueryWrapper<Order> queryWrapper = Wrappers.lambdaQuery(Order.class)
@@ -187,6 +198,64 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderSn;
     }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean closeTickOrder(CancelTicketOrderReqDTO requestParam) {
+        String orderSn = requestParam.getOrderSn();
+        LambdaQueryWrapper<Order> queryWrapper = Wrappers.lambdaQuery(Order.class)
+                .eq(Order::getOrderSn, orderSn)
+                .select(Order::getStatus);
+        Order order = orderMapper.selectOne(queryWrapper);
+        // 订单不存在或者订单状态不是待支付状态
+        if (Objects.isNull(order) || order.getStatus() != OrderStatusEnum.PENDING_PAYMENT.getStatus()) {
+            return false;
+        }
+        // 原则上订单关闭和订单取消这两个方法可以复用，为了区分未来考虑到的场景，这里对方法进行拆分但复用逻辑
+        return cancelTickOrder(requestParam);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean cancelTickOrder(CancelTicketOrderReqDTO requestParam) {
+        String orderSn = requestParam.getOrderSn();
+        LambdaQueryWrapper<Order> queryWrapper = Wrappers.lambdaQuery(Order.class)
+                .eq(Order::getOrderSn, orderSn);
+        Order order = orderMapper.selectOne(queryWrapper);
+        if (order == null) {
+            throw new ServiceException(OrderCanalErrorCodeEnum.ORDER_CANAL_UNKNOWN_ERROR);
+        } else if (order.getStatus() != OrderStatusEnum.PENDING_PAYMENT.getStatus()) {
+            throw new ServiceException(OrderCanalErrorCodeEnum.ORDER_CANAL_STATUS_ERROR);
+        }
+        RLock lock = redissonClient.getLock(StrBuilder.create("order:canal:order_sn_").append(orderSn).toString());
+        if (!lock.tryLock()) {
+            throw new ClientException(OrderCanalErrorCodeEnum.ORDER_CANAL_REPETITION_ERROR);
+        }
+        try {
+            Order updateOrder = new Order();
+            updateOrder.setStatus(OrderStatusEnum.CLOSED.getStatus());
+            LambdaUpdateWrapper<Order> updateWrapper = Wrappers.lambdaUpdate(Order.class)
+                    .eq(Order::getOrderSn, orderSn);
+            int updateResult = orderMapper.update(updateOrder, updateWrapper);
+            if (updateResult <= 0) {
+                throw new ServiceException(OrderCanalErrorCodeEnum.ORDER_CANAL_ERROR);
+            }
+            OrderItem updateOrderItem = new OrderItem();
+            updateOrderItem.setStatus(OrderItemStatusEnum.CLOSED.getStatus());
+            LambdaUpdateWrapper<OrderItem> updateItemWrapper = Wrappers.lambdaUpdate(OrderItem.class)
+                    .eq(OrderItem::getOrderSn, orderSn);
+            int updateItemResult = orderItemMapper.update(updateOrderItem, updateItemWrapper);
+            if (updateItemResult <= 0) {
+                throw new ServiceException(OrderCanalErrorCodeEnum.ORDER_CANAL_ERROR);
+            }
+        } finally {
+            lock.unlock();
+        }
+        return true;
+    }
+
     private List<Integer> buildOrderStatusList(TicketOrderPageQueryReqDTO requestParam) {
         List<Integer> result = new ArrayList<>();
         switch (requestParam.getStatusType()) {

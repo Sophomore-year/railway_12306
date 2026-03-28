@@ -1,6 +1,7 @@
 package org.zys.railway_12306.service.order.service;
 
 import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
+import org.zys.railway_12306.service.order.pojo.dto.req.CancelTicketOrderReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderCreateReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderSelfPageQueryReqDTO;
@@ -46,4 +47,19 @@ public interface OrderService {
      * @return 订单号
      */
     String createTicketOrder(TicketOrderCreateReqDTO requestParam);
+
+    /**
+     * 车票订单关闭
+     *
+     * @param requestParam 订单关闭请求参数
+     * @return 是否成功
+     */
+    boolean closeTickOrder(CancelTicketOrderReqDTO requestParam);
+
+    /**
+     * 取消火车票订单
+     *
+     * @param requestParam 取消火车票订单入参
+     */
+    boolean cancelTickOrder(CancelTicketOrderReqDTO requestParam);
 }

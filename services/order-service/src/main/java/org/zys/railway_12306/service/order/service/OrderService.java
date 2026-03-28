@@ -2,6 +2,12 @@ package org.zys.railway_12306.service.order.service;
 
 import org.zys.railway_12306.service.order.pojo.dto.resp.TicketOrderDetailRespDTO;
 
+/**
+ *订单接口层
+ *
+ * @author SUM
+ * @date 2026/03/28
+ */
 public interface OrderService {
 
     /**

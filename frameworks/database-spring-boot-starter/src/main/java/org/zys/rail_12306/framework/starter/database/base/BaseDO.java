@@ -8,6 +8,9 @@ import java.util.Date;
 
 /**
  * 数据持久层基础属性
+ *
+ * @author SUM
+ * @date 2026/03/28
  */
 @Data
 public class BaseDO {

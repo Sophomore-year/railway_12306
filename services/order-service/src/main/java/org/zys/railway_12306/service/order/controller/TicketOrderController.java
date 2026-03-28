@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.web.Results;
+import org.zys.railway_12306.service.order.pojo.dto.req.CancelTicketOrderReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderCreateReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderItemQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
@@ -72,6 +73,23 @@ public class TicketOrderController {
     @PostMapping("/api/order-service/order/ticket/create")
     public Result<String> createTicketOrder(@RequestBody TicketOrderCreateReqDTO requestParam) {
         return Results.success(orderService.createTicketOrder(requestParam));
+    }
+
+    /**
+     * 车票订单关闭
+     */
+    @PostMapping("/api/order-service/order/ticket/close")
+    public Result<Boolean> closeTickOrder(@RequestBody CancelTicketOrderReqDTO requestParam) {
+        return Results.success(orderService.closeTickOrder(requestParam));
+    }
+
+
+    /**
+     * 车票订单取消
+     */
+    @PostMapping("/api/order-service/order/ticket/cancel")
+    public Result<Boolean> cancelTickOrder(@RequestBody CancelTicketOrderReqDTO requestParam) {
+        return Results.success(orderService.cancelTickOrder(requestParam));
     }
 
 }

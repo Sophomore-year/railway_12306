@@ -2,7 +2,9 @@ package org.zys.railway_12306.service.order.service;
 
 import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
+import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderSelfPageQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.resp.TicketOrderDetailRespDTO;
+import org.zys.railway_12306.service.order.pojo.dto.resp.TicketOrderDetailSelfRespDTO;
 
 /**
  *订单接口层
@@ -24,7 +26,15 @@ public interface OrderService {
      * 分页查询车票订单
      *
      * @param requestParam 请求参数
-     * @return {@link PageResponse<TicketOrderDetailRespDTO>}
+     * @return {@link PageResponse<TicketOrderDetailRespDTO>} 订单分页详情
      */
     PageResponse<TicketOrderDetailRespDTO> pageTicketOrder(TicketOrderPageQueryReqDTO requestParam);
+
+    /**
+     * 分页查询本人车票订单
+     *
+     * @param requestParam 请求参数
+     * @return {@link PageResponse<TicketOrderDetailSelfRespDTO>} 本人车票订单集合
+     */
+    PageResponse<TicketOrderDetailSelfRespDTO> pageSelfTicketOrder(TicketOrderSelfPageQueryReqDTO requestParam);
 }

@@ -1,7 +1,9 @@
 package org.zys.railway_12306.service.order.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderItemQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.resp.TicketOrderPassengerDetailRespDTO;
+import org.zys.railway_12306.service.order.pojo.entity.OrderItem;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * @author SUM
  * @date 2026/03/28
  */
-public interface OrderItemService {
+public interface OrderItemService extends IService<OrderItem> {
 
     /**
      * 根据子订单记录id查询车票子订单详情

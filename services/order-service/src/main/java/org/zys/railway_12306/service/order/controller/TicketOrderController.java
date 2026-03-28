@@ -2,11 +2,14 @@ package org.zys.railway_12306.service.order.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.web.Results;
+import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderCreateReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderItemQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderSelfPageQueryReqDTO;
@@ -61,6 +64,14 @@ public class TicketOrderController {
     @GetMapping("/api/order-service/order/ticket/self/page")
     public Result<PageResponse<TicketOrderDetailSelfRespDTO>> pageSelfTicketOrder(TicketOrderSelfPageQueryReqDTO requestParam) {
         return Results.success(orderService.pageSelfTicketOrder(requestParam));
+    }
+
+    /**
+     * 车票订单创建
+     */
+    @PostMapping("/api/order-service/order/ticket/create")
+    public Result<String> createTicketOrder(@RequestBody TicketOrderCreateReqDTO requestParam) {
+        return Results.success(orderService.createTicketOrder(requestParam));
     }
 
 }

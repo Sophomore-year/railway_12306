@@ -2,20 +2,29 @@ package org.zys.railway_12306.service.order.service.impl;
 
 import cn.crane4j.annotation.AutoOperate;
 import cn.hutool.core.collection.ListUtil;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zys.rail_12306.framework.starter.database.toolkit.PageUtil;
 import org.zys.railway_12306.framework.starter.common.toolkit.BeanUtil;
+import org.zys.railway_12306.framework.starter.convention.exception.ServiceException;
 import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.user.core.UserContext;
 import org.zys.railway_12306.service.order.enums.OrderStatusEnum;
 import org.zys.railway_12306.service.order.mapper.OrderItemMapper;
 import org.zys.railway_12306.service.order.mapper.OrderMapper;
+import org.zys.railway_12306.service.order.mq.event.DelayCloseOrderEvent;
+import org.zys.railway_12306.service.order.mq.produce.DelayCloseOrderSendProduce;
+import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderCreateReqDTO;
+import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderItemCreateReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderSelfPageQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.resp.TicketOrderDetailRespDTO;
@@ -26,11 +35,14 @@ import org.zys.railway_12306.service.order.pojo.entity.OrderItem;
 import org.zys.railway_12306.service.order.pojo.entity.OrderItemPassenger;
 import org.zys.railway_12306.service.order.remote.UserRemoteService;
 import org.zys.railway_12306.service.order.remote.dto.UserQueryActualRespDTO;
+import org.zys.railway_12306.service.order.service.OrderItemService;
 import org.zys.railway_12306.service.order.service.OrderPassengerRelationService;
 import org.zys.railway_12306.service.order.service.OrderService;
+import org.zys.railway_12306.service.order.service.orderid.OrderIdGeneratorManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -48,7 +60,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderItemMapper orderItemMapper;
     private final UserRemoteService userRemoteService;
     private final OrderPassengerRelationService orderPassengerRelationService;
-
+    private final OrderItemService orderItemService;
+    private final DelayCloseOrderSendProduce delayCloseOrderSendProduce;
     @Override
     public TicketOrderDetailRespDTO queryTicketOrderByOrderSn(String orderSn) {
         LambdaQueryWrapper<Order> queryWrapper = Wrappers.lambdaQuery(Order.class)
@@ -102,6 +115,78 @@ public class OrderServiceImpl implements OrderService {
         });
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public String createTicketOrder(TicketOrderCreateReqDTO requestParam) {
+        // 通过基因法(订单 ID 全局唯一生成)将用户 ID 融入到订单号
+        String orderSn = OrderIdGeneratorManager.generateId(requestParam.getUserId());
+        Order order = Order.builder().orderSn(orderSn)
+                .orderTime(requestParam.getOrderTime())
+                .departure(requestParam.getDeparture())
+                .departureTime(requestParam.getDepartureTime())
+                .ridingDate(requestParam.getRidingDate())
+                .arrivalTime(requestParam.getArrivalTime())
+                .trainNumber(requestParam.getTrainNumber())
+                .arrival(requestParam.getArrival())
+                .trainId(requestParam.getTrainId())
+                .source(requestParam.getSource())
+                .status(OrderStatusEnum.PENDING_PAYMENT.getStatus())
+                .username(requestParam.getUsername())
+                .userId(String.valueOf(requestParam.getUserId()))
+                .build();
+        orderMapper.insert(order);
+        // 订单明细列表
+        List<TicketOrderItemCreateReqDTO> ticketOrderItems = requestParam.getTicketOrderItems();
+        List<OrderItem> orderItemList = new ArrayList<>();
+        List<OrderItemPassenger> orderPassengerRelationList = new ArrayList<>();
+        ticketOrderItems.forEach(each -> {
+            OrderItem orderItem = OrderItem.builder()
+                    .trainId(requestParam.getTrainId())
+                    .seatNumber(each.getSeatNumber())
+                    .carriageNumber(each.getCarriageNumber())
+                    .realName(each.getRealName())
+                    .orderSn(orderSn)
+                    .phone(each.getPhone())
+                    .seatType(each.getSeatType())
+                    .username(requestParam.getUsername())
+                    .amount(each.getAmount())
+                    .carriageNumber(each.getCarriageNumber())
+                    .idCard(each.getIdCard())
+                    .ticketType(each.getTicketType())
+                    .idType(each.getIdType())
+                    .userId(String.valueOf(requestParam.getUserId()))
+                    .status(0)
+                    .build();
+            orderItemList.add(orderItem);
+            OrderItemPassenger orderPassengerRelationDO = OrderItemPassenger.builder()
+                    .idType(each.getIdType())
+                    .idCard(each.getIdCard())
+                    .orderSn(orderSn)
+                    .build();
+            orderPassengerRelationList.add(orderPassengerRelationDO);
+        });
+        orderItemService.saveBatch(orderItemList);
+        orderPassengerRelationService.saveBatch(orderPassengerRelationList);
+        try {
+            // 发送 RocketMQ 延时消息，指定时间后取消订单
+            DelayCloseOrderEvent delayCloseOrderEvent = DelayCloseOrderEvent.builder()
+                    .trainId(String.valueOf(requestParam.getTrainId()))
+                    .departure(requestParam.getDeparture())
+                    .arrival(requestParam.getArrival())
+                    .orderSn(orderSn)
+                    .trainPurchaseTicketResults(requestParam.getTicketOrderItems())
+                    .build();
+            // 创建订单并支付后延时关闭订单消息怎么办？
+            SendResult sendResult = delayCloseOrderSendProduce.sendMessage(delayCloseOrderEvent);
+            if (!Objects.equals(sendResult.getSendStatus(), SendStatus.SEND_OK)) {
+                throw new ServiceException("投递延迟关闭订单消息队列失败");
+            }
+        } catch (Throwable ex) {
+            log.error("延迟关闭订单消息队列发送错误，请求参数：{}", JSON.toJSONString(requestParam), ex);
+            throw ex;
+        }
+        return orderSn;
+    }
     private List<Integer> buildOrderStatusList(TicketOrderPageQueryReqDTO requestParam) {
         List<Integer> result = new ArrayList<>();
         switch (requestParam.getStatusType()) {

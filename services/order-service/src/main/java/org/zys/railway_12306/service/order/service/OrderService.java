@@ -1,5 +1,7 @@
 package org.zys.railway_12306.service.order.service;
 
+import org.zys.railway_12306.framework.starter.convention.page.PageResponse;
+import org.zys.railway_12306.service.order.pojo.dto.req.TicketOrderPageQueryReqDTO;
 import org.zys.railway_12306.service.order.pojo.dto.resp.TicketOrderDetailRespDTO;
 
 /**
@@ -17,4 +19,12 @@ public interface OrderService {
      * @return {@link TicketOrderDetailRespDTO}
      */
     TicketOrderDetailRespDTO queryTicketOrderByOrderSn(String orderSn);
+
+    /**
+     * 分页查询车票订单
+     *
+     * @param requestParam 请求参数
+     * @return {@link PageResponse<TicketOrderDetailRespDTO>}
+     */
+    PageResponse<TicketOrderDetailRespDTO> pageTicketOrder(TicketOrderPageQueryReqDTO requestParam);
 }

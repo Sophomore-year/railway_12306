@@ -40,17 +40,21 @@ public class AbstractChainContext<T> implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //调用SpirngIoc工厂获取AbstractChainHandler接口类型的Bean
         Map<String, AbstractChainHandler> chainFilterMap = ApplicationContextHolder
                 .getBeansOfType(AbstractChainHandler.class);
         chainFilterMap.forEach((beanName, bean) -> {
+            //获取mark（责任链业务标识）的处理器集合
             List<AbstractChainHandler> abstractChainHandlers = abstractChainHandlerContainer.get(bean.mark());
             if (CollectionUtils.isEmpty(abstractChainHandlers)) {
                 abstractChainHandlers = new ArrayList();
             }
             abstractChainHandlers.add(bean);
+            //对处理器集合执行顺序进行排序
             List<AbstractChainHandler> actualAbstractChainHandlers = abstractChainHandlers.stream()
                     .sorted(Comparator.comparing(Ordered::getOrder))
                     .collect(Collectors.toList());
+            //存入容器等待被运行时调用
             abstractChainHandlerContainer.put(bean.mark(), actualAbstractChainHandlers);
         });
     }

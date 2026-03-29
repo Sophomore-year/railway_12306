@@ -12,6 +12,8 @@ import org.zys.railway_12306.service.pay.convert.PayRequestConvert;
 import org.zys.railway_12306.service.pay.pojo.dto.PayCommand;
 import org.zys.railway_12306.service.pay.pojo.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.PayRespDTO;
+import org.zys.railway_12306.service.pay.pojo.dto.RefundReqDTO;
+import org.zys.railway_12306.service.pay.pojo.dto.RefundRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayRequest;
 import org.zys.railway_12306.service.pay.service.PayService;
 
@@ -53,5 +55,15 @@ public class PayController {
     @GetMapping("/api/pay-service/pay/query/pay-sn")
     public Result<PayInfoRespDTO> getPayInfoByPaySn(@RequestParam(value = "paySn") String paySn) {
         return Results.success(payService.getPayInfoByPaySn(paySn));
+    }
+
+
+    /**
+     * 公共退款接口
+     */
+    @Deprecated
+    @PostMapping("/api/pay-service/refund")
+    public Result<RefundRespDTO> refund(@RequestBody RefundReqDTO requestParam) {
+        return Results.success(payService.commonRefund(requestParam));
     }
 }

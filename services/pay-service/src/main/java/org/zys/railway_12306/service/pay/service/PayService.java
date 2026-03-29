@@ -2,6 +2,8 @@ package org.zys.railway_12306.service.pay.service;
 
 import org.zys.railway_12306.service.pay.pojo.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.PayRespDTO;
+import org.zys.railway_12306.service.pay.pojo.dto.RefundReqDTO;
+import org.zys.railway_12306.service.pay.pojo.dto.RefundRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayRequest;
 
 /**
@@ -36,5 +38,13 @@ public interface PayService {
      * @return 支付单详情
      */
     PayInfoRespDTO getPayInfoByPaySn(String paySn);
+
+    /**
+     * 公共退款接口
+     *
+     * @param requestParam 退款请求参数
+     * @return 退款返回详情
+     */
+    RefundRespDTO commonRefund(RefundReqDTO requestParam);
 
 }

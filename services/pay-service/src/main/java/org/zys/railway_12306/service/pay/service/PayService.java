@@ -1,5 +1,6 @@
 package org.zys.railway_12306.service.pay.service;
 
+import org.zys.railway_12306.service.pay.pojo.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.PayRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayRequest;
 
@@ -19,4 +20,11 @@ public interface PayService {
      */
     PayRespDTO commonPay(PayRequest requestParam);
 
+    /**
+     * 跟据订单号查询支付单详情
+     *
+     * @param orderSn 订单号
+     * @return 支付单详情
+     */
+    PayInfoRespDTO getPayInfoByOrderSn(String orderSn);
 }

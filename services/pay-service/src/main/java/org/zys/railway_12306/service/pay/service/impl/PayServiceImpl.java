@@ -2,6 +2,8 @@ package org.zys.railway_12306.service.pay.service.impl;
 
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.zys.railway_12306.framework.starter.convention.exception.ServiceExcep
 import org.zys.railway_12306.service.pay.enums.TradeStatusEnum;
 import org.zys.railway_12306.service.pay.mapper.PayMapper;
 import org.zys.railway_12306.service.pay.pojo.dao.entity.Pay;
+import org.zys.railway_12306.service.pay.pojo.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.PayRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayRequest;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayResponse;
@@ -70,5 +73,13 @@ public class PayServiceImpl implements PayService {
         }
         distributedCache.put(ORDER_PAY_RESULT_INFO + requestParam.getOrderSn(), JSON.toJSONString(result), 10, TimeUnit.MINUTES);
         return BeanUtil.convert(result, PayRespDTO.class);
+    }
+
+    @Override
+    public PayInfoRespDTO getPayInfoByOrderSn(String orderSn) {
+        LambdaQueryWrapper<Pay> queryWrapper = Wrappers.lambdaQuery(Pay.class)
+                .eq(Pay::getOrderSn, orderSn);
+        Pay pay = payMapper.selectOne(queryWrapper);
+        return BeanUtil.convert(pay, PayInfoRespDTO.class);
     }
 }

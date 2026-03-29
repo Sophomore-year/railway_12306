@@ -82,4 +82,12 @@ public class PayServiceImpl implements PayService {
         Pay pay = payMapper.selectOne(queryWrapper);
         return BeanUtil.convert(pay, PayInfoRespDTO.class);
     }
+
+    @Override
+    public PayInfoRespDTO getPayInfoByPaySn(String paySn) {
+        LambdaQueryWrapper<Pay> queryWrapper = Wrappers.lambdaQuery(Pay.class)
+                .eq(Pay::getPaySn, paySn);
+        Pay pay = payMapper.selectOne(queryWrapper);
+        return BeanUtil.convert(pay, PayInfoRespDTO.class);
+    }
 }

@@ -27,4 +27,14 @@ public interface PayService {
      * @return 支付单详情
      */
     PayInfoRespDTO getPayInfoByOrderSn(String orderSn);
+
+
+    /**
+     * 跟据支付流水号查询支付单详情
+     *
+     * @param paySn 支付单流水号
+     * @return 支付单详情
+     */
+    PayInfoRespDTO getPayInfoByPaySn(String paySn);
+
 }

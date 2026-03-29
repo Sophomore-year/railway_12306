@@ -45,4 +45,13 @@ public class PayController {
     public Result<PayInfoRespDTO> getPayInfoByOrderSn(@RequestParam(value = "orderSn") String orderSn) {
         return Results.success(payService.getPayInfoByOrderSn(orderSn));
     }
+
+
+    /**
+     * 跟据支付流水号查询支付单详情
+     */
+    @GetMapping("/api/pay-service/pay/query/pay-sn")
+    public Result<PayInfoRespDTO> getPayInfoByPaySn(@RequestParam(value = "paySn") String paySn) {
+        return Results.success(payService.getPayInfoByPaySn(paySn));
+    }
 }

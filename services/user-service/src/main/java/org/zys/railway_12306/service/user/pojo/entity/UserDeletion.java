@@ -20,7 +20,7 @@ import org.zys.rail_12306.framework.starter.database.base.BaseDO;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("user_deletion")
+@TableName("t_user_deletion")
 public class UserDeletion extends BaseDO {
     /**
      * id

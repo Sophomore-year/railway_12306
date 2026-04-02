@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.zys.rail_12306.framework.starter.bases.constant.UserConstant;
 import org.zys.railway_12306.service.gateway.config.Config;
 import org.zys.railway_12306.service.gateway.toolkit.JWTUtil;
@@ -22,6 +23,7 @@ import java.util.Objects;
  * @author SUM
  * @date 2026/03/17
  */
+@Component
 public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFactory<Config> {
     public TokenValidateGatewayFilterFactory() {
         super(Config.class);

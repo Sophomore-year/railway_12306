@@ -2,10 +2,10 @@ server:
   port: 9000
 spring:
   application:
-    name: railway-gateway${unique-name:}-service
+    name: railway12306-gateway${unique-name:}-service
   profiles:
-    active: aggregation
-    # active: dev
+#    active: aggregation
+     active: dev
   cloud:
     nacos:
       discovery:

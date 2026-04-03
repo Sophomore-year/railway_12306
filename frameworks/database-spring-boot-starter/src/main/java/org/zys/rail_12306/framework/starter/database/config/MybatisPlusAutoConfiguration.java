@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.zys.rail_12306.framework.starter.database.handler.CustomIdGenerator;
+import org.zys.rail_12306.framework.starter.database.handler.MyMetaObjectHandler;
 
 /**
  *MybatisPlus 配置文件
@@ -32,5 +33,13 @@ public class MybatisPlusAutoConfiguration {
     @Primary
     public IdentifierGenerator idGenerator() {
         return new CustomIdGenerator();
+    }
+
+    /**
+     * 元数据处理器
+     */
+    @Bean
+    public MyMetaObjectHandler myMetaObjectHandler() {
+        return new MyMetaObjectHandler();
     }
 }

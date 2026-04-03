@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.zys.rail_12306.framework.starter.database.base.BaseDO;
 
@@ -15,6 +16,7 @@ import java.util.Date;
  * @author SUM
  * @date 2026/03/11
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("t_passenger")
 @NoArgsConstructor

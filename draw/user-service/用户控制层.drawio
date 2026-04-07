@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="4">
   <diagram name="根据用户名查询用户信息" id="sWdoAd-4zKaWkbIuZPme">
-    <mxGraphModel dx="1213" dy="770" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="973" dy="686" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -76,7 +76,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="0LsPI75d6gKEhuZOLGaI" name="根据用户名查询用户无脱敏信息">
-    <mxGraphModel dx="1213" dy="770" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="824" dy="582" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -226,12 +226,15 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="fRbN-WJl6sJ8tGbrAyyk" name="第 4 页">
-    <mxGraphModel dx="1213" dy="770" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+  <diagram id="fRbN-WJl6sJ8tGbrAyyk" name="修改用户">
+    <mxGraphModel dx="969" dy="685" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="iEpY_dSRRBA-Tj9U8Mir-5" edge="1" parent="1" source="iEpY_dSRRBA-Tj9U8Mir-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="" vertex="1">
+          <mxGeometry height="450" width="820" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="iEpY_dSRRBA-Tj9U8Mir-5" edge="1" parent="1" source="iEpY_dSRRBA-Tj9U8Mir-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="41HSxytdq0Cymfl9Kp8f-7">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="320" y="190" as="targetPoint" />
           </mxGeometry>
@@ -240,13 +243,13 @@
           <mxGeometry height="60" width="30" x="40" y="160" as="geometry" />
         </mxCell>
         <mxCell id="iEpY_dSRRBA-Tj9U8Mir-6" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" value="" vertex="1">
-          <mxGeometry height="150" width="20" x="280" as="geometry" />
+          <mxGeometry height="90" width="20" x="280" y="10" as="geometry" />
         </mxCell>
         <mxCell id="iEpY_dSRRBA-Tj9U8Mir-11" edge="1" parent="1" source="iEpY_dSRRBA-Tj9U8Mir-7" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="iEpY_dSRRBA-Tj9U8Mir-8">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="iEpY_dSRRBA-Tj9U8Mir-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="UserUpdateReqDTO" vertex="1">
-          <mxGeometry height="30" width="60" x="190" y="60" as="geometry" />
+          <mxGeometry height="30" width="60" x="200" y="40" as="geometry" />
         </mxCell>
         <mxCell id="iEpY_dSRRBA-Tj9U8Mir-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="/api/user-service/update" vertex="1">
           <mxGeometry height="30" width="140" x="120" y="160" as="geometry" />
@@ -256,6 +259,90 @@
         </mxCell>
         <mxCell id="iEpY_dSRRBA-Tj9U8Mir-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Header:Authorization:accessToken" vertex="1">
           <mxGeometry height="30" width="60" x="70" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="username" vertex="1">
+          <mxGeometry height="30" width="60" x="300" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&amp;nbsp;mail" vertex="1">
+          <mxGeometry height="30" width="60" x="300" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="userType" vertex="1">
+          <mxGeometry height="30" width="60" x="300" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="postCode" vertex="1">
+          <mxGeometry height="30" width="60" x="300" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="address" vertex="1">
+          <mxGeometry height="30" width="60" x="300" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-10" edge="1" parent="1" source="41HSxytdq0Cymfl9Kp8f-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="41HSxytdq0Cymfl9Kp8f-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="41HSxytdq0Cymfl9Kp8f-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="gateway-service" vertex="1">
+          <mxGeometry height="40" width="120" x="350" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-6" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-8" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="根据用户名查询用户当前信息" vertex="1">
+          <mxGeometry height="60" width="120" x="40" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-2" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&amp;nbsp;t_user" vertex="1">
+          <mxGeometry height="100" width="90" x="55" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="jzojwJNy_7JhMOp8E5zi-6" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-4" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_user_mail" vertex="1">
+          <mxGeometry height="100" width="90" x="515" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-10" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="将请求参数转换为User实体对象" vertex="1">
+          <mxGeometry height="60" width="120" x="230" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-17" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="执行用户信息更新操作" vertex="1">
+          <mxGeometry height="60" width="120" x="430" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-14" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0;entryDx=0;entryDy=67.5;entryPerimeter=0;" target="-ZStP5mE8QMXE3dWG4Jm-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kMyGZ1Qn5nN174OHZVVk-1" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kMyGZ1Qn5nN174OHZVVk-2" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-16" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="&lt;div&gt;邮箱不为空且与原邮箱不同&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="100" x="630" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-18" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="返回数据" vertex="1">
+          <mxGeometry height="80" width="120" x="690" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="jzojwJNy_7JhMOp8E5zi-4" edge="1" parent="1" source="-ZStP5mE8QMXE3dWG4Jm-19" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="jzojwJNy_7JhMOp8E5zi-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-ZStP5mE8QMXE3dWG4Jm-19" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="删除原邮箱记录" vertex="1">
+          <mxGeometry height="80" width="120" x="500" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="jzojwJNy_7JhMOp8E5zi-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="TRUE" vertex="1">
+          <mxGeometry height="30" width="60" x="580" y="381" as="geometry" />
+        </mxCell>
+        <mxCell id="jzojwJNy_7JhMOp8E5zi-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="FALSE" vertex="1">
+          <mxGeometry height="30" width="60" x="720" y="381" as="geometry" />
+        </mxCell>
+        <mxCell id="jzojwJNy_7JhMOp8E5zi-5" edge="1" parent="1" source="jzojwJNy_7JhMOp8E5zi-3" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="-ZStP5mE8QMXE3dWG4Jm-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jzojwJNy_7JhMOp8E5zi-3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="删除原邮箱记录" vertex="1">
+          <mxGeometry height="80" width="120" x="320" y="530" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

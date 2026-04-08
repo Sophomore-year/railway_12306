@@ -179,9 +179,8 @@ public class PassengerServiceImpl implements PassengerService {
 
             // 5. 构建更新条件，确保只更新当前用户的指定ID的乘车人信息
             LambdaUpdateWrapper<Passenger> updateWrapper = Wrappers.lambdaUpdate(Passenger.class)
-                    .eq(Passenger::getUsername, username)  // 确保是当前用户的乘车人
-                    .eq(Passenger::getId, requestParam.getId());  // 确保是指定ID的乘车人
-
+                    .eq(Passenger::getUsername, username)
+                    .eq(Passenger::getId, requestParam.getId());
             // 6. 执行更新操作
             int updated = passengerMapper.update(passenger, updateWrapper);
 

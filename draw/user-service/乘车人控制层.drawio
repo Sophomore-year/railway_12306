@@ -1,0 +1,553 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6" pages="5">
+  <diagram name="根据用户名查询乘车人列表" id="wKH1OSTqIBOyxuYNV3ZS">
+    <mxGraphModel dx="987" dy="699" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iAmBep7AcKn6lEd93_B3-2" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="iAmBep7AcKn6lEd93_B3-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="60" width="30" x="10" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-10" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="iAmBep7AcKn6lEd93_B3-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="gateway-service" vertex="1">
+          <mxGeometry height="40" width="120" x="320" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="/api/user-service/passenger/query" vertex="1">
+          <mxGeometry height="30" width="190" x="80" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Header:Authorization:accessToken" vertex="1">
+          <mxGeometry height="30" width="60" x="80" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-8" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="iAmBep7AcKn6lEd93_B3-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="根据accessToken和JWT获取令牌信息到&lt;div&gt;UserContext中&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="580" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="" vertex="1">
+          <mxGeometry height="450" width="810" x="9" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="listPassengerQueryByUsername" vertex="1">
+          <mxGeometry height="30" width="234" x="297" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-20" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-12" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="iAmBep7AcKn6lEd93_B3-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="获取用户乘车人列表的JSON字符串（从缓存或数据库）" vertex="1">
+          <mxGeometry height="60" width="120" x="166.25" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-13" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_passenger" vertex="1">
+          <mxGeometry height="100" width="90" x="40" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-16" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="iAmBep7AcKn6lEd93_B3-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-19" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-14" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="iAmBep7AcKn6lEd93_B3-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-14" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="key:&lt;div&gt;USER_PASSENGER_LIST + username&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="162.5" x="3.75" y="392.5" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#60a917;strokeColor=#2D7600;fontColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="270" width="460" x="350" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="使用Optional包装字符串，处理可能为null的情况" vertex="1">
+          <mxGeometry height="30" width="290" x="435" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-28" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="iAmBep7AcKn6lEd93_B3-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" value="将JSON字符串解析为Passenger对象列表" vertex="1">
+          <mxGeometry height="60" width="150" x="400" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-29" edge="1" parent="1" source="iAmBep7AcKn6lEd93_B3-24" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="iAmBep7AcKn6lEd93_B3-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="将Passenger对象列表转换为PassengerRespDTO对象列表" vertex="1">
+          <mxGeometry height="60" width="120" x="620" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="iAmBep7AcKn6lEd93_B3-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="如果原始字符串为null，返回null" vertex="1">
+          <mxGeometry height="60" width="120" x="531" y="430" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="aG8lZ6HtAUDQBmHsjSdp" name="根据乘车人 ID 集合查询乘车人列表">
+    <mxGraphModel dx="1199" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="" vertex="1">
+          <mxGeometry height="450" width="810" x="5.25" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-2" edge="1" parent="1" source="dCx32F1VqRbFrs3gRCgu-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="dCx32F1VqRbFrs3gRCgu-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="260" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="60" width="30" x="10" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-16" edge="1" parent="1" source="dCx32F1VqRbFrs3gRCgu-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="gateway-service" vertex="1">
+          <mxGeometry height="60" width="120" x="410" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="/api/user-service/inner/passenger/actual/query/ids" vertex="1">
+          <mxGeometry height="30" width="270" x="90" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-8" edge="1" parent="1" source="dCx32F1VqRbFrs3gRCgu-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="dCx32F1VqRbFrs3gRCgu-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-5" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;direction=west;" value="" vertex="1">
+          <mxGeometry height="80" width="20" x="215" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String username" vertex="1">
+          <mxGeometry height="30" width="110" x="105" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="dCx32F1VqRbFrs3gRCgu-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="List&amp;lt;Long&amp;gt; ids" vertex="1">
+          <mxGeometry height="30" width="90" x="115" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="listPassengerQueryByIds" vertex="1">
+          <mxGeometry height="30" width="234" x="293.25" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-3" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="oG_5TU8fOCGDqmJ2cZJy-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="346.25" y="319.7349823321555" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="获取用户乘车人列表的JSON字符串（从缓存或数据库）" vertex="1">
+          <mxGeometry height="60" width="120" x="162.5" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-5" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_passenger" vertex="1">
+          <mxGeometry height="100" width="90" x="36.25" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-6" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="oG_5TU8fOCGDqmJ2cZJy-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-7" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-8" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-8" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="key:&lt;div&gt;USER_PASSENGER_LIST + username&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="162.5" y="382.5" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-22" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-26" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-18" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-18" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=#B20000;fontColor=#000000;" value="检查字符串是否为空，如果为空则返回null" vertex="1">
+          <mxGeometry height="110" width="140" x="344" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-21" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="返回null" vertex="1">
+          <mxGeometry height="80" width="120" x="640" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-24" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="true" vertex="1">
+          <mxGeometry height="30" width="60" x="527" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="230" width="446" x="360" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-27" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="false" vertex="1">
+          <mxGeometry height="30" width="60" x="467" y="353" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-32" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-28" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div&gt;&amp;nbsp;将JSON字符串解析为Passenger对象列表&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="390" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-33" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;div&gt;使用Stream API过滤出ID在指定列表中的乘车人&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="600" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-34" edge="1" parent="1" source="oG_5TU8fOCGDqmJ2cZJy-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="oG_5TU8fOCGDqmJ2cZJy-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;div&gt;将过滤后的Passenger对象转换为PassengerActualRespDTO对象&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="585" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="oG_5TU8fOCGDqmJ2cZJy-31" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="收集结果并返回" vertex="1">
+          <mxGeometry height="80" width="80" x="410" y="555" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="rx2HghsfQxzaWVlY4qcV" name="新增乘车人">
+    <mxGraphModel dx="1199" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="S-h9UibKVjoNOyIrATqi-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="" vertex="1">
+          <mxGeometry height="430" width="805" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-2" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="60" width="30" x="30" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="/api/user-service/passenger/save" vertex="1">
+          <mxGeometry height="30" width="180" x="100" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-20" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-5" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="S-h9UibKVjoNOyIrATqi-21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="gateway-service" vertex="1">
+          <mxGeometry height="40" width="120" x="320" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-6" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" value="" vertex="1">
+          <mxGeometry height="120" width="20" x="280" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-11" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-7" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="S-h9UibKVjoNOyIrATqi-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="PassengerReqDTO" vertex="1">
+          <mxGeometry height="30" width="110" x="135" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-9" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" target="S-h9UibKVjoNOyIrATqi-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String id" vertex="1">
+          <mxGeometry height="30" width="60" x="340" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String&amp;nbsp;realName" vertex="1">
+          <mxGeometry height="30" width="90" x="325" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Integer idType" vertex="1">
+          <mxGeometry height="30" width="100" x="320" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Integer discountType" vertex="1">
+          <mxGeometry height="30" width="120" x="315" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String phone" vertex="1">
+          <mxGeometry height="30" width="110" x="315" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-26" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;strokeWidth=2;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;direction=west;fillColor=#f8cecc;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="70" width="100" x="400" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-27" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="幂等注解&lt;div&gt;uniqueKeyPrefix&lt;/div&gt;&lt;div&gt;key&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="210" x="500" y="222.5" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="savePassenger" vertex="1">
+          <mxGeometry height="30" width="97" x="354" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-31" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-29" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="验证乘车人请求参数的合法性" vertex="1">
+          <mxGeometry height="60" width="120" x="20" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-34" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-30" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-30" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="从上下文获取当前登录的用户名" vertex="1">
+          <mxGeometry height="60" width="120" x="20" y="530" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-32" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="" vertex="1">
+          <mxGeometry height="280" width="400" x="214" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-33" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="try" vertex="1">
+          <mxGeometry height="30" width="60" x="210" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-35" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="catch" vertex="1">
+          <mxGeometry height="80" width="80" x="280" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-36" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-32" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="S-h9UibKVjoNOyIrATqi-35" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="160" y="1010" as="sourcePoint" />
+            <mxPoint x="210" y="960" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-39" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-37" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="将请求参数转换为Passenger实体对象" vertex="1">
+          <mxGeometry height="60" width="120" x="214" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-41" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-38" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="设置乘车人关联的用户名" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-46" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-40" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="设置创建日期为当前时间" vertex="1">
+          <mxGeometry height="60" width="120" x="494" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-45" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-42" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-42" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="设置验证状态为已审核" vertex="1">
+          <mxGeometry height="60" width="120" x="494" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-49" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-43" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="S-h9UibKVjoNOyIrATqi-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-43" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_passenger" vertex="1">
+          <mxGeometry height="110" width="90" x="300" y="515" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-44" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="插入乘车人信息到数据库" vertex="1">
+          <mxGeometry height="25" width="84" x="390" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-48" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="检查插入是否成功" vertex="1">
+          <mxGeometry height="80" width="80" x="410" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-50" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="删除用户乘车人缓存，确保下次查询时获取最新数据" vertex="1">
+          <mxGeometry height="80" width="120" x="685" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="S-h9UibKVjoNOyIrATqi-51" edge="1" parent="1" source="S-h9UibKVjoNOyIrATqi-42" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.16;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=0;" target="S-h9UibKVjoNOyIrATqi-50" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="540" y="900" as="sourcePoint" />
+            <mxPoint x="590" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="E97MQ6x7qnsZODHWoWJs" name="修改乘车人">
+    <mxGraphModel dx="1049" dy="743" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="qBNMWknMs0rSPyz-pThB-1" edge="1" parent="1" source="qBNMWknMs0rSPyz-pThB-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="qBNMWknMs0rSPyz-pThB-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="60" width="30" x="20" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="/api/user-service/passenger/update" vertex="1">
+          <mxGeometry height="30" width="200" x="80" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-25" edge="1" parent="1" source="qBNMWknMs0rSPyz-pThB-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="_I3yTkIlfufQ7T8IFklV-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="gateway-service" vertex="1">
+          <mxGeometry height="40" width="120" x="310" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-5" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" value="" vertex="1">
+          <mxGeometry height="120" width="20" x="270" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-6" edge="1" parent="1" source="qBNMWknMs0rSPyz-pThB-7" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="qBNMWknMs0rSPyz-pThB-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="PassengerReqDTO" vertex="1">
+          <mxGeometry height="30" width="110" x="125" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-8" edge="1" parent="1" source="qBNMWknMs0rSPyz-pThB-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" target="qBNMWknMs0rSPyz-pThB-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String id" vertex="1">
+          <mxGeometry height="30" width="60" x="330" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String&amp;nbsp;realName" vertex="1">
+          <mxGeometry height="30" width="90" x="315" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Integer idType" vertex="1">
+          <mxGeometry height="30" width="100" x="310" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Integer discountType" vertex="1">
+          <mxGeometry height="30" width="120" x="305" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String phone" vertex="1">
+          <mxGeometry height="30" width="110" x="305" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-14" parent="1" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;strokeWidth=2;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;notch=0;direction=west;fillColor=#f8cecc;strokeColor=#b85450;" value="" vertex="1">
+          <mxGeometry height="70" width="100" x="390" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="qBNMWknMs0rSPyz-pThB-15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="幂等注解&lt;div&gt;uniqueKeyPrefix&lt;/div&gt;&lt;div&gt;key&lt;/div&gt;" vertex="1">
+          <mxGeometry height="105" width="210" x="490" y="252.5" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="" vertex="1">
+          <mxGeometry height="430" width="805" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="updatePassenger" vertex="1">
+          <mxGeometry height="30" width="97" x="354" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-3" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="_I3yTkIlfufQ7T8IFklV-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="验证乘车人请求参数的合法性" vertex="1">
+          <mxGeometry height="60" width="120" x="20" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-5" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-6" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="_I3yTkIlfufQ7T8IFklV-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="从上下文获取当前登录的用户名" vertex="1">
+          <mxGeometry height="60" width="120" x="20" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="" vertex="1">
+          <mxGeometry height="280" width="400" x="214" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="try" vertex="1">
+          <mxGeometry height="30" width="60" x="210" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-9" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="catch" vertex="1">
+          <mxGeometry height="80" width="80" x="280" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-10" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-7" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="_I3yTkIlfufQ7T8IFklV-9" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="160" y="1050" as="sourcePoint" />
+            <mxPoint x="210" y="1000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-11" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="_I3yTkIlfufQ7T8IFklV-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="将请求参数转换为Passenger实体对象" vertex="1">
+          <mxGeometry height="60" width="120" x="214" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-13" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="_I3yTkIlfufQ7T8IFklV-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="设置乘车人关联的用户名" vertex="1">
+          <mxGeometry height="60" width="120" x="354" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-15" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-21" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.966;entryY=0.614;entryDx=0;entryDy=0;entryPerimeter=0;" target="_I3yTkIlfufQ7T8IFklV-20">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="554" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-16" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="构建更新条件，确保只更新当前用户的指定ID的乘车人信息" vertex="1">
+          <mxGeometry height="60" width="120" x="494" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-19" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-20" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="_I3yTkIlfufQ7T8IFklV-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-20" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_passenger" vertex="1">
+          <mxGeometry height="110" width="90" x="300" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-22" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="检查插入是否成功" vertex="1">
+          <mxGeometry height="80" width="80" x="410" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-23" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="删除用户乘车人缓存，确保下次查询时获取最新数据" vertex="1">
+          <mxGeometry height="80" width="120" x="685" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-24" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.16;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=0;" target="_I3yTkIlfufQ7T8IFklV-23" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="614" y="595" as="sourcePoint" />
+            <mxPoint x="590" y="890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-26" edge="1" parent="1" source="_I3yTkIlfufQ7T8IFklV-16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.966;entryY=0.614;entryDx=0;entryDy=0;entryPerimeter=0;" target="_I3yTkIlfufQ7T8IFklV-21" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="505" y="550" as="sourcePoint" />
+            <mxPoint x="387" y="623" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_I3yTkIlfufQ7T8IFklV-21" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;rotation=0;" value="执行更新操作" vertex="1">
+          <mxGeometry height="25" width="84" x="400" y="570" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="53gbGHiA2L47_QSSQELe" name="移除乘车人">
+    <mxGraphModel dx="1199" dy="849" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-4" edge="1" parent="1" source="RYL_9EEJWfE1pj8r7K4T-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="RYL_9EEJWfE1pj8r7K4T-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="370" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="60" width="30" x="50" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="/api/user-service/passenger/remove" vertex="1">
+          <mxGeometry height="30" width="200" x="120" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="gateway" vertex="1">
+          <mxGeometry height="40" width="120" x="370" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-7" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;" value="" vertex="1">
+          <mxGeometry height="50" width="20" x="280" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-11" edge="1" parent="1" source="RYL_9EEJWfE1pj8r7K4T-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="RYL_9EEJWfE1pj8r7K4T-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="PassengerRemoveReqDTO" vertex="1">
+          <mxGeometry height="30" width="160" x="120" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String id" vertex="1">
+          <mxGeometry height="30" width="60" x="300" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#76608a;strokeColor=#432D57;fontColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="480" width="760" x="40" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="removePassenger" vertex="1">
+          <mxGeometry height="30" width="100" x="380" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-4" edge="1" parent="1" source="RYL_9EEJWfE1pj8r7K4T-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="HsSxqFyIRrX1tBcMIyYy-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="RYL_9EEJWfE1pj8r7K4T-14" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="从上下文获取当前登录的用户名" vertex="1">
+          <mxGeometry height="60" width="120" x="70" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-3" edge="1" parent="1" source="HsSxqFyIRrX1tBcMIyYy-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="HsSxqFyIRrX1tBcMIyYy-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="根据username和passengerId查询乘车人" vertex="1">
+          <mxGeometry height="60" width="120" x="70" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-2" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_passenger" vertex="1">
+          <mxGeometry height="100" width="90" x="85" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="" vertex="1">
+          <mxGeometry height="280" width="410" x="230" y="304" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="try" vertex="1">
+          <mxGeometry height="46" width="80" x="230" y="304" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-8" edge="1" parent="1" source="RYL_9EEJWfE1pj8r7K4T-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.512;entryY=-0.003;entryDx=0;entryDy=0;entryPerimeter=0;" target="RYL_9EEJWfE1pj8r7K4T-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-11" edge="1" parent="1" source="HsSxqFyIRrX1tBcMIyYy-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="HsSxqFyIRrX1tBcMIyYy-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="逻辑删除，修改数据库表记录 del_flag" vertex="1">
+          <mxGeometry height="60" width="120" x="240" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-10" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_passenger" vertex="1">
+          <mxGeometry height="100" width="90" x="255" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="HsSxqFyIRrX1tBcMIyYy-12" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="删除用户乘车人缓存，确保下次查询时获取最新数据" vertex="1">
+          <mxGeometry height="100" width="140" x="660" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="Sd5a3KayMtqOCiGbFIlT-1" edge="1" parent="1" source="HsSxqFyIRrX1tBcMIyYy-5" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.16;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=0;" target="HsSxqFyIRrX1tBcMIyYy-12" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="420" y="870" as="sourcePoint" />
+            <mxPoint x="470" y="820" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Sd5a3KayMtqOCiGbFIlT-2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="catch" vertex="1">
+          <mxGeometry height="80" width="80" x="310" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="Sd5a3KayMtqOCiGbFIlT-3" edge="1" parent="1" source="HsSxqFyIRrX1tBcMIyYy-5" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="Sd5a3KayMtqOCiGbFIlT-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="470" y="570" as="sourcePoint" />
+            <mxPoint x="520" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

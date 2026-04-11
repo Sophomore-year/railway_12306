@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: railway_12306-ticket${unique-name:}-service
+    name: railway12306-ticket${unique-name:}-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root

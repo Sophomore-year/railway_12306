@@ -8,8 +8,6 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +39,6 @@ import org.zys.railway_12306.service.ticket.mapper.TicketMapper;
 import org.zys.railway_12306.service.ticket.mapper.TrainMapper;
 import org.zys.railway_12306.service.ticket.mapper.TrainStationPriceMapper;
 import org.zys.railway_12306.service.ticket.mapper.TrainStationRelationMapper;
-import org.zys.railway_12306.service.ticket.pojo.dto.domain.PurchaseTicketPassengerDetailDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.RouteDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.SeatClassDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.SeatTypeCountDTO;
@@ -89,12 +86,10 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import static org.zys.railway_12306.service.ticket.constant.Railway12306Constant.ADVANCE_TICKET_DAY;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_PURCHASE_TICKETS;
-import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_PURCHASE_TICKETS_V2;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_REGION_TRAIN_STATION;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_REGION_TRAIN_STATION_MAPPING;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_TOKEN_BUCKET_ISNULL;
@@ -137,8 +132,6 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
 
     @Value("${ticket.availability.cache-update.type:}")
     private String ticketAvailabilityCacheUpdateType;
-    @Value("${framework.cache.redis.prefix:}")
-    private String cacheRedisPrefix;
 
 
 
@@ -539,10 +532,8 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
                 routeDTOList.forEach(each -> {
                     String keySuffix = StrUtil.join("_", trainId, each.getStartStation(), each.getEndStation());
                     // 对每个席别类型，恢复相应数量的票数到 Redis 缓存
-                    seatTypeMap.forEach((seatType, ticketOrderPassengerDetailRespDTOList) -> {
-                        stringRedisTemplate.opsForHash()
-                                .increment(TRAIN_STATION_REMAINING_TICKET + keySuffix, String.valueOf(seatType), ticketOrderPassengerDetailRespDTOList.size());
-                    });
+                    seatTypeMap.forEach((seatType, ticketOrderPassengerDetailRespDTOList) -> stringRedisTemplate.opsForHash()
+                            .increment(TRAIN_STATION_REMAINING_TICKET + keySuffix, String.valueOf(seatType), ticketOrderPassengerDetailRespDTOList.size()));
                 });
             } catch (Throwable ex) {
                 log.error("[取消关闭订单] 订单号：{} 回滚列车Cache余票失败", requestParam.getOrderSn(), ex);
@@ -680,10 +671,9 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     /**
      * 应用启动时执行的方法
      * @param args 启动参数
-     * @throws Exception 异常
      */
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // 获取 TicketService 实例，用于后续调用
         ticketService = ApplicationContextHolder.getBean(TicketService.class);
     }

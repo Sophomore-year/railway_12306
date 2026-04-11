@@ -85,4 +85,14 @@ public final class RedisKeyConstant {
      * 令牌获取失败分布式锁 Key
      */
     public static final String LOCK_TOKEN_BUCKET_ISNULL = "railway_12306-ticket-service:lock:token-bucket-isnull:%s";
+
+    /**
+     * 获取全部地点集合分布式锁 Key
+     */
+    public static final String LOCK_QUERY_ALL_REGION_LIST = "railway_12306-ticket-service:lock:query_all_region_list";
+
+    /**
+     * 获取全部地点集合 Key
+     */
+    public static final String QUERY_ALL_REGION_LIST = "railway_12306-ticket-service:query_all_region_list";
 }

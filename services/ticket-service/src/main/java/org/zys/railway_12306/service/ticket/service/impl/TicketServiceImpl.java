@@ -274,7 +274,8 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
         for (TicketListDTO each : seatResults) {
             // 31. 从缓存或数据库获取票价信息
             String trainStationPriceStr = distributedCache.safeGet(
-                    String.format(TRAIN_STATION_PRICE, each.getTrainId(), each.getDeparture(), each.getArrival()),  // 缓存键：train:station:price:{trainId}:{departure}:{arrival}
+                    // 缓存键：train:station:price:{trainId}:{departure}:{arrival}
+                    String.format(TRAIN_STATION_PRICE, each.getTrainId(), each.getDeparture(), each.getArrival()),
                     String.class,
                     () -> {
                         // 缓存未命中时从数据库查询
@@ -284,7 +285,8 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
                                 .eq(TrainStationPrice::getTrainId, each.getTrainId());
                         return JSON.toJSONString(trainStationPriceMapper.selectList(trainStationPriceQueryWrapper));
                     },
-                    ADVANCE_TICKET_DAY,  // 缓存过期时间：预售天数
+                    // 缓存过期时间：预售天数
+                    ADVANCE_TICKET_DAY,
                     TimeUnit.DAYS
             );
 

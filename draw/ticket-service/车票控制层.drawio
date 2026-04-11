@@ -1,0 +1,517 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram name="根据条件查询车票" id="jjcQfo9Z5McrFsLtKrA-">
+    <mxGraphModel dx="1878" dy="1322" grid="1" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5DINXHFagrXIqxD7ID6t-81" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="" vertex="1">
+          <mxGeometry height="1010" width="1650" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-3" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value=" ">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="213" y="90" as="sourcePoint" />
+            <mxPoint x="423" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-4" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="用户" vertex="1">
+          <mxGeometry height="60" width="30" x="110" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;pre style=&quot;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;pre style=&quot;&quot;&gt;&lt;pre style=&quot;&quot;&gt;&lt;font face=&quot;JetBrains Mono, monospace&quot;&gt;&lt;span style=&quot;font-size: 15.0667px;&quot;&gt;/api/ticket-service/ticket/query&lt;/span&gt;&lt;span style=&quot;font-size: 11.3pt;&quot;&gt;&lt;/span&gt;&lt;/font&gt;&lt;/pre&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/pre&gt;" vertex="1">
+          <mxGeometry height="30" width="235" x="157.5" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-82" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="5DINXHFagrXIqxD7ID6t-81">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="490" y="120" />
+              <mxPoint x="640" y="120" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=12;fillColor=#008a00;strokeColor=#005700;fontColor=#ffffff;" value="gateway-service" vertex="1">
+          <mxGeometry height="40" width="120" x="430" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-8" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontFamily=Helvetica;fontSize=12;fontColor=default;" target="5DINXHFagrXIqxD7ID6t-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-16" parent="1" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;" value="" vertex="1">
+          <mxGeometry height="90" width="20" x="684.5" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String fromStation" vertex="1">
+          <mxGeometry height="30" width="131" x="689" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-77" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-19" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" target="5DINXHFagrXIqxD7ID6t-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="40" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="TicketPageQueryReqDTO" vertex="1">
+          <mxGeometry height="30" width="157" x="527.5" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-72" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String toStation" vertex="1">
+          <mxGeometry height="30" width="103" x="703" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-73" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Date departureDate" vertex="1">
+          <mxGeometry height="30" width="110" x="699.5" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-74" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String departure" vertex="1">
+          <mxGeometry height="30" width="100" x="704.5" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-75" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="String arrival" vertex="1">
+          <mxGeometry height="30" width="80" x="714.5" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-83" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="pageListTicketQueryV1" vertex="1">
+          <mxGeometry height="30" width="150" x="560" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-96" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;" target="5DINXHFagrXIqxD7ID6t-89">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-147" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-84" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" target="5DINXHFagrXIqxD7ID6t-145">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-84" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="执行责任链" vertex="1">
+          <mxGeometry height="30" width="120" x="410" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-89" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="TRAIN_QUERY_FILTER" vertex="1">
+          <mxGeometry height="120" width="250" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-90" parent="5DINXHFagrXIqxD7ID6t-89" style="text;strokeColor=#d6b656;fillColor=#fff2cc;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="查询列车车票流程过滤器之验证数据是否为空或空的字符串" vertex="1">
+          <mxGeometry height="30" width="250" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-91" parent="5DINXHFagrXIqxD7ID6t-89" style="text;strokeColor=#d6b656;fillColor=#fff2cc;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="查询列车车票流程过滤器之基础数据验证" vertex="1">
+          <mxGeometry height="30" width="250" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-92" parent="5DINXHFagrXIqxD7ID6t-89" style="text;strokeColor=#d6b656;fillColor=#fff2cc;align=center;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="查询列车车票流程过滤器之验证数据是否正确" vertex="1">
+          <mxGeometry height="30" width="250" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-93" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="" vertex="1">
+          <mxGeometry height="540" width="840" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-94" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="TrainTicketQueryParamVerifyChainFilter" vertex="1">
+          <mxGeometry height="30" width="220" x="270" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-95" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-93" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;" target="5DINXHFagrXIqxD7ID6t-92" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="400" />
+            </Array>
+            <mxPoint x="270" y="420" as="sourcePoint" />
+            <mxPoint x="320" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-101" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-105" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="5DINXHFagrXIqxD7ID6t-99">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-108" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-97" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" target="5DINXHFagrXIqxD7ID6t-107">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-111" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-97" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-110">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-97" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="从 Redis 缓存中查询&lt;div&gt;出发站和到达站是否存在&lt;/div&gt;&lt;div&gt;key：&lt;/div&gt;&lt;div&gt;&amp;nbsp;QUERY_ALL_REGION_LIST&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="210" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-99" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;div&gt;直接返回&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="120" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-106" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-97" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="5DINXHFagrXIqxD7ID6t-105" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="105" y="570" as="sourcePoint" />
+            <mxPoint x="70" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-105" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="两个站点都存在" vertex="1">
+          <mxGeometry height="30" width="90" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-107" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="&lt;div&gt;有一个站点不存在，或者缓存已加载但两个站点都不存在，抛出异常&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="120" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-110" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;fontColor=#000000;shadow=1;" value="" vertex="1">
+          <mxGeometry height="420" width="580" x="260" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-113" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="获取分布式锁，防止并发加载缓存&lt;div&gt;key:LOCK_QUERY_ALL_REGION_LIST&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="240" x="440" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-117" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-118" style="rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="5DINXHFagrXIqxD7ID6t-116">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-126" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-125" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" target="5DINXHFagrXIqxD7ID6t-124">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-114" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="再次检查缓存&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;QUERY_ALL_REGION_LIST&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="210" x="260" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-116" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffff88;strokeColor=#36393d;" value="" vertex="1">
+          <mxGeometry height="130" width="250" x="590" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-119" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-114" style="rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="5DINXHFagrXIqxD7ID6t-118" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="469" y="564" as="sourcePoint" />
+            <mxPoint x="590" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-118" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="缓存存在" vertex="1">
+          <mxGeometry height="30" width="60" x="500" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-120" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="如果两个站点都存在，直接返回" vertex="1">
+          <mxGeometry height="30" width="120" x="660" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-121" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#36393d;" value="如果不是两个站点都存在，抛出异常" vertex="1">
+          <mxGeometry height="40" width="120" x="660" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-122" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="统计存在的站点数量" vertex="1">
+          <mxGeometry height="30" width="130" x="590" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-124" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffff88;strokeColor=#36393d;" value="" vertex="1">
+          <mxGeometry height="170" width="580" x="260" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-127" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" target="5DINXHFagrXIqxD7ID6t-125" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="365" y="600" as="sourcePoint" />
+            <mxPoint x="555" y="670" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-125" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="缓存不存在" vertex="1">
+          <mxGeometry height="30" width="90" x="410" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-130" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-128" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-129">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-128" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#cce5ff;strokeColor=#36393d;" value="&lt;div&gt;数据库查询所有地区和站点信息&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="110" x="260" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-129" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="将地区和站点信息&lt;div&gt;存储到 Redis 缓存中&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;&lt;div&gt;QUERY_ALL_REGION_LIST&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="200" x="400" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-134" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-131" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="5DINXHFagrXIqxD7ID6t-133">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-131" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="标记缓存已加载" vertex="1">
+          <mxGeometry height="30" width="120" x="660" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-132" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-129" style="endArrow=classic;html=1;rounded=0;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="5DINXHFagrXIqxD7ID6t-131" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="650" y="810" as="sourcePoint" />
+            <mxPoint x="700" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-136" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-133" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-135">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-138" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-133" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-137">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-133" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=#B20000;fontColor=#ffffff;" value="检查出发站和到达站是否存在于映射关系中" vertex="1">
+          <mxGeometry height="30" width="170" x="640" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-135" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccc;strokeColor=#36393d;" value="如果不是两个站点都存在，抛出异常" vertex="1">
+          <mxGeometry height="40" width="120" x="610" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-137" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;div&gt;直接返回&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="100" x="740" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-141" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="释放分布式锁" vertex="1">
+          <mxGeometry height="50" width="330" x="370" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-142" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="try" vertex="1">
+          <mxGeometry height="40" width="70" x="260" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-143" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-110" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="5DINXHFagrXIqxD7ID6t-141" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="420" y="1110" as="sourcePoint" />
+            <mxPoint x="470" y="1060" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-144" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="finally" vertex="1">
+          <mxGeometry height="30" width="60" x="370" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-149" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-145" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;curved=1;" target="5DINXHFagrXIqxD7ID6t-148">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="320" />
+              <mxPoint x="880" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-145" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="从 Redis 哈希表中获取&lt;div&gt;出发站和到达站的区域信息&lt;/div&gt;&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;REGION_TRAIN_STATION_MAPPING&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="300" x="540" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-152" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-148" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;curved=0;" target="5DINXHFagrXIqxD7ID6t-151">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-174" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-148" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-172">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-148" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="检查获取&lt;div&gt;的车站信息&lt;/div&gt;&lt;div&gt;是否有缺失&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="140" x="960" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-151" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="缓存里没有" vertex="1">
+          <mxGeometry height="30" width="90" x="1140" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-156" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;fontColor=#000000;" value="" vertex="1">
+          <mxGeometry height="160" width="430" x="1220" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-157" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="获取分布式锁，防止并发加载缓存&lt;div&gt;key:LOCK_REGION_TRAIN_STATION_MAPPING&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="270" x="1310" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-158" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="try" vertex="1">
+          <mxGeometry height="30" width="60" x="1220" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-162" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-160" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-161">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-160" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="从数据库查询所有车站信息" vertex="1">
+          <mxGeometry height="80" width="60" x="1360" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-164" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-161" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-163">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-161" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="构建车站代码到区域名称的映射" vertex="1">
+          <mxGeometry height="30" width="120" x="1380" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-166" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-163" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-165">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-163" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="将映射信息存入 Redis 哈希表" vertex="1">
+          <mxGeometry height="80" width="120" x="1410" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-165" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="&lt;div&gt;更新&lt;/div&gt;&lt;div&gt;车站区域信息列表&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="150" x="1500" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-168" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="释放分布式锁" vertex="1">
+          <mxGeometry height="50" width="330" x="1290" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-169" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-156" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.501;entryY=0.049;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-168">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-170" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="finally" vertex="1">
+          <mxGeometry height="30" width="60" x="1290" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-176" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-218" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-175">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-172" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="初始化列车列表结果" vertex="1">
+          <mxGeometry height="30" width="130" x="970" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-178" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-175" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-177">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-175" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="构建区域间火车站的哈希键，格式为：region:train:station:{出发区域}:{到达区域}" vertex="1">
+          <mxGeometry height="30" width="300" x="860" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-195" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-177" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-194">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-223" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-177" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-222" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-177" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="从 Redis 哈希表中&lt;div&gt;获取区域间的所有列车信息&lt;/div&gt;&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;REGION_TRAIN_STATION&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="250" x="880" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-179" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;fontColor=#000000;" value="" vertex="1">
+          <mxGeometry height="400" width="430" x="1220" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-180" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="获取分布式锁，防止并发加载缓存&lt;div&gt;key:LOCK_REGION_TRAIN_STATION&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="270" x="1310" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-181" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="try" vertex="1">
+          <mxGeometry height="30" width="60" x="1220" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-189" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="释放分布式锁" vertex="1">
+          <mxGeometry height="50" width="170" x="1090" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-190" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-179" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.501;entryY=0.049;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-189">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-191" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="finally" vertex="1">
+          <mxGeometry height="30" width="60" x="1090" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-194" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="缓存中没有" vertex="1">
+          <mxGeometry height="30" width="80" x="1110" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-196" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-194" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.005;entryY=0.224;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-179">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-197" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="再次检查缓存，&lt;div&gt;防止缓存穿透&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;REGION_TRAIN_STATION_MAPPING&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="140" x="1210" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-198" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-197" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.042;entryY=0.693;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-160">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-201" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-199" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="5DINXHFagrXIqxD7ID6t-200">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-199" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="再次检查缓存，&lt;div&gt;防止缓存穿透&lt;/div&gt;&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;REGION_TRAIN_STATION&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="140" x="1210" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-213" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" value="" vertex="1">
+          <mxGeometry height="230" width="300" x="1350" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-200" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" value="遍历列车站点关系，构建列车信息" vertex="1">
+          <mxGeometry height="20" width="200" x="1350" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-205" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-202" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-204">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-202" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="从缓存或数据库&lt;div&gt;获取列车信息&lt;div&gt;缓存键：&lt;/div&gt;&lt;div&gt;train:info:{trainId}&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="120" x="1340" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-204" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="缓存未命中时从数据库查询" vertex="1">
+          <mxGeometry height="80" width="60" x="1390" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-208" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="构建列车列表DTO&lt;div&gt;&lt;div&gt;计算行程天数&lt;/div&gt;&lt;div&gt;设置售票状态：0-可售，1-不可售&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="170" x="1480" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-210" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-202" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.006;entryY=0.418;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-208">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-211" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div&gt;将列车信息存入缓存，键为：{trainId}_{departure}_{arrival}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="200" x="1450" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-212" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-220" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.549;entryY=0.151;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-211">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-214" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-200" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.396;entryY=0.01;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-213">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-215" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="遍历列车站点关系，构建列车信息" vertex="1">
+          <mxGeometry height="30" width="190" x="1400" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-216" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="将所有列车信息批量存入 Redis 哈希表key:REGION_TRAIN_STATION" vertex="1">
+          <mxGeometry height="80" width="300" x="1280" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-217" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-213" style="endArrow=classic;html=1;rounded=0;entryX=0.625;entryY=0.2;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-216" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1330" y="1080" as="sourcePoint" />
+            <mxPoint x="1380" y="1030" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-219" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-172" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-218" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1032" y="340" as="sourcePoint" />
+            <mxPoint x="1013" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-218" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" value="初始化列车列表结果 List&amp;lt;TicketListDTO&amp;gt; seatResults" vertex="1">
+          <mxGeometry height="30" width="310" x="830" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-221" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-208" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.549;entryY=0.151;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-220" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1563" y="550" as="sourcePoint" />
+            <mxPoint x="1560" y="612" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-220" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" value="添加到结果列表seatResults" vertex="1">
+          <mxGeometry height="30" width="170" x="1470" y="570" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-225" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-222" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-224">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-229" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e3c800;fontColor=#000000;strokeColor=#B09500;" value="" vertex="1">
+          <mxGeometry height="370" width="590" x="840" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-232" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-222" style="rounded=1;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-226">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-222" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e51400;strokeColor=#B20000;fontColor=#ffffff;" value="seatResults 是否为空" vertex="1">
+          <mxGeometry height="80" width="135" x="850" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-224" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="&lt;div&gt;从缓存中解析&lt;/div&gt;&lt;div&gt;列车信息&lt;/div&gt;&lt;div&gt;key:&lt;/div&gt;&lt;div&gt;REGION_TRAIN_STATION&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="170" x="1040" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-235" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-226" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-229">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-226" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" value="按出发时间对列车列表进行排序&lt;div&gt;为每个列车添加座位信息&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="220" x="850" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-233" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="for:为每个列车添加座位信息" vertex="1">
+          <mxGeometry height="20" width="250" x="1020" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-236" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;" value="" vertex="1">
+          <mxGeometry height="190" width="430" x="840" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-237" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="从缓存或数据库获取票价信息" vertex="1">
+          <mxGeometry height="30" width="180" x="960" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-238" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="缓存键：&lt;div&gt;train:station:price:{trainId}&lt;/div&gt;&lt;div&gt;:{departure}:{arrival}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="200" x="830" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-239" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="t_train_station_price" vertex="1">
+          <mxGeometry height="80" width="120" x="1130" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-241" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-240" style="endArrow=classic;html=1;rounded=0;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-239" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1070" y="880" as="sourcePoint" />
+            <mxPoint x="1120" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-242" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-238" style="endArrow=classic;html=1;rounded=0;exitX=0.875;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-240" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1005" y="885" as="sourcePoint" />
+            <mxPoint x="1130" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-240" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="未命中时从数据库查询" vertex="1">
+          <mxGeometry height="30" width="70" x="1030" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-243" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="缓存过期时间：预售天数ADVANCE_TICKET_DAY" vertex="1">
+          <mxGeometry height="80" width="210" x="970" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-244" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-238" style="endArrow=classic;html=1;rounded=0;" target="5DINXHFagrXIqxD7ID6t-243" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="930" y="1070" as="sourcePoint" />
+            <mxPoint x="980" y="1020" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-247" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="构建并返回响应DTO" vertex="1">
+          <mxGeometry height="80" width="140" x="1490" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-248" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-229" style="endArrow=classic;html=1;rounded=0;exitX=0.997;exitY=0.484;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.001;entryY=0.327;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-247" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1530" y="960" as="sourcePoint" />
+            <mxPoint x="1580" y="910" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-249" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;" value="" vertex="1">
+          <mxGeometry height="140" width="460" x="870" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-251" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="for:遍历票价信息，构建座位类型列表" vertex="1">
+          <mxGeometry height="30" width="210" x="1000" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-253" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" value="设置列车的座位类型列表" vertex="1">
+          <mxGeometry height="40" width="150" x="1280" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-254" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-249" style="endArrow=classic;html=1;rounded=0;exitX=0.949;exitY=0.027;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.357;entryY=0.947;entryDx=0;entryDy=0;entryPerimeter=0;" target="5DINXHFagrXIqxD7ID6t-253" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1310" y="1000" as="sourcePoint" />
+            <mxPoint x="1360" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-258" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-255" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-256">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-255" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;" value="从 Redis 哈希表中获取剩余票数，键为：train:station:remaining:ticket:{keySuffix}" vertex="1">
+          <mxGeometry height="110" width="180" x="870" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-260" edge="1" parent="1" source="5DINXHFagrXIqxD7ID6t-256" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="5DINXHFagrXIqxD7ID6t-259">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-256" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" value="&lt;div&gt;从缓存加载器获取 座位余量缓存加载&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="1180" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-257" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="缓存中没有剩余票数" vertex="1">
+          <mxGeometry height="30" width="150" x="1040" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="5DINXHFagrXIqxD7ID6t-259" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;gradientColor=#97d077;strokeColor=#82b366;" value="构建座位类型DTO，价格单位转换为元" vertex="1">
+          <mxGeometry height="20" width="250" x="990" y="1120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

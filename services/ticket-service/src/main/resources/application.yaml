@@ -26,8 +26,6 @@ spring:
           enabled: false
       username: nacos
       password: nacos
-
-
   dynamic:
     thread-pool:
       nacos:
@@ -43,3 +41,11 @@ spring:
           maximum-pool-size: 40 # 最大线程数
           keep-alive-time: 9999 # 空闲线程存活时间(秒)
           rejected-handler: CallerRunsPolicy # 拒绝策略
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

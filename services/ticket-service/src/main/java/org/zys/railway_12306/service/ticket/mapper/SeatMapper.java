@@ -8,6 +8,13 @@ import org.zys.railway_12306.service.ticket.pojo.entity.Seat;
 import java.util.List;
 
 public interface SeatMapper extends BaseMapper<Seat> {
+
+    /**
+     * 获取列车车厢余票集合
+     */
+    List<Integer> listSeatRemainingTicket(@Param("seat") Seat seat, @Param("trainCarriageList") List<String> trainCarriageList);
+
+
     /**
      * 获取列车 startStation 到 endStation 区间可用座位数量
      */

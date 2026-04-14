@@ -1,10 +1,15 @@
 package org.zys.railway_12306.service.ticket.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.zys.rail_12306.framework.starter.cache.DistributedCache;
 import org.zys.railway_12306.service.ticket.enums.SeatStatusEnum;
 import org.zys.railway_12306.service.ticket.mapper.SeatMapper;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.RouteDTO;
@@ -14,7 +19,11 @@ import org.zys.railway_12306.service.ticket.service.SeatService;
 import org.zys.railway_12306.service.ticket.service.TrainStationService;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.TrainPurchaseTicketRespDTO;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.TRAIN_STATION_CARRIAGE_REMAINING_TICKET;
 
 /**
  *座位接口层实现
@@ -28,6 +37,7 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
 
     private final SeatMapper seatMapper;
     private final TrainStationService trainStationService;
+    private final DistributedCache distributedCache;
 
     /**
      * 查询列车座位类型和数量
@@ -98,5 +108,43 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
                     .build();
             seatMapper.update(updateSeat, updateWrapper);
         }));
+    }
+
+    @Override
+    public List<String> listUsableCarriageNumber(String trainId, Integer carriageType, String departure, String arrival) {
+        LambdaQueryWrapper<Seat> queryWrapper = Wrappers.lambdaQuery(Seat.class)
+                .eq(Seat::getTrainId, trainId)
+                .eq(Seat::getSeatType, carriageType)
+                .eq(Seat::getStartStation, departure)
+                .eq(Seat::getEndStation, arrival)
+                .eq(Seat::getSeatStatus, SeatStatusEnum.AVAILABLE.getCode())
+                .groupBy(Seat::getCarriageNumber)
+                .select(Seat::getCarriageNumber);
+        List<Seat> seatList = seatMapper.selectList(queryWrapper);
+        return seatList.stream().map(Seat::getCarriageNumber).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> listSeatRemainingTicket(String trainId, String departure, String arrival, List<String> trainCarriageList) {
+        String keySuffix = StrUtil.join("_", trainId, departure, arrival);
+        if (distributedCache.hasKey(TRAIN_STATION_CARRIAGE_REMAINING_TICKET + keySuffix)) {
+            StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) distributedCache.getInstance();
+            List<Object> trainStationCarriageRemainingTicket =
+                    stringRedisTemplate.opsForHash().multiGet(TRAIN_STATION_CARRIAGE_REMAINING_TICKET + keySuffix, Arrays.asList(trainCarriageList.toArray()));
+            if (CollUtil.isNotEmpty(trainStationCarriageRemainingTicket)) {
+                return trainStationCarriageRemainingTicket.stream().map(each -> Integer.parseInt(each.toString())).collect(Collectors.toList());
+            }
+        }
+        Seat seat = Seat.builder()
+                .trainId(Long.parseLong(trainId))
+                .startStation(departure)
+                .endStation(arrival)
+                .build();
+        return seatMapper.listSeatRemainingTicket(seat, trainCarriageList);
+    }
+
+    @Override
+    public List<String> listAvailableSeat(String trainId, String carriageNumber, Integer seatType, String departure, String arrival) {
+        return List.of();
     }
 }

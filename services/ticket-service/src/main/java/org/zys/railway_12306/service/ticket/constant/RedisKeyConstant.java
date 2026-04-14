@@ -95,4 +95,11 @@ public final class RedisKeyConstant {
      * 获取全部地点集合 Key
      */
     public static final String QUERY_ALL_REGION_LIST = "railway_12306-ticket-service:query_all_region_list";
+
+
+    /**
+     * 车厢余票查询，Key Prefix + 列车ID_起始站点_终点
+     */
+    public static final String TRAIN_STATION_CARRIAGE_REMAINING_TICKET = "railway_12306-ticket-service:train_station_carriage_remaining_ticket:";
+
 }

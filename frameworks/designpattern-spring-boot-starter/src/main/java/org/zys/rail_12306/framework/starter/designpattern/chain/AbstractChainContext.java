@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author SUM
  * @date 2026/03/14
  */
-public class AbstractChainContext<T> implements CommandLineRunner {
+public final class AbstractChainContext<T> implements CommandLineRunner {
     private final Map<String, List<AbstractChainHandler>> abstractChainHandlerContainer = new HashMap<>();
 
     /**

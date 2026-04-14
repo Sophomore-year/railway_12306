@@ -7,6 +7,8 @@ import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.zys.railway_12306.framework.starter.convention.exception.ServiceException;
+import org.zys.railway_12306.service.ticket.enums.VehicleSeatTypeEnum;
+import org.zys.railway_12306.service.ticket.enums.VehicleTypeEnum;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.PurchaseTicketPassengerDetailDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.TrainSeatBaseDTO;
 import org.zys.railway_12306.service.ticket.service.SeatService;
@@ -45,6 +47,10 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
 
     private static final Map<Character, Integer> SEAT_Y_INT = Map.of('A', 0, 'C', 1, 'F', 2);
 
+    @Override
+    public String mark() {
+        return VehicleTypeEnum.HIGH_SPEED_RAIN.getName() + VehicleSeatTypeEnum.BUSINESS_CLASS.getName();
+    }
     @Override
     protected List<TrainPurchaseTicketRespDTO> selectSeats(SelectSeatDTO requestParam) {
         String trainId = requestParam.getRequestParam().getTrainId();

@@ -1,16 +1,22 @@
 package org.zys.railway_12306.service.ticket.service.base;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.zys.rail_12306.framework.starter.bases.ApplicationContextHolder;
 import org.zys.rail_12306.framework.starter.cache.DistributedCache;
 import org.zys.rail_12306.framework.starter.designpattern.strategy.AbstractExecuteStrategy;
+import org.zys.railway_12306.service.ticket.pojo.dto.domain.RouteDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.TrainSeatBaseDTO;
 import org.zys.railway_12306.service.ticket.service.TrainStationService;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.SelectSeatDTO;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.TrainPurchaseTicketRespDTO;
 
 import java.util.List;
+
+import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.TRAIN_STATION_REMAINING_TICKET;
 
 /**
  *抽象高铁购票模板基础服务
@@ -40,6 +46,24 @@ public abstract class AbstractTrainPurchaseTicketTemplate implements IPurchaseTi
                 .chooseSeatList(requestParam.getRequestParam().getChooseSeats())
                 .passengerSeatDetails(requestParam.getPassengerSeatDetails())
                 .build();
+    }
+
+    @Override
+    public List<TrainPurchaseTicketRespDTO> executeResp(SelectSeatDTO requestParam) {
+        List<TrainPurchaseTicketRespDTO> actualResult = selectSeats(requestParam);
+        // 扣减车厢余票缓存，扣减站点余票缓存
+        if (CollUtil.isNotEmpty(actualResult) && !StrUtil.equals(ticketAvailabilityCacheUpdateType, "binlog")) {
+            String trainId = requestParam.getRequestParam().getTrainId();
+            String departure = requestParam.getRequestParam().getDeparture();
+            String arrival = requestParam.getRequestParam().getArrival();
+            StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) distributedCache.getInstance();
+            List<RouteDTO> routeDTOList = trainStationService.listTakeoutTrainStationRoute(trainId, departure, arrival);
+            routeDTOList.forEach(each -> {
+                String keySuffix = StrUtil.join("_", trainId, each.getStartStation(), each.getEndStation());
+                stringRedisTemplate.opsForHash().increment(TRAIN_STATION_REMAINING_TICKET + keySuffix, String.valueOf(requestParam.getSeatType()), -actualResult.size());
+            });
+        }
+        return actualResult;
     }
 
     @Override

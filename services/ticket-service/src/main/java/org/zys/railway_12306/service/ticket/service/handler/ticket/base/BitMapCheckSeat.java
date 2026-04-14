@@ -1,4 +1,4 @@
-package org.zys.railway_12306.service.ticket.service.base;
+package org.zys.railway_12306.service.ticket.service.handler.ticket.base;
 
 import org.zys.rail_12306.framework.starter.cache.DistributedCache;
 

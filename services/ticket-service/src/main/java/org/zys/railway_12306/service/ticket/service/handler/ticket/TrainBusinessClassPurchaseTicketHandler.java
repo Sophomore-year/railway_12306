@@ -10,9 +10,9 @@ import org.zys.railway_12306.framework.starter.convention.exception.ServiceExcep
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.PurchaseTicketPassengerDetailDTO;
 import org.zys.railway_12306.service.ticket.pojo.dto.domain.TrainSeatBaseDTO;
 import org.zys.railway_12306.service.ticket.service.SeatService;
-import org.zys.railway_12306.service.ticket.service.base.AbstractTrainPurchaseTicketTemplate;
-import org.zys.railway_12306.service.ticket.service.base.BitMapCheckSeat;
-import org.zys.railway_12306.service.ticket.service.base.BitMapCheckSeatStatusFactory;
+import org.zys.railway_12306.service.ticket.service.handler.ticket.base.AbstractTrainPurchaseTicketTemplate;
+import org.zys.railway_12306.service.ticket.service.handler.ticket.base.BitMapCheckSeat;
+import org.zys.railway_12306.service.ticket.service.handler.ticket.base.BitMapCheckSeatStatusFactory;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.SelectSeatDTO;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.dto.TrainPurchaseTicketRespDTO;
 import org.zys.railway_12306.service.ticket.service.handler.ticket.select.SeatSelection;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.zys.railway_12306.service.ticket.service.base.BitMapCheckSeatStatusFactory.TRAIN_BUSINESS;
+import static org.zys.railway_12306.service.ticket.service.handler.ticket.base.BitMapCheckSeatStatusFactory.TRAIN_BUSINESS;
 
 /**
  *高铁商务座购票组件

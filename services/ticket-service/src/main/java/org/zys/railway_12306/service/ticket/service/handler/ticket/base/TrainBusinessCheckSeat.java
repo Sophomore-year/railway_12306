@@ -1,4 +1,4 @@
-package org.zys.railway_12306.service.ticket.service.base;
+package org.zys.railway_12306.service.ticket.service.handler.ticket.base;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;

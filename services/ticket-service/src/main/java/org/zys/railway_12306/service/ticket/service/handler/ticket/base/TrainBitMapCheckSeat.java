@@ -1,4 +1,4 @@
-package org.zys.railway_12306.service.ticket.service.base;
+package org.zys.railway_12306.service.ticket.service.handler.ticket.base;
 
 /**
  *高铁验证座位接口

@@ -333,7 +333,7 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
             uniqueKeyPrefix = "railway_12306-ticket:lock_purchase-tickets:",
             key = "T(org.zys.rail_12306.framework.starter.bases.ApplicationContextHolder).getBean('environment').getProperty('unique-name', '')"
                     + "+'_'+"
-                    + "T(org.zys.rail_12306.framework.starter.user.core.UserContext).getUsername()",
+                    + "T(org.zys.railway_12306.framework.starter.user.core.UserContext).getUsername()",
             message = "正在执行下单流程，请稍后...",
             scene = IdempotentSceneEnum.RESTAPI,
             type = IdempotentTypeEnum.SPEL

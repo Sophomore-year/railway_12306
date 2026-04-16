@@ -145,6 +145,15 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
 
     @Override
     public List<String> listAvailableSeat(String trainId, String carriageNumber, Integer seatType, String departure, String arrival) {
-        return List.of();
+        LambdaQueryWrapper<Seat> queryWrapper = Wrappers.lambdaQuery(Seat.class)
+                .eq(Seat::getTrainId, trainId)
+                .eq(Seat::getCarriageNumber, carriageNumber)
+                .eq(Seat::getSeatType, seatType)
+                .eq(Seat::getStartStation, departure)
+                .eq(Seat::getEndStation, arrival)
+                .eq(Seat::getSeatStatus, SeatStatusEnum.AVAILABLE.getCode())
+                .select(Seat::getSeatNumber);
+        List<Seat> seatList = seatMapper.selectList(queryWrapper);
+        return seatList.stream().map(Seat::getSeatNumber).collect(Collectors.toList());
     }
 }

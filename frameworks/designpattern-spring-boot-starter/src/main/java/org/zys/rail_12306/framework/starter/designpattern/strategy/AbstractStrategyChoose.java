@@ -87,7 +87,7 @@ public class AbstractStrategyChoose implements ApplicationListener<ApplicationIn
         actual.forEach((beanName, bean) -> {
             AbstractExecuteStrategy beanExist = abstractExecuteStrategyMap.get(bean.mark());
             if (beanExist != null) {
-                throw new ServiceException(String.format("[%s] Duplicate execution policy", bean.mark()));
+                throw new ServiceException(String.format("[%s] 重复执行策略", bean.mark()));
             }
             abstractExecuteStrategyMap.put(bean.mark(), bean);
         });

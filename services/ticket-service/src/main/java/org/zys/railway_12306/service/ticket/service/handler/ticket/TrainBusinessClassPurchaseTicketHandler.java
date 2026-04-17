@@ -66,7 +66,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
     public String mark() {
         return VehicleTypeEnum.HIGH_SPEED_RAIN.getName() + VehicleSeatTypeEnum.BUSINESS_CLASS.getName();
     }
-    
+
     /**
      * 选择座位
      * <p>
@@ -82,40 +82,38 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
         String trainId = requestParam.getRequestParam().getTrainId();
         String departure = requestParam.getRequestParam().getDeparture();
         String arrival = requestParam.getRequestParam().getArrival();
-        
+
         // 获取乘客座位详情
         List<PurchaseTicketPassengerDetailDTO> passengerSeatDetails = requestParam.getPassengerSeatDetails();
-        
+
         // 获取可用车厢列表
         List<String> trainCarriageList = seatService.listUsableCarriageNumber(trainId, requestParam.getSeatType(), departure, arrival);
-        
+
         // 获取每个车厢的余票数量
         List<Integer> trainStationCarriageRemainingTicket = seatService.listSeatRemainingTicket(trainId, departure, arrival, trainCarriageList);
-        
+
         // 计算总余票数量
         int remainingTicketSum = trainStationCarriageRemainingTicket.stream().mapToInt(Integer::intValue).sum();
-        
+
         // 检查余票是否足够
         if (remainingTicketSum < passengerSeatDetails.size()) {
             throw new ServiceException("站点余票不足，请尝试更换座位类型或选择其它站点");
         }
-        
-        // 根据乘客数量和是否有选择座位，调用不同的座位选择方法
+
+        // 判断用户是否有自主选座
+        boolean hasChooseSeats = CollUtil.isNotEmpty(requestParam.getRequestParam().getChooseSeats());
+
+        // 只要有选座，统一走匹配逻辑
+        if (hasChooseSeats) {
+            Pair<List<TrainPurchaseTicketRespDTO>, Boolean> actualSeatPair = findMatchSeats(requestParam, trainCarriageList, trainStationCarriageRemainingTicket);
+            return actualSeatPair.getKey();
+        }
+        // 无选座时，根据人数使用不同自动选座策略
         if (passengerSeatDetails.size() < 3) {
-            if (CollUtil.isNotEmpty(requestParam.getRequestParam().getChooseSeats())) {
-                // 乘客数量小于3且有选择座位，调用 findMatchSeats 方法
-                Pair<List<TrainPurchaseTicketRespDTO>, Boolean> actualSeatPair = findMatchSeats(requestParam, trainCarriageList, trainStationCarriageRemainingTicket);
-                return actualSeatPair.getKey();
-            }
-            // 乘客数量小于3且没有选择座位，调用 selectSeats 重载方法
+            //用户未选座 → 执行简易自动选座逻辑（1-2人优先连座）
             return selectSeats(requestParam, trainCarriageList, trainStationCarriageRemainingTicket);
         } else {
-            if (CollUtil.isNotEmpty(requestParam.getRequestParam().getChooseSeats())) {
-                // 乘客数量大于等于3且有选择座位，调用 findMatchSeats 方法
-                Pair<List<TrainPurchaseTicketRespDTO>, Boolean> actualSeatPair = findMatchSeats(requestParam, trainCarriageList, trainStationCarriageRemainingTicket);
-                return actualSeatPair.getKey();
-            }
-            // 乘客数量大于等于3且没有选择座位，调用 selectComplexSeats 方法
+            //用户未选座 → 执行复杂自动选座逻辑（3人及以上优先整排/连座）
             return selectComplexSeats(requestParam, trainCarriageList, trainStationCarriageRemainingTicket);
         }
     }
@@ -134,30 +132,30 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
     private Pair<List<TrainPurchaseTicketRespDTO>, Boolean> findMatchSeats(SelectSeatDTO requestParam, List<String> trainCarriageList, List<Integer> trainStationCarriageRemainingTicket) {
         // 构建 TrainSeatBaseDTO 对象
         TrainSeatBaseDTO trainSeatBaseDTO = buildTrainSeatBaseDTO(requestParam);
-        
+
         // 获取选择座位的数量
         int chooseSeatSize = trainSeatBaseDTO.getChooseSeatList().size();
-        
+
         // 初始化结果列表
         List<TrainPurchaseTicketRespDTO> actualResult = Lists.newArrayListWithCapacity(trainSeatBaseDTO.getPassengerSeatDetails().size());
-        
+
         // 获取商务座位图检查实例
         BitMapCheckSeat instance = BitMapCheckSeatStatusFactory.getInstance(TRAIN_BUSINESS);
-        
+
         // 存储车厢座位信息的映射
         HashMap<String, List<Pair<Integer, Integer>>> carriagesSeatMap = new HashMap<>(4);
-        
+
         // 获取乘客数量
         int passengersNumber = trainSeatBaseDTO.getPassengerSeatDetails().size();
-        
+
         // 遍历每个车厢
         for (int i = 0; i < trainStationCarriageRemainingTicket.size(); i++) {
             // 获取车厢号
             String carriagesNumber = trainCarriageList.get(i);
-            
+
             // 获取车厢的可用座位
             List<String> listAvailableSeat = seatService.listAvailableSeat(trainSeatBaseDTO.getTrainId(), carriagesNumber, requestParam.getSeatType(), trainSeatBaseDTO.getDeparture(), trainSeatBaseDTO.getArrival());
-            
+
             // 初始化座位矩阵（商务座通常为2排3列）
             int[][] actualSeats = new int[2][3];
             for (int j = 1; j < 3; j++) {
@@ -166,30 +164,30 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     actualSeats[j - 1][k - 1] = listAvailableSeat.contains("0" + j + SeatNumberUtil.convert(0, k)) ? 0 : 1;
                 }
             }
-            
+
             // 计算车厢的可用座位列表
             List<Pair<Integer, Integer>> vacantSeatList = CarriageVacantSeatCalculateUtil.buildCarriageVacantSeatList2(actualSeats, 2, 3);
-            
+
             // 检查用户选择的座位是否存在
             boolean isExists = instance.checkChooseSeat(trainSeatBaseDTO.getChooseSeatList(), actualSeats, SEAT_Y_INT);
-            
+
             // 获取可用座位数量
             long vacantSeatCount = vacantSeatList.size();
-            
+
             // 初始化确定的座位列表
             List<Pair<Integer, Integer>> sureSeatList = new ArrayList<>();
-            
+
             // 初始化选择的座位列表
             List<String> selectSeats = Lists.newArrayListWithCapacity(passengersNumber);
-            
+
             // 标记是否需要继续查找
             boolean flag = false;
-            
+
             // 如果用户选择的座位存在且可用座位数量足够
             if (isExists && vacantSeatCount >= passengersNumber) {
                 // 获取可用座位的迭代器
                 Iterator<Pair<Integer, Integer>> pairIterator = vacantSeatList.iterator();
-                
+
                 // 遍历用户选择的座位
                 for (int i1 = 0; i1 < chooseSeatSize; i1++) {
                     if (chooseSeatSize == 1) {
@@ -197,7 +195,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                         String chooseSeat = trainSeatBaseDTO.getChooseSeatList().get(i1);
                         int seatX = Integer.parseInt(chooseSeat.substring(1));  // 座位行号
                         int seatY = SEAT_Y_INT.get(chooseSeat.charAt(0));     // 座位列号
-                        
+
                         if (actualSeats[seatX][seatY] == 0) {
                             // 座位可用，添加到确定的座位列表
                             sureSeatList.add(new Pair<>(seatX, seatY));
@@ -231,7 +229,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                         String chooseSeat = trainSeatBaseDTO.getChooseSeatList().get(i1);
                         int seatX = Integer.parseInt(chooseSeat.substring(1));  // 座位行号
                         int seatY = SEAT_Y_INT.get(chooseSeat.charAt(0));     // 座位列号
-                        
+
                         if (actualSeats[seatX][seatY] == 0) {
                             // 座位可用，添加到确定的座位列表
                             sureSeatList.add(new Pair<>(seatX, seatY));
@@ -246,23 +244,23 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                         }
                     }
                 }
-                
+
                 // 如果需要继续查找且不是最后一个车厢，跳过当前车厢
                 if (flag && i < trainStationCarriageRemainingTicket.size() - 1) {
                     continue;
                 }
-                
+
                 // 如果确定的座位数量不足，从可用座位中补充
                 if (sureSeatList.size() != passengersNumber) {
                     int needSeatSize = passengersNumber - sureSeatList.size();
                     sureSeatList.addAll(vacantSeatList.subList(0, needSeatSize));
                 }
-                
+
                 // 将确定的座位转换为座位号
                 for (Pair<Integer, Integer> each : sureSeatList) {
                     selectSeats.add("0" + (each.getKey() + 1) + SeatNumberUtil.convert(0, (each.getValue() + 1)));
                 }
-                
+
                 // 为每个乘客分配座位
                 AtomicInteger countNum = new AtomicInteger(0);
                 for (String selectSeat : selectSeats) {
@@ -274,7 +272,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     result.setPassengerId(currentTicketPassenger.getPassengerId());
                     actualResult.add(result);
                 }
-                
+
                 // 返回座位分配结果
                 return new Pair<>(actualResult, Boolean.TRUE);
             } else {
@@ -284,7 +282,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     if (vacantSeatCount > 0) {
                         carriagesSeatMap.put(carriagesNumber, vacantSeatList);
                     }
-                    
+
                     // 如果是最后一个车厢，尝试从所有车厢中分配座位
                     if (i == trainStationCarriageRemainingTicket.size() - 1) {
                         // 查找有足够座位的车厢
@@ -295,7 +293,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                                 break;
                             }
                         }
-                        
+
                         if (null != findSureCarriage) {
                             // 找到有足够座位的车厢，分配座位
                             sureSeatList = findSureCarriage.getValue().subList(0, passengersNumber);
@@ -384,32 +382,32 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
         String trainId = requestParam.getRequestParam().getTrainId();
         String departure = requestParam.getRequestParam().getDeparture();
         String arrival = requestParam.getRequestParam().getArrival();
-        
+
         // 获取乘客座位详情
         List<PurchaseTicketPassengerDetailDTO> passengerSeatDetails = requestParam.getPassengerSeatDetails();
-        
+
         // 初始化结果列表
         List<TrainPurchaseTicketRespDTO> actualResult = new ArrayList<>();
-        
+
         // 存储车厢余票数量的映射
         Map<String, Integer> demotionStockNumMap = new LinkedHashMap<>();
-        
+
         // 存储车厢座位矩阵的映射
         Map<String, int[][]> actualSeatsMap = new HashMap<>();
-        
+
         // 存储车厢分配座位的映射
         Map<String, int[][]> carriagesNumberSeatsMap = new HashMap<>();
-        
+
         String carriagesNumber;
-        
+
         // 遍历每个车厢
         for (int i = 0; i < trainStationCarriageRemainingTicket.size(); i++) {
             // 获取车厢号
             carriagesNumber = trainCarriageList.get(i);
-            
+
             // 获取车厢的可用座位
             List<String> listAvailableSeat = seatService.listAvailableSeat(trainId, carriagesNumber, requestParam.getSeatType(), departure, arrival);
-            
+
             // 初始化座位矩阵（商务座通常为2排3列）
             int[][] actualSeats = new int[2][3];
             for (int j = 1; j < 3; j++) {
@@ -418,7 +416,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     actualSeats[j - 1][k - 1] = listAvailableSeat.contains("0" + j + SeatNumberUtil.convert(0, k)) ? 0 : 1;
                 }
             }
-            
+
             // 尝试分配邻座
             int[][] select = SeatSelection.adjacent(passengerSeatDetails.size(), actualSeats);
             if (select != null) {
@@ -426,7 +424,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                 carriagesNumberSeatsMap.put(carriagesNumber, select);
                 break;
             }
-            
+
             // 计算车厢的可用座位数量
             int demotionStockNum = 0;
             for (int[] actualSeat : actualSeats) {
@@ -436,16 +434,16 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     }
                 }
             }
-            
+
             // 存储车厢余票数量和座位矩阵
             demotionStockNumMap.putIfAbsent(carriagesNumber, demotionStockNum);
             actualSeatsMap.putIfAbsent(carriagesNumber, actualSeats);
-            
+
             // 如果不是最后一个车厢，继续下一个车厢
             if (i < trainStationCarriageRemainingTicket.size() - 1) {
                 continue;
             }
-            
+
             // 如果邻座算法无法匹配，尝试对用户进行降级分配：同车厢不邻座
             for (Map.Entry<String, Integer> entry : demotionStockNumMap.entrySet()) {
                 String carriagesNumberBack = entry.getKey();
@@ -460,7 +458,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     }
                 }
             }
-            
+
             // 如果同车厢也已无法匹配，则对用户座位再次降级：不同车厢不邻座
             if (Objects.isNull(select)) {
                 for (Map.Entry<String, Integer> entry : demotionStockNumMap.entrySet()) {
@@ -472,12 +470,12 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                 }
             }
         }
-        
+
         // 乘车人员在单一车厢座位不满足，触发乘车人元分布在不同车厢
         int count = (int) carriagesNumberSeatsMap.values().stream()
                 .flatMap(Arrays::stream)
                 .count();
-        
+
         if (CollUtil.isNotEmpty(carriagesNumberSeatsMap) && passengerSeatDetails.size() == count) {
             int countNum = 0;
             for (Map.Entry<String, int[][]> entry : carriagesNumberSeatsMap.entrySet()) {
@@ -515,32 +513,32 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
         String trainId = requestParam.getRequestParam().getTrainId();
         String departure = requestParam.getRequestParam().getDeparture();
         String arrival = requestParam.getRequestParam().getArrival();
-        
+
         // 获取乘客座位详情
         List<PurchaseTicketPassengerDetailDTO> passengerSeatDetails = requestParam.getPassengerSeatDetails();
-        
+
         // 初始化结果列表
         List<TrainPurchaseTicketRespDTO> actualResult = new ArrayList<>();
-        
+
         // 存储车厢余票数量的映射
         Map<String, Integer> demotionStockNumMap = new LinkedHashMap<>();
-        
+
         // 存储车厢座位矩阵的映射
         Map<String, int[][]> actualSeatsMap = new HashMap<>();
-        
+
         // 存储车厢分配座位的映射
         Map<String, int[][]> carriagesNumberSeatsMap = new HashMap<>();
-        
+
         String carriagesNumber;
-        
+
         // 多人分配同一车厢邻座
         for (int i = 0; i < trainStationCarriageRemainingTicket.size(); i++) {
             // 获取车厢号
             carriagesNumber = trainCarriageList.get(i);
-            
+
             // 获取车厢的可用座位
             List<String> listAvailableSeat = seatService.listAvailableSeat(trainId, carriagesNumber, requestParam.getSeatType(), departure, arrival);
-            
+
             // 初始化座位矩阵（商务座通常为2排3列）
             int[][] actualSeats = new int[2][3];
             for (int j = 1; j < 3; j++) {
@@ -549,16 +547,16 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     actualSeats[j - 1][k - 1] = listAvailableSeat.contains("0" + j + SeatNumberUtil.convert(0, k)) ? 0 : 1;
                 }
             }
-            
+
             // 深拷贝座位矩阵
             int[][] actualSeatsTranscript = deepCopy(actualSeats);
-            
+
             // 存储实际选择的座位
             List<int[][]> actualSelects = new ArrayList<>();
-            
+
             // 将乘客分组，每组2人
             List<List<PurchaseTicketPassengerDetailDTO>> splitPassengerSeatDetails = ListUtil.split(passengerSeatDetails, 2);
-            
+
             // 为每组乘客分配邻座
             for (List<PurchaseTicketPassengerDetailDTO> each : splitPassengerSeatDetails) {
                 int[][] select = SeatSelection.adjacent(each.size(), actualSeatsTranscript);
@@ -570,7 +568,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     actualSelects.add(select);
                 }
             }
-            
+
             // 如果所有组都分配到了邻座
             if (actualSelects.size() == splitPassengerSeatDetails.size()) {
                 int[][] actualSelect = null;
@@ -587,7 +585,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                 carriagesNumberSeatsMap.put(carriagesNumber, actualSelect);
                 break;
             }
-            
+
             // 计算车厢的可用座位数量
             int demotionStockNum = 0;
             for (int[] actualSeat : actualSeats) {
@@ -597,12 +595,12 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                     }
                 }
             }
-            
+
             // 存储车厢余票数量和座位矩阵
             demotionStockNumMap.putIfAbsent(carriagesNumber, demotionStockNum);
             actualSeatsMap.putIfAbsent(carriagesNumber, actualSeats);
         }
-        
+
         // 如果邻座算法无法匹配，尝试对用户进行降级分配：同车厢不邻座
         if (CollUtil.isEmpty(carriagesNumberSeatsMap)) {
             for (Map.Entry<String, Integer> entry : demotionStockNumMap.entrySet()) {
@@ -618,7 +616,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                 }
             }
         }
-        
+
         // 如果同车厢也已无法匹配，则对用户座位再次降级：不同车厢不邻座
         if (CollUtil.isEmpty(carriagesNumberSeatsMap)) {
             int undistributedPassengerSize = passengerSeatDetails.size();
@@ -631,12 +629,12 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                 carriagesNumberSeatsMap.put(entry.getKey(), nonAdjacentSeats);
             }
         }
-        
+
         // 乘车人员在单一车厢座位不满足，触发乘车人元分布在不同车厢
         int count = (int) carriagesNumberSeatsMap.values().stream()
                 .flatMap(Arrays::stream)
                 .count();
-        
+
         if (CollUtil.isNotEmpty(carriagesNumberSeatsMap) && passengerSeatDetails.size() == count) {
             int countNum = 0;
             for (Map.Entry<String, int[][]> entry : carriagesNumberSeatsMap.entrySet()) {

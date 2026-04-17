@@ -1,12 +1,13 @@
 package org.zys.railway_12306.service.order.remote;
 
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.service.order.remote.dto.UserQueryActualRespDTO;
 
-//todo 用FeignClient做远程调用
+@FeignClient(value = "railway12306-user${unique-name:}-service")
 public interface UserRemoteService {
 
     /**

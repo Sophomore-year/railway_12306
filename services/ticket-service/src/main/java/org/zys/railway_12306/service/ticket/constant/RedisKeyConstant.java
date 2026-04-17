@@ -72,6 +72,13 @@ public final class RedisKeyConstant {
      */
     public static final String STATION_ALL = "railway_12306-ticket-service:all_station";
 
+
+    /**
+     * 列车路线信息查询，Key Prefix + 列车ID
+     */
+    public static final String TRAIN_STATION_STOPOVER_DETAIL = "railway_12306-ticket-service:train_station_stopover_detail:";
+
+
     /**
      * 列车购买令牌桶，Key Prefix + 列车ID
      */
@@ -95,7 +102,6 @@ public final class RedisKeyConstant {
      * 获取全部地点集合 Key
      */
     public static final String QUERY_ALL_REGION_LIST = "railway_12306-ticket-service:query_all_region_list";
-
 
     /**
      * 车厢余票查询，Key Prefix + 列车ID_起始站点_终点

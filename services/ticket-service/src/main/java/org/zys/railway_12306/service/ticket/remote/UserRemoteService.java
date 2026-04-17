@@ -8,7 +8,7 @@ import org.zys.railway_12306.service.ticket.remote.dto.PassengerRespDTO;
 
 import java.util.List;
 
-@FeignClient(value = "railway12306-user${unique-name:}-service", url = "${aggregation.remote-url:}")
+@FeignClient(value = "railway12306-user${unique-name:}-service")
 public interface UserRemoteService {
     /**
      * 根据乘车人 ID 集合查询乘车人列表

@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDynamicThreadPool
 @MapperScan("org.zys.railway_12306.service.ticket.mapper")
-@EnableFeignClients("org.zys.railway_12306.service.ticket.remote")//
+@EnableFeignClients("org.zys.railway_12306.service.ticket.remote")
 public class TicketServiceApplication {
     public static void main(String[] args) {
         org.springframework.boot.SpringApplication.run(TicketServiceApplication.class, args);

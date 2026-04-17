@@ -124,22 +124,39 @@ public class SeatServiceImpl extends ServiceImpl<SeatMapper, Seat> implements Se
         return seatList.stream().map(Seat::getCarriageNumber).collect(Collectors.toList());
     }
 
+    /**
+     * 查询列车车厢剩余票量
+     * <p>优先从Redis缓存获取，缓存不存在则查询数据库</p>
+     *
+     * @param trainId           列车ID
+     * @param departure         出发站
+     * @param arrival           到达站
+     * @param trainCarriageList 车厢号列表
+     * @return 对应车厢剩余票量集合
+     */
     @Override
     public List<Integer> listSeatRemainingTicket(String trainId, String departure, String arrival, List<String> trainCarriageList) {
+        // 拼接缓存key后缀：列车ID_出发站_到达站
         String keySuffix = StrUtil.join("_", trainId, departure, arrival);
+        // 判断缓存中是否存在当前车次+区间的剩余票数据
         if (distributedCache.hasKey(TRAIN_STATION_CARRIAGE_REMAINING_TICKET + keySuffix)) {
+            // 获取Redis操作实例
             StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) distributedCache.getInstance();
+            // 批量从Hash结构中获取指定车厢的剩余票量
             List<Object> trainStationCarriageRemainingTicket =
                     stringRedisTemplate.opsForHash().multiGet(TRAIN_STATION_CARRIAGE_REMAINING_TICKET + keySuffix, Arrays.asList(trainCarriageList.toArray()));
+            // 缓存数据非空，转换为Integer集合返回
             if (CollUtil.isNotEmpty(trainStationCarriageRemainingTicket)) {
                 return trainStationCarriageRemainingTicket.stream().map(each -> Integer.parseInt(each.toString())).collect(Collectors.toList());
             }
         }
+        // 缓存不存在/无数据，构建查询参数
         Seat seat = Seat.builder()
                 .trainId(Long.parseLong(trainId))
                 .startStation(departure)
                 .endStation(arrival)
                 .build();
+        // 从数据库查询指定车厢的剩余票量并返回
         return seatMapper.listSeatRemainingTicket(seat, trainCarriageList);
     }
 

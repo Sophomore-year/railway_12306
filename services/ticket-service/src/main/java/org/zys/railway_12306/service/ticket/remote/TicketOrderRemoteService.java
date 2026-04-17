@@ -16,7 +16,7 @@ import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO;
  * @author SUM
  * @date 2026/03/25
  */
-@FeignClient(value = "railway12306-order${unique-name:}-service", url = "${aggregation.remote-url:}")
+@FeignClient(value = "railway12306-order${unique-name:}-service")
 public interface TicketOrderRemoteService {
     /**
      * 创建车票订单

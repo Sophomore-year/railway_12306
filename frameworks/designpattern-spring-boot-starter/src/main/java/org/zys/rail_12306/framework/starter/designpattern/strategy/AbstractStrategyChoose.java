@@ -33,11 +33,16 @@ public class AbstractStrategyChoose implements ApplicationListener<ApplicationIn
     public AbstractExecuteStrategy choose(String mark, Boolean predicateFlag) {
         if (predicateFlag != null && predicateFlag) {
             return abstractExecuteStrategyMap.values().stream()
+                    // 1. 过滤掉 patternMatchMark 为空的策略
                     .filter(each -> StringUtils.hasText(each.patternMatchMark()))
+                    // 2. 用正则匹配传入的 mark
                     .filter(each -> Pattern.compile(each.patternMatchMark()).matcher(mark).matches())
+                    // 3. 找到第一个匹配的策略
                     .findFirst()
+                    // 4. 没找到就抛异常
                     .orElseThrow(() -> new ServiceException("策略未定义"));
         }
+        //拿 mark 当 key，去策略 Map 里直接取策略
         return Optional.ofNullable(abstractExecuteStrategyMap.get(mark))
                 .orElseThrow(() -> new ServiceException(String.format("[%s] 策略未定义", mark)));
     }
@@ -77,7 +82,9 @@ public class AbstractStrategyChoose implements ApplicationListener<ApplicationIn
      * @return
      */
     public <REQUEST, RESPONSE> RESPONSE chooseAndExecuteResp(String mark, REQUEST requestParam) {
+        //1. 根据 mark 找到对应的策略
         AbstractExecuteStrategy executeStrategy = choose(mark, null);
+        // 2. 执行策略，并把返回值强转后返回给调用方
         return (RESPONSE) executeStrategy.executeResp(requestParam);
     }
 

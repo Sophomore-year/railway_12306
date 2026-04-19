@@ -191,11 +191,12 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
                 // 遍历用户选择的座位
                 for (int i1 = 0; i1 < chooseSeatSize; i1++) {
                     if (chooseSeatSize == 1) {
-                        // 如果只选择了一个座位
+                        // 如果只选择了一个座位，构建座位详情
                         String chooseSeat = trainSeatBaseDTO.getChooseSeatList().get(i1);
                         int seatX = Integer.parseInt(chooseSeat.substring(1));  // 座位行号
                         int seatY = SEAT_Y_INT.get(chooseSeat.charAt(0));     // 座位列号
 
+                        //判断座位是否可用
                         if (actualSeats[seatX][seatY] == 0) {
                             // 座位可用，添加到确定的座位列表
                             sureSeatList.add(new Pair<>(seatX, seatY));
@@ -398,6 +399,7 @@ public class TrainBusinessClassPurchaseTicketHandler extends AbstractTrainPurcha
         // 存储车厢分配座位的映射
         Map<String, int[][]> carriagesNumberSeatsMap = new HashMap<>();
 
+        // 当前车厢号
         String carriagesNumber;
 
         // 遍历每个车厢

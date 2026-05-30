@@ -56,6 +56,7 @@ import org.zys.railway_12306.service.ticket.pojo.entity.Ticket;
 import org.zys.railway_12306.service.ticket.pojo.entity.Train;
 import org.zys.railway_12306.service.ticket.pojo.entity.TrainStationPrice;
 import org.zys.railway_12306.service.ticket.pojo.entity.TrainStationRelation;
+import org.zys.railway_12306.service.ticket.remote.PayRemoteService;
 import org.zys.railway_12306.service.ticket.remote.TicketOrderRemoteService;
 import org.zys.railway_12306.service.ticket.remote.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderCreateRemoteReqDTO;
@@ -128,6 +129,7 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     private final TrainSeatTypeSelector trainSeatTypeSelector;
     private final TicketOrderRemoteService ticketOrderRemoteService;
     private final TrainStationService trainStationService;
+    private final PayRemoteService payRemoteService;
 
 
     @Value("${ticket.availability.cache-update.type:}")
@@ -549,7 +551,7 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
      */
     @Override
     public PayInfoRespDTO getPayInfo(String orderSn) {
-        return null;  // 未实现
+        return payRemoteService.getPayInfo(orderSn).getData();
     }
 
     /**

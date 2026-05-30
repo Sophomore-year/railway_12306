@@ -3,6 +3,7 @@ package org.zys.railway_12306.service.pay.pojo.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.zys.rail_12306.framework.starter.database.base.BaseDO;
 
 import java.util.Date;

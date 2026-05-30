@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: railway_12306-order${unique-name:}-service
+    name: railway12306-order${unique-name:}-service
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
@@ -18,3 +18,11 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   # mapper-locations: classpath:mapper/*.xml
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: railway12306_pay-service_common-message-execute_pg
+    send-message-timeout: 2000
+    retry-times-when-send-failed: 1
+    retry-times-when-send-async-failed: 1

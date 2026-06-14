@@ -16,6 +16,7 @@ import org.zys.railway_12306.service.pay.convert.RefundRequestConvert;
 import org.zys.railway_12306.service.pay.enums.TradeStatusEnum;
 import org.zys.railway_12306.service.pay.mapper.PayMapper;
 import org.zys.railway_12306.service.pay.mapper.RefundMapper;
+import org.zys.railway_12306.service.pay.mq.event.RefundResultCallbackOrderEvent;
 import org.zys.railway_12306.service.pay.mq.produce.RefundResultCallbackOrderSendProduce;
 import org.zys.railway_12306.service.pay.pojo.dao.entity.Pay;
 import org.zys.railway_12306.service.pay.pojo.dao.entity.Refund;
@@ -57,30 +58,30 @@ public class RefundServiceImpl implements RefundService {
         RefundRespDTO refundRespDTO = null;
         LambdaQueryWrapper<Pay> queryWrapper = Wrappers.lambdaQuery(Pay.class)
                 .eq(Pay::getOrderSn, requestParam.getOrderSn());
-        Pay Pay = payMapper.selectOne(queryWrapper);
-        if (Objects.isNull(Pay)) {
+        Pay pay = payMapper.selectOne(queryWrapper);
+        if (Objects.isNull(pay)) {
             log.error("支付单不存在，orderSn：{}", requestParam.getOrderSn());
             throw new ServiceException("支付单不存在");
         }
-        Pay.setPayAmount(Pay.getTotalAmount() - requestParam.getRefundAmount());
+        pay.setPayAmount(pay.getTotalAmount() - requestParam.getRefundAmount());
         //创建退款单
         RefundCreateDTO refundCreateDTO = BeanUtil.convert(requestParam, RefundCreateDTO.class);
-        refundCreateDTO.setPaySn(Pay.getPaySn());
+        refundCreateDTO.setPaySn(pay.getPaySn());
         createRefund(refundCreateDTO);
         /**
          * {@link AliRefundNativeHandler}
          */
         // 策略模式：通过策略模式封装退款渠道和退款场景，用户退款时动态选择对应的退款组件
-        RefundCommand refundCommand = BeanUtil.convert(Pay, RefundCommand.class);
+        RefundCommand refundCommand = BeanUtil.convert(pay, RefundCommand.class);
         refundCommand.setPayAmount(new BigDecimal(requestParam.getRefundAmount()));
         RefundRequest refundRequest = RefundRequestConvert.command2RefundRequest(refundCommand);
         RefundResponse result = abstractStrategyChoose.chooseAndExecuteResp(refundRequest.buildMark(), refundRequest);
-        Pay.setStatus(result.getStatus());
+        pay.setStatus(result.getStatus());
         LambdaUpdateWrapper<Pay> updateWrapper = Wrappers.lambdaUpdate(Pay.class)
                 .eq(Pay::getOrderSn, requestParam.getOrderSn());
-        int updateResult = payMapper.update(Pay, updateWrapper);
+        int updateResult = payMapper.update(pay, updateWrapper);
         if (updateResult <= 0) {
-            log.error("修改支付单退款结果失败，支付单信息：{}", JSON.toJSONString(Pay));
+            log.error("修改支付单退款结果失败，支付单信息：{}", JSON.toJSONString(pay));
             throw new ServiceException("修改支付单退款结果失败");
         }
         LambdaUpdateWrapper<Refund> refundUpdateWrapper = Wrappers.lambdaUpdate(Refund.class)

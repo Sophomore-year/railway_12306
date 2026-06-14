@@ -14,7 +14,6 @@ import java.util.Date;
  * @author SUM
  * @date 2026/03/29
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("t_pay")
 public class Pay extends BaseDO {

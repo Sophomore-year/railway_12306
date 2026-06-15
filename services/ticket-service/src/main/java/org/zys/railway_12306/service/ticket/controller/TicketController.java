@@ -1,8 +1,5 @@
 package org.zys.railway_12306.service.ticket.controller;
 
-
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

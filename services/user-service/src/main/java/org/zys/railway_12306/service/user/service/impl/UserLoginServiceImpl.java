@@ -284,7 +284,6 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
 
             // 15. 删除用户的token缓存，使其登录状态失效
-            //todo 用户注销成功后，没有删除用户token缓存
             distributedCache.delete(UserContext.getToken());
 
             // 16. 将用户名添加到用户复用表

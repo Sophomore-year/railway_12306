@@ -14,13 +14,13 @@ import org.zys.railway_12306.service.ticket.remote.dto.RefundRespDTO;
 public interface PayRemoteService {
 
     /**
-     * 支付单详情查询
+     * 支付单详情查询（按订单号，对应 pay-service {@code PayController#getPayInfoByOrderSn}）
      */
-    @GetMapping("/api/pay-service/pay/query")
+    @GetMapping("/api/pay-service/pay/query/order-sn")
     Result<PayInfoRespDTO> getPayInfo(@RequestParam(value = "orderSn") String orderSn);
 
     /**
-     * 公共退款接口
+     * 公共退款接口（对应 pay-service {@code RefundController#refund}）
      */
     @PostMapping("/api/pay-service/common/refund")
     Result<RefundRespDTO> commonRefund(@RequestBody RefundReqDTO requestParam);

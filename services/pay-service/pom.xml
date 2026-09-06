@@ -54,6 +54,16 @@
             <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
 
+        <!-- nacos start：服务注册发现 + 配置中心，缺少则服务不注册，网关无法路由 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- nacos end -->
 
         <dependency>
             <groupId>org.apache.rocketmq</groupId>

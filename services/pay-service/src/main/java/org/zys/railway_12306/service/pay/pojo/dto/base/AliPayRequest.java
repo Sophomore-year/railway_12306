@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.zys.railway_12306.service.pay.enums.PayChannelEnum;
-import org.zys.railway_12306.service.pay.enums.PayTradeTypeEnum;
 
 import java.math.BigDecimal;
 
@@ -50,10 +49,8 @@ public final class AliPayRequest extends AbstractPayRequest{
 
     @Override
     public String buildMark() {
-        String mark = PayChannelEnum.ALI_PAY.name();
-        if (getTradeType() != null) {
-            mark = PayChannelEnum.ALI_PAY.name() + "_" + PayTradeTypeEnum.findNameByCode(getTradeType());
-        }
-        return mark;
+        // 支付策略标识固定为 ALI_PAY，与退款(ALI_PAY_REFUND)、回调(ALI_PAY_CALLBACK)策略区分，
+        // 避免多策略共用 mark 导致 AbstractStrategyChoose 启动时抛重复执行策略异常
+        return PayChannelEnum.ALI_PAY.name();
     }
 }

@@ -54,6 +54,17 @@ public interface TicketService extends IService<Ticket> {
     void cancelTicketOrder(CancelTicketOrderReqDTO requestParam);
 
     /**
+     * 释放订单占用的座位并恢复余票缓存
+     * <p>
+     * 供用户主动取消订单、延时自动关单等场景调用，内部通过订单维度分布式锁保证幂等，
+     * 同一订单的座位释放只会执行一次。
+     * </p>
+     *
+     * @param orderSn 订单号
+     */
+    void releaseSeatResources(String orderSn);
+
+    /**
      * 支付单详情查询
      *
      * @param orderSn 订单号

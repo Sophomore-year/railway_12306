@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.zys.railway_12306.service.pay.enums.PayChannelEnum;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  *支付宝回调请求入参
@@ -41,6 +42,11 @@ public final class AliPayCallbackRequest extends AbstractPayCallbackRequest{
      */
     private Integer buyerPayAmount;
 
+    /**
+     * 回调原始参数（含 sign），用于 RSA2 异步通知验签，不落库
+     */
+    private Map<String, String> originParams;
+
     @Override
     public AliPayCallbackRequest getAliPayCallBackRequest() {
         return this;
@@ -48,6 +54,7 @@ public final class AliPayCallbackRequest extends AbstractPayCallbackRequest{
 
     @Override
     public String buildMark() {
-        return PayChannelEnum.ALI_PAY.getName();
+        // 回调策略标识固定为 ALI_PAY_CALLBACK，与支付(ALI_PAY)、退款(ALI_PAY_REFUND)策略区分
+        return "ALI_PAY_CALLBACK";
     }
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: railway12306-order${unique-name:}-service
+    name: railway12306-pay${unique-name:}-service
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:shardingsphere-config.yaml
@@ -12,6 +12,16 @@ spring:
       host: 127.0.0.1
       port: 6379
       password: 123456
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        import-check:
+          enabled: false
+      username: nacos
+      password: nacos
 
 
 mybatis-plus:
@@ -31,3 +41,8 @@ rocketmq:
     send-message-timeout: 2000
     retry-times-when-send-failed: 1
     retry-times-when-send-async-failed: 1
+
+# 支付宝配置：异步通知 RSA2 验签公钥（X.509 Base64 编码）
+# 未配置时本地模拟环境跳过验签；正式环境必须配置支付宝开放平台密钥
+alipay:
+  public-key:

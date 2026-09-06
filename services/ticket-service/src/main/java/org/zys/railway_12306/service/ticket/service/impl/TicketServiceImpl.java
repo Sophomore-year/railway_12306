@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -31,6 +30,7 @@ import org.zys.railway_12306.framework.starter.common.toolkit.BeanUtil;
 import org.zys.railway_12306.framework.starter.convention.exception.ServiceException;
 import org.zys.railway_12306.framework.starter.convention.result.Result;
 import org.zys.railway_12306.framework.starter.user.core.UserContext;
+import org.zys.railway_12306.service.ticket.enums.RefundTypeEnum;
 import org.zys.railway_12306.service.ticket.enums.SourceEnum;
 import org.zys.railway_12306.service.ticket.enums.TicketChainEnum;
 import org.zys.railway_12306.service.ticket.enums.TicketStatusEnum;
@@ -59,6 +59,8 @@ import org.zys.railway_12306.service.ticket.pojo.entity.TrainStationRelation;
 import org.zys.railway_12306.service.ticket.remote.PayRemoteService;
 import org.zys.railway_12306.service.ticket.remote.TicketOrderRemoteService;
 import org.zys.railway_12306.service.ticket.remote.dto.PayInfoRespDTO;
+import org.zys.railway_12306.service.ticket.remote.dto.RefundReqDTO;
+import org.zys.railway_12306.service.ticket.remote.dto.RefundRespDTO;
 import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderCreateRemoteReqDTO;
 import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderItemCreateRemoteReqDTO;
 import org.zys.railway_12306.service.ticket.remote.dto.TicketOrderPassengerDetailRespDTO;
@@ -93,6 +95,7 @@ import static org.zys.railway_12306.service.ticket.constant.Railway12306Constant
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_PURCHASE_TICKETS;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_REGION_TRAIN_STATION;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_REGION_TRAIN_STATION_MAPPING;
+import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_RELEASE_SEAT;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.LOCK_TOKEN_BUCKET_ISNULL;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.REGION_TRAIN_STATION;
 import static org.zys.railway_12306.service.ticket.constant.RedisKeyConstant.REGION_TRAIN_STATION_MAPPING;
@@ -113,6 +116,11 @@ import static org.zys.railway_12306.service.ticket.toolkit.DateUtil.convertDateT
 @RequiredArgsConstructor
 public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> implements TicketService, CommandLineRunner {
 
+    /**
+     * 支付成功状态码，对应支付服务 {@code TradeStatusEnum.TRADE_SUCCESS.tradeCode()}
+     */
+    private static final int TRADE_SUCCESS_STATUS = 20;
+
     private TicketService ticketService;
     private final AbstractChainContext<TicketPageQueryReqDTO> ticketPageQueryAbstractChainContext;
     private final DistributedCache distributedCache;
@@ -130,10 +138,6 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     private final TicketOrderRemoteService ticketOrderRemoteService;
     private final TrainStationService trainStationService;
     private final PayRemoteService payRemoteService;
-
-
-    @Value("${ticket.availability.cache-update.type:}")
-    private String ticketAvailabilityCacheUpdateType;
 
 
 
@@ -503,43 +507,72 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     @ILog  // 日志注解，记录方法调用
     @Override
     public void cancelTicketOrder(CancelTicketOrderReqDTO requestParam) {
-        //通过远程调用取消车票订单接口
+        // 1. 远程调用取消车票订单接口（order-service 内部校验订单状态并更新为已关闭）
         Result<Void> cancelOrderResult = ticketOrderRemoteService.cancelTicketOrder(requestParam);
-        if (!cancelOrderResult.isSuccess() && StrUtil.equals(ticketAvailabilityCacheUpdateType,"binlog")) {
-            //远程调用失败，并且缓存更新类型为binlog。执行以下逻辑
-            //远程调用跟据订单号查询车票订单
-            Result<org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO> ticketOrderDetailResult = ticketOrderRemoteService.queryTicketOrderByOrderSn(requestParam.getOrderSn());
+        if (!cancelOrderResult.isSuccess()) {
+            // 远程取消订单失败：订单状态未变更，座位保持占用，直接抛出异常由调用方重试
+            log.error("[取消订单] 远程取消订单失败，订单号：{}，返回结果：{}", requestParam.getOrderSn(), cancelOrderResult.getMessage());
+            throw new ServiceException("订单取消失败，请稍后重试");
+        }
+        // 2. 订单取消成功后，释放座位占用并恢复余票缓存
+        // 修复说明：原实现仅在 ticket.availability.cache-update.type=binlog 分支下才释放座位，
+        // 默认配置下取消订单后座位会永久占用、余票缓存不恢复，此处调整为取消成功后无条件释放
+        releaseSeatResources(requestParam.getOrderSn());
+    }
+
+    /**
+     * 释放订单占用的座位并恢复余票缓存
+     * <p>
+     * 供用户主动取消订单、延时自动关单等场景调用。内部通过订单维度分布式锁保证幂等，
+     * 防止手动取消与延时关单并发触发重复恢复余票缓存。
+     * 释放失败仅记录完整错误日志（订单此时已关闭，不应影响取消结果），留待对账任务或人工补偿。
+     * </p>
+     *
+     * @param orderSn 订单号
+     */
+    @Override
+    public void releaseSeatResources(String orderSn) {
+        // 1. 获取订单维度分布式锁，防止并发重复释放
+        RLock lock = redissonClient.getLock(String.format(LOCK_RELEASE_SEAT, orderSn));
+        if (!lock.tryLock()) {
+            log.warn("[释放座位] 订单 {} 座位释放任务正在执行中，本次跳过", orderSn);
+            return;
+        }
+        try {
+            // 2. 查询订单详情，获取车次、区间及乘车人明细
+            Result<org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO> ticketOrderDetailResult = ticketOrderRemoteService.queryTicketOrderByOrderSn(orderSn);
+            if (!ticketOrderDetailResult.isSuccess() || Objects.isNull(ticketOrderDetailResult.getData())) {
+                log.error("[释放座位] 查询订单详情失败，订单号：{}，返回结果：{}", orderSn, JSON.toJSONString(ticketOrderDetailResult));
+                return;
+            }
             org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO ticketOrderDetail = ticketOrderDetailResult.getData();
             String trainId = String.valueOf(ticketOrderDetail.getTrainId());
             String departure = ticketOrderDetail.getDeparture();
             String arrival = ticketOrderDetail.getArrival();
-            List<TicketOrderPassengerDetailRespDTO> trainPurchaseTicketResults = ticketOrderDetail.getPassengerDetails();
-            try {
-                // 解锁座位
-                seatService.unlock(trainId, departure, arrival, BeanUtil.convert(trainPurchaseTicketResults, TrainPurchaseTicketRespDTO.class));
-            } catch (Throwable ex) {
-                // 锁定座位失败，执行回滚逻辑
-                log.error("[取消订单] 订单号：{} 回滚列车DB座位状态失败", requestParam.getOrderSn(), ex);
-                throw ex;
+            List<TicketOrderPassengerDetailRespDTO> passengerDetails = ticketOrderDetail.getPassengerDetails();
+            if (CollUtil.isEmpty(passengerDetails)) {
+                log.warn("[释放座位] 订单 {} 无乘客明细，无需释放座位", orderSn);
+                return;
             }
-
-            try {
-                //获取缓存组件实例
-                StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) distributedCache.getInstance();
-                //按席别类型分组
-                Map<Integer, List<TicketOrderPassengerDetailRespDTO>> seatTypeMap = trainPurchaseTicketResults.stream()
-                        .collect(Collectors.groupingBy(TicketOrderPassengerDetailRespDTO::getSeatType));
-                List<RouteDTO> routeDTOList = trainStationService.listTakeoutTrainStationRoute(trainId, departure, arrival);
-                //循环每条路线
-                routeDTOList.forEach(each -> {
-                    String keySuffix = StrUtil.join("_", trainId, each.getStartStation(), each.getEndStation());
-                    // 对每个席别类型，恢复相应数量的票数到 Redis 缓存
-                    seatTypeMap.forEach((seatType, ticketOrderPassengerDetailRespDTOList) -> stringRedisTemplate.opsForHash()
-                            .increment(TRAIN_STATION_REMAINING_TICKET + keySuffix, String.valueOf(seatType), ticketOrderPassengerDetailRespDTOList.size()));
-                });
-            } catch (Throwable ex) {
-                log.error("[取消关闭订单] 订单号：{} 回滚列车Cache余票失败", requestParam.getOrderSn(), ex);
-                throw ex;
+            // 3. 解锁数据库座位状态
+            seatService.unlock(trainId, departure, arrival, BeanUtil.convert(passengerDetails, TrainPurchaseTicketRespDTO.class));
+            // 4. 恢复余票缓存：按席别类型分组，对列车途径的每个站点区间恢复相应票数（与购票扣减逻辑对称）
+            StringRedisTemplate stringRedisTemplate = (StringRedisTemplate) distributedCache.getInstance();
+            Map<Integer, List<TicketOrderPassengerDetailRespDTO>> seatTypeMap = passengerDetails.stream()
+                    .collect(Collectors.groupingBy(TicketOrderPassengerDetailRespDTO::getSeatType));
+            List<RouteDTO> routeDTOList = trainStationService.listTakeoutTrainStationRoute(trainId, departure, arrival);
+            routeDTOList.forEach(each -> {
+                String keySuffix = StrUtil.join("_", trainId, each.getStartStation(), each.getEndStation());
+                seatTypeMap.forEach((seatType, passengerDetailList) -> stringRedisTemplate.opsForHash()
+                        .increment(TRAIN_STATION_REMAINING_TICKET + keySuffix, String.valueOf(seatType), passengerDetailList.size()));
+            });
+            log.info("[释放座位] 订单 {} 座位释放成功，车次：{}，区间：{} - {}", orderSn, ticketOrderDetail.getTrainNumber(), departure, arrival);
+        } catch (Throwable ex) {
+            // 订单此时已关闭，此处失败不影响订单取消结果；记录完整错误日志，供对账/人工补偿介入
+            log.error("[释放座位] 订单 {} 释放座位/恢复余票失败，请人工补偿或依赖对账任务修复", orderSn, ex);
+        } finally {
+            if (lock.isHeldByCurrentThread()) {
+                lock.unlock();
             }
         }
     }
@@ -556,12 +589,78 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
 
     /**
      * 通用退票方法
+     * <p>
+     * 退票链路：校验订单与支付状态 → 确定退款明细（全部/部分） → 计算退款金额 →
+     * 远程调用支付服务退款 → 支付服务退款成功后通过 RocketMQ 回调驱动订单/车票状态流转。
+     * </p>
+     *
      * @param requestParam 退票请求参数
      * @return 退票响应
      */
+    @ILog
     @Override
     public RefundTicketRespDTO commonTicketRefund(RefundTicketReqDTO requestParam) {
-        return null;  // 未实现
+        String orderSn = requestParam.getOrderSn();
+        // 1. 校验订单存在并获取乘车人明细
+        Result<org.zys.railway_12306.service.ticket.remote.dto.TicketOrderDetailRespDTO> orderDetailResult = ticketOrderRemoteService.queryTicketOrderByOrderSn(orderSn);
+        if (!orderDetailResult.isSuccess() || Objects.isNull(orderDetailResult.getData())) {
+            log.error("[退票] 查询订单详情失败，订单号：{}", orderSn);
+            throw new ServiceException("订单不存在");
+        }
+        List<TicketOrderPassengerDetailRespDTO> passengerDetails = orderDetailResult.getData().getPassengerDetails();
+        if (CollUtil.isEmpty(passengerDetails)) {
+            log.error("[退票] 订单无乘车人明细，订单号：{}", orderSn);
+            throw new ServiceException("订单无乘车人明细");
+        }
+        // 2. 校验支付状态：仅已支付订单可退票（20 对应支付服务 TradeStatusEnum.TRADE_SUCCESS）
+        PayInfoRespDTO payInfo = payRemoteService.getPayInfo(orderSn).getData();
+        if (Objects.isNull(payInfo) || !Objects.equals(payInfo.getStatus(), TRADE_SUCCESS_STATUS)) {
+            log.error("[退票] 订单未支付成功，不可退票，订单号：{}", orderSn);
+            throw new ServiceException("订单未支付成功，不可退票");
+        }
+        // 3. 确定退款类型与退款明细
+        List<TicketOrderPassengerDetailRespDTO> refundDetailList;
+        RefundTypeEnum refundTypeEnum;
+        if (Objects.equals(requestParam.getType(), RefundTypeEnum.FULL_REFUND.getType())) {
+            // 全部退款：退全部乘车人
+            refundDetailList = passengerDetails;
+            refundTypeEnum = RefundTypeEnum.FULL_REFUND;
+        } else {
+            // 部分退款：按子订单记录 ID 匹配
+            Set<String> subOrderRecordIds = new HashSet<>(requestParam.getSubOrderRecordIdReqList());
+            refundDetailList = passengerDetails.stream()
+                    .filter(each -> subOrderRecordIds.contains(each.getId()))
+                    .toList();
+            if (CollUtil.isEmpty(refundDetailList)) {
+                log.error("[退票] 部分退款乘车人明细为空，订单号：{}", orderSn);
+                throw new ServiceException("部分退款乘车人明细为空");
+            }
+            refundTypeEnum = RefundTypeEnum.PARTIAL_REFUND;
+        }
+        // 4. 计算退款金额（单位：分，与支付单金额口径一致）
+        int refundAmount = refundDetailList.stream()
+                .mapToInt(each -> Optional.ofNullable(each.getAmount()).orElse(0))
+                .sum();
+        // 5. 远程调用支付服务退款
+        RefundReqDTO refundReqDTO = new RefundReqDTO();
+        refundReqDTO.setOrderSn(orderSn);
+        refundReqDTO.setRefundTypeEnum(refundTypeEnum);
+        refundReqDTO.setRefundAmount(refundAmount);
+        refundReqDTO.setRefundDetailReqDTOList(refundDetailList);
+        Result<RefundRespDTO> refundResult = payRemoteService.commonRefund(refundReqDTO);
+        if (!refundResult.isSuccess() || Objects.isNull(refundResult.getData())) {
+            log.error("[退票] 远程退款失败，订单号：{}，返回结果：{}", orderSn, JSON.toJSONString(refundResult));
+            throw new ServiceException("退款失败，请稍后重试");
+        }
+        // 6. 组装退票返回结果
+        RefundRespDTO refundRespDTO = refundResult.getData();
+        RefundTicketRespDTO refundTicketRespDTO = new RefundTicketRespDTO();
+        refundTicketRespDTO.setOrderSn(refundRespDTO.getOrderSn());
+        refundTicketRespDTO.setPaySn(refundRespDTO.getPaySn());
+        refundTicketRespDTO.setRefundAmount(refundRespDTO.getRefundAmount());
+        refundTicketRespDTO.setRefundStatus(refundRespDTO.getStatus());
+        refundTicketRespDTO.setRefundTime(refundRespDTO.getRefundTime());
+        return refundTicketRespDTO;
     }
 
     /**

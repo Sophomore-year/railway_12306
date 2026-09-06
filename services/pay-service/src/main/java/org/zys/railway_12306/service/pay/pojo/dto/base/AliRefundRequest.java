@@ -3,9 +3,6 @@ package org.zys.railway_12306.service.pay.pojo.dto.base;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.zys.railway_12306.service.pay.enums.PayChannelEnum;
-import org.zys.railway_12306.service.pay.enums.PayTradeTypeEnum;
-import org.zys.railway_12306.service.pay.enums.TradeStatusEnum;
 
 import java.math.BigDecimal;
 
@@ -37,10 +34,7 @@ public final class AliRefundRequest extends AbstractRefundRequest {
 
     @Override
     public String buildMark() {
-        String mark = PayChannelEnum.ALI_PAY.name();
-        if (getTradeType() != null) {
-            mark = PayChannelEnum.ALI_PAY.name() + "_" + PayTradeTypeEnum.findNameByCode(getTradeType()) + "_" + TradeStatusEnum.TRADE_CLOSED.tradeCode();
-        }
-        return mark;
+        // 退款策略标识固定为 ALI_PAY_REFUND，与支付(ALI_PAY)、回调(ALI_PAY_CALLBACK)策略区分
+        return "ALI_PAY_REFUND";
     }
 }

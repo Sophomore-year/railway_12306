@@ -108,4 +108,10 @@ public final class RedisKeyConstant {
      */
     public static final String TRAIN_STATION_CARRIAGE_REMAINING_TICKET = "railway_12306-ticket-service:train_station_carriage_remaining_ticket:";
 
+    /**
+     * 取消/关闭订单后释放座位分布式锁 Key，Key Prefix + 订单号
+     * <p>用于保证同一订单的座位释放逻辑只被执行一次，防止手动取消与延时关单并发触发重复恢复余票</p>
+     */
+    public static final String LOCK_RELEASE_SEAT = "railway_12306-ticket-service:lock:release_seat_%s";
+
 }

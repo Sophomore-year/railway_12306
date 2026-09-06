@@ -36,6 +36,19 @@ public interface TicketOrderRemoteService {
     @PostMapping("/api/order-service/order/ticket/cancel")
     Result<Void> cancelTicketOrder(@RequestBody CancelTicketOrderReqDTO requestParam);
 
+    /**
+     * 车票订单关闭（延时关单场景调用）
+     * <p>
+     * order-service 内部会校验订单是否仍处于待支付状态：
+     * 返回 true 表示本次由待支付状态关闭成功；返回 false 表示订单状态已变更（已支付/已取消等），无需再释放座位。
+     * </p>
+     *
+     * @param requestParam 车票订单关闭入参
+     * @return 是否关闭成功
+     */
+    @PostMapping("/api/order-service/order/ticket/close")
+    Result<Boolean> closeTickOrder(@RequestBody CancelTicketOrderReqDTO requestParam);
+
 
     /**
      * 跟据订单号查询车票订单

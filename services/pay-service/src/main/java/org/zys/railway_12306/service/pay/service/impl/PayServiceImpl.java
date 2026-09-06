@@ -15,20 +15,17 @@ import org.zys.rail_12306.framework.starter.idempotent.annotation.Idempotent;
 import org.zys.rail_12306.framework.starter.idempotent.enums.IdempotentTypeEnum;
 import org.zys.railway_12306.framework.starter.common.toolkit.BeanUtil;
 import org.zys.railway_12306.framework.starter.convention.exception.ServiceException;
-import org.zys.railway_12306.service.pay.convert.RefundRequestConvert;
 import org.zys.railway_12306.service.pay.enums.TradeStatusEnum;
 import org.zys.railway_12306.service.pay.mapper.PayMapper;
 import org.zys.railway_12306.service.pay.pojo.dao.entity.Pay;
 import org.zys.railway_12306.service.pay.pojo.dto.PayInfoRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.PayRespDTO;
-import org.zys.railway_12306.service.pay.pojo.dto.RefundCommand;
 import org.zys.railway_12306.service.pay.pojo.dto.RefundReqDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.RefundRespDTO;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayRequest;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayResponse;
-import org.zys.railway_12306.service.pay.pojo.dto.base.RefundRequest;
-import org.zys.railway_12306.service.pay.pojo.dto.base.RefundResponse;
 import org.zys.railway_12306.service.pay.service.PayService;
+import org.zys.railway_12306.service.pay.service.RefundService;
 import org.zys.railway_12306.service.pay.service.payid.PayIdGeneratorManager;
 
 import java.math.BigDecimal;
@@ -51,6 +48,7 @@ public class PayServiceImpl implements PayService {
     private final DistributedCache distributedCache;
     private final AbstractStrategyChoose abstractStrategyChoose;
     private final PayMapper payMapper;
+    private final RefundService refundService;
 
     @Idempotent(
             type = IdempotentTypeEnum.SPEL,
@@ -99,30 +97,11 @@ public class PayServiceImpl implements PayService {
         return BeanUtil.convert(pay, PayInfoRespDTO.class);
     }
 
+    /**
+     * 公共退款接口（委托退款服务执行完整退款链路：创建退款单、三方退款、状态流转、结果回调）
+     */
     @Override
     public RefundRespDTO commonRefund(RefundReqDTO requestParam) {
-        LambdaQueryWrapper<Pay> queryWrapper = Wrappers.lambdaQuery(Pay.class)
-                .eq(Pay::getOrderSn, requestParam.getOrderSn());
-        Pay pay = payMapper.selectOne(queryWrapper);
-        if (Objects.isNull(pay)) {
-            log.error("支付单不存在，orderSn：{}", requestParam.getOrderSn());
-            throw new ServiceException("支付单不存在");
-        }
-        /**
-         * {@link AliRefundNativeHandler}
-         */
-        // 策略模式：通过策略模式封装退款渠道和退款场景，用户退款时动态选择对应的退款组件
-        RefundCommand refundCommand = BeanUtil.convert(pay, RefundCommand.class);
-        RefundRequest refundRequest = RefundRequestConvert.command2RefundRequest(refundCommand);
-        RefundResponse result = abstractStrategyChoose.chooseAndExecuteResp(refundRequest.buildMark(), refundRequest);
-        pay.setStatus(result.getStatus());
-        LambdaUpdateWrapper<Pay> updateWrapper = Wrappers.lambdaUpdate(Pay.class)
-                .eq(Pay::getOrderSn, requestParam.getOrderSn());
-        int updateResult = payMapper.update(pay, updateWrapper);
-        if (updateResult <= 0) {
-            log.error("修改支付单退款结果失败，支付单信息：{}", JSON.toJSONString(pay));
-            throw new ServiceException("修改支付单退款结果失败");
-        }
-        return null;
+        return refundService.commonRefund(requestParam);
     }
 }

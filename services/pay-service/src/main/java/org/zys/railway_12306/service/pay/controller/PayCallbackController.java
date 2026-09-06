@@ -12,8 +12,10 @@ import org.zys.rail_12306.framework.starter.designpattern.strategy.AbstractStrat
 import org.zys.railway_12306.service.pay.convert.PayCallbackRequestConvert;
 import org.zys.railway_12306.service.pay.enums.PayChannelEnum;
 import org.zys.railway_12306.service.pay.pojo.dto.PayCallbackCommand;
+import org.zys.railway_12306.service.pay.pojo.dto.base.AliPayCallbackRequest;
 import org.zys.railway_12306.service.pay.pojo.dto.base.PayCallbackRequest;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,6 +41,12 @@ public class PayCallbackController {
         payCallbackCommand.setOrderRequestId(requestParam.get("out_trade_no").toString());
         payCallbackCommand.setGmtPayment(DateUtil.parse(requestParam.get("gmt_payment").toString()));
         PayCallbackRequest payCallbackRequest = PayCallbackRequestConvert.command2PayCallbackRequest(payCallbackCommand);
+        // 携带回调原始参数（含 sign），供支付回调策略执行 RSA2 验签
+        if (payCallbackRequest instanceof AliPayCallbackRequest aliPayCallbackRequest) {
+            Map<String, String> originParams = new HashMap<>();
+            requestParam.forEach((key, value) -> originParams.put(key, value == null ? null : value.toString()));
+            aliPayCallbackRequest.setOriginParams(originParams);
+        }
         /**
          * {@link AliPayCallbackHandler}
          */

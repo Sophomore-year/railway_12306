@@ -55,7 +55,6 @@ public class RefundServiceImpl implements RefundService {
     @Override
     @Transactional
     public RefundRespDTO commonRefund(RefundReqDTO requestParam) {
-        RefundRespDTO refundRespDTO = null;
         LambdaQueryWrapper<Pay> queryWrapper = Wrappers.lambdaQuery(Pay.class)
                 .eq(Pay::getOrderSn, requestParam.getOrderSn());
         Pay pay = payMapper.selectOne(queryWrapper);
@@ -103,14 +102,20 @@ public class RefundServiceImpl implements RefundService {
                     .build();
             refundResultCallbackOrderSendProduce.sendMessage(refundResultCallbackOrderEvent);
         }
-        //TODO 暂时返回空实体
+        // 组装退款返回结果
+        RefundRespDTO refundRespDTO = new RefundRespDTO();
+        refundRespDTO.setOrderSn(requestParam.getOrderSn());
+        refundRespDTO.setPaySn(pay.getPaySn());
+        refundRespDTO.setRefundAmount(requestParam.getRefundAmount());
+        refundRespDTO.setStatus(result.getStatus());
+        refundRespDTO.setRefundTime(new Date());
         return refundRespDTO;
     }
 
 
     private void createRefund(RefundCreateDTO requestParam) {
         Result<TicketOrderDetailRespDTO> queryTicketResult = ticketOrderRemoteService.queryTicketOrderByOrderSn(requestParam.getOrderSn());
-        if (!queryTicketResult.isSuccess() && Objects.isNull(queryTicketResult.getData())) {
+        if (!queryTicketResult.isSuccess() || Objects.isNull(queryTicketResult.getData())) {
             throw new ServiceException("车票订单不存在");
         }
         TicketOrderDetailRespDTO orderDetailRespDTO = queryTicketResult.getData();

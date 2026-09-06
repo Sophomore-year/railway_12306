@@ -18,6 +18,11 @@ import lombok.NoArgsConstructor;
 public class TicketOrderPassengerDetailRespDTO {
 
     /**
+     * 订单明细 ID（部分退款时用于按子订单记录定位）
+     */
+    private String id;
+
+    /**
      * 用户id
      */
     private Long userId;
